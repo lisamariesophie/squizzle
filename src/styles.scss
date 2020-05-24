@@ -1,1 +1,107 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/master";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+
+.navbar {
+    background-color: $secondary !important;
+    color: $white !important;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+
+    a {
+        color: $primary;
+        text-decoration: none;
+        &:hover {
+            color: $accent;
+        }
+    }
+    .btn-primary {
+        background-color: $primary;
+        border: none;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            background-color: $accent;
+        }
+    }
+
+    .float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: $accent;
+        color: #fff;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        i {
+            margin-top: 22px;
+            color: $white;
+        }
+    }
+
+    .card {
+        transition: all 0.2s ease-in-out;
+        .card-img {
+            height: 200px;
+            background-color: $primary;
+
+            i {
+                color: $white;
+                font-size: 70px;
+            }
+        }
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .modal {
+        .modal-header {
+            background-color: $secondary;
+            color: $white;
+        }
+
+        .close {
+            color: $white !important;
+            z-index: 100;
+        }
+    }
+
+    .auth {
+        width: 45%;
+        margin: 0 auto;
+
+        .form-text {
+            text-align: left;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    form {
+        .search-input {
+            border-right: 0;
+        }
+
+        .input-group-addon {
+            background: white;
+            border-left: 0;
+            border-right: 0;
+        }
+    }
+}
