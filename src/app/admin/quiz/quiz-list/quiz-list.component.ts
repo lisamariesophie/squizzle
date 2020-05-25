@@ -18,17 +18,20 @@ export class QuizListComponent implements OnInit {
     private location: Location) { }
 
     ngOnInit(): void {
-      this.getHero();
+      this.getTopic();
     }
 
-    getHero(): void {
+    getTopic(): void {
       const name = this.route.snapshot.paramMap.get('name');
       this.topic = this.topicsService.getTopic(name);
-      console.log(this.topic)
     }
 
     get Topic() {
       return this.topic;
+    }
+
+    goBack(): void {
+      this.location.back();
     }
 
 }

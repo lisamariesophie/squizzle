@@ -8,7 +8,6 @@ export class TopicsService extends InitTheme {
 
   constructor() {
     super();
-    console.log('TopicsService Works');
     this.load();
   }
 
@@ -28,9 +27,7 @@ export class TopicsService extends InitTheme {
 
   addTopic(newTopic) {
     let topics = JSON.parse(localStorage.getItem('Topics'));
-    // Add New TodoService
     topics.push(newTopic);
-    // Set New Todos
     localStorage.setItem('Topics', JSON.stringify(topics));
   }
 
@@ -41,7 +38,6 @@ export class TopicsService extends InitTheme {
         topics.splice(i, 1);
       }
     }
-    // Set New Todos
     localStorage.setItem('Topics', JSON.stringify(topics));
   }
 
@@ -54,7 +50,6 @@ export class TopicsService extends InitTheme {
         topics[i].name = newTopic;
       }
     }
-    // Set New Todos
     localStorage.setItem('Topics', JSON.stringify(topics));
   }
 
