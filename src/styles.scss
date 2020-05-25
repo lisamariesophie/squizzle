@@ -3,13 +3,27 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 
+// Navbar
 .navbar {
     background-color: $secondary !important;
     color: $white !important;
 }
 
+
+//Buttons
+.btn-primary {
+    background-color: $primary;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background-color: $accent;
+    }
+}
+
+
 .container {
-    width: 80%;
+    width: 85%;
+    max-width: 1200px;
     margin: 0 auto;
     margin-top: 50px;
 
@@ -20,23 +34,15 @@
             color: $accent;
         }
     }
-    .btn-primary {
-        background-color: $primary;
-        border: none;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-            background-color: $accent;
-        }
-    }
 
+    //Floating Button
     .float {
         position: fixed;
         width: 60px;
         height: 60px;
         bottom: 40px;
         right: 40px;
-        background-color: $accent;
-        color: #fff;
+        background-color: $primary;
         border-radius: 50px;
         text-align: center;
         box-shadow: 2px 2px 3px #999;
@@ -51,48 +57,34 @@
         }
     }
 
+    //Cards
     .card {
+        min-width: 300px !important;
         transition: all 0.2s ease-in-out;
+        margin: 25px 0;
         .card-img {
             height: 200px;
-            background-color: $primary;
-
+            background-color: $accent;
+            width: 100%;
             i {
                 color: $white;
-                font-size: 70px;
+                font-size: 80px;
             }
         }
+
         &:hover {
             transform: scale(1.05);
         }
     }
 
-    .modal {
-        .modal-header {
-            background-color: $secondary;
-            color: $white;
-        }
-
-        .close {
-            color: $white !important;
-            z-index: 100;
-        }
+    //Modal
+    .modal-header {
+        background-color: $secondary !important;
+        color: $white;
     }
 
-    .auth {
-        width: 45%;
-        margin: 0 auto;
 
-        .form-text {
-            text-align: left;
-        }
-
-        .btn-primary {
-            display: block;
-            width: 100%;
-        }
-    }
-
+    //Form
     form {
         .search-input {
             border-right: 0;

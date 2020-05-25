@@ -8,7 +8,7 @@ import { AddThemeComponent } from './admin/theme/add-theme/add-theme.component'
 import { QuizListComponent } from './admin/quiz/quiz-list/quiz-list.component';
 import { QuizEditComponent } from './admin/quiz/quiz-edit/quiz-edit.component';
 import { QuizCreateComponent } from './admin/quiz/quiz-create/quiz-create.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule, 
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

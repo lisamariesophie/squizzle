@@ -1,0 +1,12 @@
+@import "../../../../assets/master";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.close-icon {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    right: 10px;
+    font-size: 24px;
+    color: $white;
+    cursor: pointer;
+}
