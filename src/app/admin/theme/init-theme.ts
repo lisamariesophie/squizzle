@@ -8,7 +8,7 @@ export class InitTheme {
         } 
         
         else {
-            console.log('Found Themes...');
+            console.log('Found Topics...', localStorage);
         }
     }
 }

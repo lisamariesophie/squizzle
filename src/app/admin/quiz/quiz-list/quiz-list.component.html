@@ -1,1 +1,56 @@
-<button (click)="goBack()">go back</button>
+<div class="wrap">
+    <h1>Quiz erstellen</h1>
+    <h2>{{ topic.name }} <button title="Einstellungen"><i class="fa fa-cog fa-spin-hover"></i></button></h2>
+    <table class="table">
+        <thead class="thead-accent">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fragen</th>
+                <th class="edit-col" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let question of topic.quiz.questions; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ question.name }}</td>
+                <td><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
+                            (click)="deleteQuestion(topic, question)"></i></button></td>
+            </tr>
+
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td><button class="btn btn-primary" title="Frage hinzufügen" (click)="openFormModal(topic.name)"><i
+                            class="fa fa-plus"></i></button></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="subQuestions" *ngFor="let sub of topic.subtopics">
+        <h3>{{ sub.name }} <button title="Einstellungen"><i class="fa fa-cog  fa-spin-hover"></i></button></h3>
+        <table class="table">
+            <thead class="thead-accent">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Fragen</th>
+                    <th class="edit-col" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let question of sub.quiz.questions; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ question.name }}</td>
+                    <td><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
+                                (click)="deleteQuestion(sub, question)"></i></button></td>
+                </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td><button class="btn btn-primary" title="Frage hinzufügen" (click)="openFormModal(sub.name)"><i
+                                class="fa fa-plus"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- <button (click)="goBack()">go back</button> -->

@@ -1,1 +1,96 @@
-<p>quiz-create works!</p>
+<div class="modal-header">
+    <h4 class="modal-title">Frage hinzufügen</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="modal-body">
+        <div class="wrap">
+            <div class="form-group">
+                <label for="name">Frageart</label>
+                <select id="type" name="type" class="form-control" formControlName="type">
+                    <option value="1">Multiple Choice</option>
+                    <option value="2">Bild/Video/Audio Frage - 4 Antworten</option>
+                    <option value="3">Multiple Choice - 4 Bild/Video/Audio Antworten</option>
+                    <option value="4">Freitext</option>
+                </select>
+            </div>
+            <div id="option1" *ngIf="selectedType == 1">
+                <div class="form-group">
+                    <label for="name">Frage</label>
+                    <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
+                </div>
+
+                <div class="form-group">
+                    <label for="answer">Antworten</label>
+                    <ul *ngIf="answers != null">
+                        <li class="answerList" *ngFor='let answer of answers; let i = index'>
+                            <span>{{ toLetters(i+1) }}</span> {{ answer }} <div class="input-group-append">
+                                <!-- <button type="button" class="input-group-btn btn btn-primary"><i
+                                        class="fa fa-minus"></i></button> -->
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" formControlName="answer"
+                            placeholder="Antwort hinzufügen">
+                        <div class="input-group-append">
+                            <button type="button" class="input-group-btn btn btn-secondary" (click)="addAnswer()"><i
+                                    class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Korrekte Antwort</label>
+                    <select id="correct" name="correct" class="form-control" formControlName="correct">
+                        <option *ngFor="let answer of answersArray; let i = index" [attr.data-index]="i"
+                            value="{{ i + 1}}">{{ toLetters(i+1) }}</option>
+                    </select>
+                </div>
+            </div>
+            <div id="option2" *ngIf="selectedType == 2">
+                <img src="" id="tableBanner" />
+                <label for="answer">Bild/Video/Audio wählen</label>
+                <div class="form-group">
+                    <input type="file" id="bannerImg" />
+                    <div id="res"></div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Frage</label>
+                    <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
+                </div>
+                <div class="form-group">
+                    <label for="answer">Antworten</label>
+                    <ul *ngIf="answers != null">
+                        <li class="answerList" *ngFor='let answer of answers; let i = index'>
+                            <span>{{ toLetters(i+1) }}</span> {{ answer }} <div class="input-group-append">
+                                <!-- <button type="button" class="input-group-btn btn btn-primary"><i
+                                        class="fa fa-minus"></i></button> -->
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" formControlName="answer"
+                            placeholder="Antwort hinzufügen">
+                        <div class="input-group-append">
+                            <button type="button" class="input-group-btn btn btn-secondary" (click)="addAnswer()"><i
+                                    class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Korrekte Antwort</label>
+                    <select id="correct" name="correct" class="form-control" formControlName="correct">
+                        <option *ngFor="let answer of answersArray; let i = index" [attr.data-index]="i"
+                            value="{{ i + 1}}">{{ toLetters(i+1) }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">
+            Fertig
+        </button>
+    </div>
+</form>

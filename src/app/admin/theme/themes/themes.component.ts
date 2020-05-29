@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AddThemeComponent } from '../add-theme/add-theme.component';
 import { Topic } from 'src/app/models/topic';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './themes.component.html',
   styleUrls: ['./themes.component.scss']
 })
-export class ThemesComponent implements OnInit {
+export class ThemesComponent implements OnInit, OnChanges {
   closeResult: string;
   topics: Topic[];
 
@@ -22,9 +22,13 @@ export class ThemesComponent implements OnInit {
     this.topics = this.topicsService.getTopics();
   }
 
+  ngOnChanges() {
+    this.topics = this.topicsService.getTopics();
+  }
+
   openFormModal() {
     const modalRef = this.modalService.open(AddThemeComponent, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
-    modalRef.componentInstance.id = 10; // should be the id
+    // modalRef.componentInstance.id = 10; 
     modalRef.result.then((result) => {
     }).catch((error) => {
     });

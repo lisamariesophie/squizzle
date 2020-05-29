@@ -1,0 +1,28 @@
+@import "../../../../assets/master";
+
+.subQuestions {
+    margin-left: 5%;
+
+    h2 {
+        margin: 50px 0 30px 0;
+    }
+}
+
+.fa-spin-hover:hover {
+    -webkit-animation: fa-spin 3s infinite linear;
+    -moz-animation: fa-spin 3s infinite linear;
+    -o-animation: fa-spin 3s infinite linear;
+    animation: fa-spin 3s infinite linear;
+  }
+
+
+  thead {
+      background-color: $secondary;
+      color: $white;
+  }
+
+  .subQuestions {
+      thead {
+          font-size: 14px;
+      }
+  }

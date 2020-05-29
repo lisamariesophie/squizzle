@@ -1,19 +1,24 @@
-<div class="card-deck">
-    <div class="cards" *ngFor="let topic of topicArray">
-        <div class="card shadow" routerLink="/themes/{{topic.name}}">
-            <button class="pull-right clickable close-icon" data-effect="fadeOut" (click)="deleteTopic(topic)"><i class="fa fa-times"></i></button>
-            <div class="card-img d-flex align-items-center justify-content-center">
-                <i class="fa fa-question-circle"></i>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ topic.name }}</h5>
-                <ul>
-                    <li *ngFor="let sub of topic.subtopics">{{ sub.name }}</li>
-                </ul>
+<div class="wrap">
+    <h1>Themen</h1>
+    <div class="card-deck">
+        <div class="cards" *ngFor="let topic of topicArray">
+            <div class="card shadow" routerLink="/themes/{{topic.name}}">
+                <button class="pull-right clickable close-icon" data-effect="fadeOut" (click)="deleteTopic(topic)"><i
+                        class="fa fa-times"></i></button>
+                <div class="card-img d-flex align-items-center justify-content-center">
+                    <!-- <i class="fa fa-question-circle"></i> -->
+                    {{ topic.name }}
+                </div>
+                <div class="card-body">
+                    <!-- <h5 class="card-title">{{ topic.name }}</h5> -->
+                    <ul>
+                        <li *ngFor="let sub of topic.subtopics">{{ sub.name }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
+    </div>
 </div>
 <a class="float" role="button">
     <i class="fa fa-plus my-float" (click)="openFormModal()"></i>

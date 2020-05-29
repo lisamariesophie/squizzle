@@ -4,5 +4,5 @@ export class Subtopic {
     id: string;
     name: string;
     quiz?: Quiz;
-    subtopic?: Subtopic[];
+    // subtopic?: Subtopic[];
 }
