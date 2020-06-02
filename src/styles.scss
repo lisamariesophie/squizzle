@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/master";
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import url("https://fonts.googleapis.com/css2?family=Neucha&family=Open+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@500;600;700&display=swap');
 
 body {
     font-family: "Open Sans", sans-serif;
-    background-color: $light;
+    background-color: $dark;
     color: $font;
     margin: 0;
     padding: 0;
@@ -61,16 +61,16 @@ body {
     margin-bottom: 3rem;
 
     h1 {
-        font-size: 42px !important;
+        font-size: 40px !important;
         margin-bottom: 20px;
-        font-family: "Neucha", cursive;
+        font-family: 'Quicksand', sans-serif;
         color: $white;
         background-color: $primary;
         padding: 2%;
     }
 
     h2 {
-        font-family: "Neucha", cursive;
+        font-family: 'Quicksand', sans-serif;
         font-size: 32px;
         margin: 30px 0 20px 0;
         color: $secondary;
@@ -86,7 +86,7 @@ body {
     }
 
     h3 {
-        font-family: "Neucha", cursive;
+        font-family: 'Quicksand', sans-serif;
         font-size: 26px;
         margin: 40px 0 20px 0;
         color: $secondary;
@@ -145,7 +145,7 @@ body {
         }
 
         .card-img {
-            font-family: 'Neucha', cursive;
+            font-family: 'Quicksand', sans-serif;
             height: 200px;
             color: $white;
             background-color: $secondary;
@@ -215,6 +215,16 @@ footer {
     padding: 2% 0;
     z-index: -10;
     margin-bottom: 0px;
+}
+
+.close-icon {
+    border: none;
+    background-color: $secondary;
+    position: absolute;
+    right: 10px;
+    font-size: 24px;
+    color: $white;
+    cursor: pointer;
 }
 
 // Extra small devices (portrait phones, less than 576px)
