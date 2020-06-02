@@ -1,7 +1,7 @@
 <div class="wrap">
-    <h1>Quiz erstellen</h1>
+    <h1>Quiz erstellen<button class="btn btn-secondary export">Export Quiz</button></h1>
     <h2>{{ topic.name }} <button title="Einstellungen"><i class="fa fa-cog fa-spin-hover"></i></button></h2>
-    <table class="table">
+    <table id="questions" class="table">
         <thead class="thead-accent">
             <tr>
                 <th scope="col">#</th>
@@ -16,14 +16,12 @@
                 <td><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
                             (click)="deleteQuestion(topic, question)"></i></button></td>
             </tr>
-
             <tr>
                 <th scope="row"></th>
                 <td></td>
-                <td><button class="btn btn-primary" title="Frage hinzufügen" (click)="openFormModal(topic.name)"><i
-                            class="fa fa-plus"></i></button></td>
+                <td><button class="btn btn-primary" title="Frage hinzufügen"
+                        (click)="openFormModal(topic.id, 'topic')"><i class="fa fa-plus"></i></button></td>
             </tr>
-
         </tbody>
     </table>
     <div class="subQuestions" *ngFor="let sub of topic.subtopics">
@@ -46,8 +44,8 @@
                 <tr>
                     <th scope="row"></th>
                     <td></td>
-                    <td><button class="btn btn-primary" title="Frage hinzufügen" (click)="openFormModal(sub.name)"><i
-                                class="fa fa-plus"></i></button></td>
+                    <td><button class="btn btn-primary" title="Frage hinzufügen"
+                            (click)="openFormModal(sub.id, 'subtopic')"><i class="fa fa-plus"></i></button></td>
                 </tr>
             </tbody>
         </table>

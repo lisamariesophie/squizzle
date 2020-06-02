@@ -14,7 +14,9 @@ import { Quiz } from 'src/app/models/quiz';
 export class QuizCreateComponent implements OnInit {
 
   @Input() topic: Topic;
-  @Input() selectedTopicName: string;
+  @Input() id: string;
+  @Input() topicType: string;
+
 
   form: FormGroup;
   answers = [];
@@ -51,6 +53,11 @@ export class QuizCreateComponent implements OnInit {
     this.formControls.answer.reset();
   }
 
+  newQuestion(){
+    this.answers = [];
+    this.form.reset();
+  }
+
   public toLetters(num) {
     "use strict";
     var mod = num % 26,
@@ -78,6 +85,6 @@ export class QuizCreateComponent implements OnInit {
     question.type = this.formControls.type.value;
     question.correct = this.formControls.correct.value;
     question.answers = Object.assign(this.answers);
-    this.topicsService.updateQuestions(this.topic, this.selectedTopicName,question);
+    this.topicsService.updateTopic(this.topic, this.id, this.topicType, question);
   }
 }

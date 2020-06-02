@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TopicsService } from 'src/app/services/topics.service';
@@ -17,15 +17,15 @@ export class QuizListComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private topicsService: TopicsService,
-    private location: Location, protected modalService: NgbModal) { }
+    private location: Location, protected modalService: NgbModal, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getTopic();
   }
 
   getTopic(): Topic {
-    const name = this.route.snapshot.paramMap.get('name');
-    this.topic = this.topicsService.getTopic(name);
+    const id = this.route.snapshot.paramMap.get('id');
+    this.topic = this.topicsService.getTopic(id);
     return this.topic;
   }
 
@@ -36,16 +36,18 @@ export class QuizListComponent implements OnInit {
   deleteQuestion(topic, question) {
     if (confirm('Sicher?'))
       this.topicsService.deleteQuestion(topic, question);
+      this.cdr.detectChanges();
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  openFormModal(selectedTopicName) {
+  openFormModal(id: string, type: string) {
     const modalRef = this.modalService.open(QuizCreateComponent, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
     modalRef.componentInstance.topic = this.getTopic();
-    modalRef.componentInstance.selectedTopicName = selectedTopicName;
+    modalRef.componentInstance.id = id;
+    modalRef.componentInstance.topicType = type;
     modalRef.result.then((result) => {
     }).catch((error) => {
     });

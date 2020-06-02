@@ -5,9 +5,9 @@ import { QuizListComponent } from './admin/quiz/quiz-list/quiz-list.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/themes', pathMatch: 'full' },
-  { path: 'themes', component: ThemesComponent },
-  { path: 'themes/:name', component: QuizListComponent }
+  { path: '', redirectTo: '/topics', pathMatch: 'full' },
+  { path: 'topics', component: ThemesComponent },
+  { path: 'topics/:id', component: QuizListComponent }
 ]
 
 @NgModule({

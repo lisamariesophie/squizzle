@@ -1,16 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Subtopic } from 'src/app/models/subtopic';
 import { TopicsService } from 'src/app/services/topics.service';
 import { Quiz } from 'src/app/models/quiz';
+import { Topic } from 'src/app/models/topic';
 
 @Component({
   selector: 'app-add-theme',
   templateUrl: './add-theme.component.html',
   styleUrls: ['./add-theme.component.scss']
 })
-export class AddThemeComponent implements OnInit {
+export class AddThemeComponent implements OnInit, OnChanges {
 
   @Input() id: number;
   form: FormGroup;
@@ -25,6 +26,10 @@ export class AddThemeComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
+
+  ngOnChanges() {
+    this.topicsService.getTopics();
   }
 
   private createForm() {
@@ -46,6 +51,14 @@ export class AddThemeComponent implements OnInit {
     this.activeModal.close(this.form.value);
   }
 
+  private generateID(): string {
+    return '_' + (
+      Number(String(Math.random()).slice(2)) + 
+      Date.now() + 
+      Math.round(performance.now())
+    ).toString(36);
+  }
+
   private addTopic() {
     const quiz = new Quiz();
     quiz.questions = [];
@@ -53,14 +66,17 @@ export class AddThemeComponent implements OnInit {
     this.topic.subtopics.length = subtopics.length;
     for (let i = 0; i < subtopics.length; i++) {
       this.topic.subtopics[i] = new Subtopic();
+      this.topic.subtopics[i].id = this.generateID();
       this.topic.subtopics[i].name = subtopics[i];
       this.topic.subtopics[i].quiz = quiz;
     }
-    const topic = {
+    const topic: Topic = {
+      id: this.generateID(),
       name: this.formControls.topic.value,
       subtopics: Object.assign(this.topic.subtopics),
       quiz: quiz
     }
-    this.topicsService.addTopic(topic);
+    this.topicsService.createTopic(topic);
+    
   }
 }

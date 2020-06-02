@@ -15,15 +15,16 @@ export class ThemesComponent implements OnInit, OnChanges {
   topics: Topic[];
 
   constructor(
-    private modalService: NgbModal, private topicsService: TopicsService, public router: Router) { }
+    private modalService: NgbModal, private topicsService: TopicsService, public router: Router) {
+      this.topics = this.topicsService.getTopics();
+     }
 
   ngOnInit() {
-    console.log('LOCALSTORAGE', localStorage);
     this.topics = this.topicsService.getTopics();
   }
 
   ngOnChanges() {
-    this.topics = this.topicsService.getTopics();
+    this.topicsService.getTopics();
   }
 
   openFormModal() {
@@ -35,13 +36,10 @@ export class ThemesComponent implements OnInit, OnChanges {
   }
 
 
-  deleteTopic(topic) {
-    for (let i = 0; i < this.topics.length; i++) {
-      if (this.topics[i].name == topic.name) {
-        this.topics.splice(i, 1);
-      }
+  deleteTopic(id: string) {
+    if (confirm('Thema löschen?')) {
+      this.topicsService.deleteTopic(id);
     }
-    this.topicsService.deleteTopic(topic);
   }
 
   get topicArray() {
