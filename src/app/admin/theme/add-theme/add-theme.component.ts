@@ -72,6 +72,7 @@ export class AddThemeComponent implements OnInit, OnChanges {
     }
     const topic: Topic = {
       id: this.generateID(),
+      live: false,
       name: this.formControls.topic.value,
       subtopics: Object.assign(this.topic.subtopics),
       quiz: quiz

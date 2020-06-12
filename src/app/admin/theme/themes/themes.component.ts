@@ -4,6 +4,7 @@ import { AddThemeComponent } from '../add-theme/add-theme.component';
 import { Topic } from 'src/app/models/topic';
 import { TopicsService } from 'src/app/services/topics.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-themes',
@@ -15,12 +16,14 @@ export class ThemesComponent implements OnInit, OnChanges {
   topics: Topic[];
 
   constructor(
-    private modalService: NgbModal, private topicsService: TopicsService, public router: Router) {
+    private modalService: NgbModal, private topicsService: TopicsService, public router: Router, private localSt:LocalStorageService) {
       this.topics = this.topicsService.getTopics();
      }
 
   ngOnInit() {
     this.topics = this.topicsService.getTopics();
+    this.localSt.observe('Topics')
+            .subscribe((value) => console.log('new value', value));
   }
 
   ngOnChanges() {

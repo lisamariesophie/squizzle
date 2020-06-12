@@ -11,7 +11,10 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FooterComponent } from './footer/footer.component'
+import { FooterComponent } from './footer/footer.component';
+import { QuizComponent } from './user/quiz/quiz/quiz.component';
+import { TopicsComponent } from './user/topics/topics.component';
+import {NgxWebstorageModule} from 'ngx-webstorage';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,9 @@ import { FooterComponent } from './footer/footer.component'
     QuizListComponent,
     QuizCreateComponent,
     AddThemeComponent,
-    FooterComponent
+    FooterComponent,
+    QuizComponent,
+    TopicsComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,8 @@ import { FooterComponent } from './footer/footer.component'
     FormsModule, 
     ReactiveFormsModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxWebstorageModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [NgbActiveModal],

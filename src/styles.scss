@@ -27,6 +27,16 @@ body {
     }
 }
 
+.btn-light {
+    color: $dark;
+    background-color: $light;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background-color: $primary;
+    }
+}
+
 .btn-secondary {
     background-color: $secondary;
     border: none;
@@ -37,12 +47,12 @@ body {
 }
 
 .btn-accent {
-    background-color: $accent;
+    background-color: $accent !important;
     color: $white;
     border: none;
     transition: all 0.2s ease-in-out;
     &:hover {
-        background-color: $primary;
+        background-color: $primary !important;
         color: $white;
     }
 }
@@ -163,7 +173,7 @@ body {
 
     .table {
         .edit-col {
-            width: 100px !important;
+            width: 150px !important;
         }
 
         td {
@@ -171,6 +181,7 @@ body {
         }
 
         .btn {
+            float: right;
             width: 50px;
             margin: 0 10px;
         }
@@ -184,7 +195,8 @@ body {
 }
 
 .close {
-    color: $white;
+    color: $white !important;
+    font-size: 16px;
 }
 
 //Form
@@ -206,6 +218,10 @@ form {
         border-left: 0;
         border-right: 0;
     }
+
+    textarea {
+
+    }
 }
 
 footer {
@@ -225,6 +241,7 @@ footer {
     font-size: 24px;
     color: $white;
     cursor: pointer;
+    z-index: 9999;
 }
 
 // Extra small devices (portrait phones, less than 576px)

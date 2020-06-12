@@ -4,4 +4,5 @@ export class Question {
     name: string;
     answers: string[];
     correct: string;
+    points: number;
 }

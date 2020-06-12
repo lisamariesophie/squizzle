@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { InitTheme } from '../admin/theme/init-theme';
 import { Topic } from '../models/topic';
 import { Question } from '../models/question';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TopicsService extends InitTheme {
 
-  constructor() {
+  constructor(private storage:LocalStorageService) {
     super();
     if (localStorage.getItem('Topics') === null) {
       console.log('No Topics Found...Creating Localstorage Item');
@@ -22,47 +23,48 @@ export class TopicsService extends InitTheme {
     }
   }
 
-  getTopics(): Topic[] {
-    let localStorageItem = JSON.parse(localStorage.getItem('Topics'));
-    return localStorageItem == null ? [] : localStorageItem;
+  getTopics() {
+    return this.storage.retrieve('Topics');
   }
 
   getTopic(id: string): Topic {
-    let topics = JSON.parse(localStorage.getItem('Topics'));
+    let topics = this.getTopics();
     return topics.find(x => x.id === id);
   }
 
   createTopic(newTopic: Topic) {
-    const topics = JSON.parse(localStorage.getItem('Topics'));
+    const topics = this.getTopics();
     topics.push(newTopic);
-    localStorage.setItem('Topics', JSON.stringify(topics));
+    this.storage.store('Topics', topics);
   }
 
   deleteTopic(id: string) {
-    let topics = JSON.parse(localStorage.getItem('Topics'));
+    let topics = this.getTopics()
     const i = topics.findIndex(x => x.id === id);
     topics.splice(i, 1);
-    localStorage.setItem('Topics', JSON.stringify(topics));
+    this.storage.store('Topics', topics);
   }
 
   updateTopic(topic: Topic, id: string, type: string, question: Question) {
-    let topics = JSON.parse(localStorage.getItem('Topics'));
+    let topics = this.getTopics();
     if (type === 'topic') {
       const i = topics.findIndex(x => x.id === id);
       topics[i].quiz.questions.push(question);
-      localStorage.setItem('Topics', JSON.stringify(topics));
+      this.storage.store('Topics', topics);
+
     }
     else if (type === 'subtopic') {
       const i = topics.findIndex(x => x.id === topic.id);
       const j = topics[i].subtopics.findIndex(x => x.id === id);
       topics[i].subtopics[j].quiz.questions.push(question);
-      localStorage.setItem('Topics', JSON.stringify(topics));
+      this.storage.store('Topics', topics);
+
     }
   }
 
   deleteQuestion(topic: Topic, question: Question) {
     console.log('DELETE', topic)
-    let topics = JSON.parse(localStorage.getItem('Topics'));
+    let topics = this.getTopics();
     for (let i = 0; i < topics.length; i++) {
       if (topics[i].name == topic.name) {
         for (let j = 0; j < topics[i].quiz.questions.length; j++) {
@@ -79,7 +81,7 @@ export class TopicsService extends InitTheme {
         }
       }
     }
-    localStorage.setItem('Topics', JSON.stringify(topics));
+    this.storage.store('Topics', topics);
   }
 
 }

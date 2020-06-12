@@ -33,7 +33,8 @@ export class QuizCreateComponent implements OnInit {
       type: ['', Validators.required],
       name: ['', Validators.required],
       answer: '',
-      correct: ['', Validators.required]
+      correct: ['', Validators.required],
+      points: ['', Validators.required],
     });
   }
 
@@ -85,6 +86,7 @@ export class QuizCreateComponent implements OnInit {
     question.type = this.formControls.type.value;
     question.correct = this.formControls.correct.value;
     question.answers = Object.assign(this.answers);
+    question.points = this.formControls.points.value;
     this.topicsService.updateTopic(this.topic, this.id, this.topicType, question);
   }
 }
