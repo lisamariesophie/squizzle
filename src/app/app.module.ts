@@ -14,7 +14,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { QuizComponent } from './user/quiz/quiz/quiz.component';
 import { TopicsComponent } from './user/topics/topics.component';
-import {NgxWebstorageModule} from 'ngx-webstorage';
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { Location } from '@angular/common';
+import { SideNavComponent } from './side-nav/side-nav.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
     AddThemeComponent,
     FooterComponent,
     QuizComponent,
-    TopicsComponent
+    TopicsComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,7 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
     NgxWebstorageModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [NgbActiveModal],
+  providers: [NgbActiveModal, Location],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

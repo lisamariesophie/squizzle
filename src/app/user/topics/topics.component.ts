@@ -16,10 +16,7 @@ export class TopicsComponent implements OnInit {
 
   ngOnInit() {
     this.topics = this.topicsService.getTopics();
-  }
-
-  ngOnChanges() {
-    this.topicsService.getTopics();
+    console.log(this.topics)
   }
 
   get topicArray() {

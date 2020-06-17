@@ -11,7 +11,7 @@ import { LocalStorageService } from 'ngx-webstorage';
   templateUrl: './themes.component.html',
   styleUrls: ['./themes.component.scss']
 })
-export class ThemesComponent implements OnInit, OnChanges {
+export class ThemesComponent implements OnInit{
   closeResult: string;
   topics: Topic[];
 
@@ -22,12 +22,6 @@ export class ThemesComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.topics = this.topicsService.getTopics();
-    this.localSt.observe('Topics')
-            .subscribe((value) => console.log('new value', value));
-  }
-
-  ngOnChanges() {
-    this.topicsService.getTopics();
   }
 
   openFormModal() {

@@ -54,7 +54,7 @@ export class QuizCreateComponent implements OnInit {
     this.formControls.answer.reset();
   }
 
-  newQuestion(){
+  newQuestion() {
     this.answers = [];
     this.form.reset();
   }
@@ -80,13 +80,24 @@ export class QuizCreateComponent implements OnInit {
     return this.answers;
   }
 
+  private generateID(): string {
+    return (
+      Number(String(Math.random()).slice(2)) +
+      Date.now() +
+      Math.round(performance.now())
+    ).toString(36);
+  }
+
   public createQuestion() {
-    const question = new Question();
-    question.name = this.formControls.name.value;
-    question.type = this.formControls.type.value;
-    question.correct = this.formControls.correct.value;
-    question.answers = Object.assign(this.answers);
-    question.points = this.formControls.points.value;
+
+    const question: Question = {
+      id: this.generateID(),
+      name: this.formControls.name.value,
+      type: this.formControls.type.value,
+      correct: this.formControls.correct.value,
+      answers: Object.assign(this.answers),
+      points: this.formControls.points.value
+    }
     this.topicsService.updateTopic(this.topic, this.id, this.topicType, question);
   }
 }

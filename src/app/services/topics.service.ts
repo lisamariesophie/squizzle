@@ -11,16 +11,16 @@ export class TopicsService extends InitTheme {
 
   constructor(private storage:LocalStorageService) {
     super();
-    if (localStorage.getItem('Topics') === null) {
-      console.log('No Topics Found...Creating Localstorage Item');
-      let topics = [];
-      localStorage.setItem('Topics', JSON.stringify(topics));
-      return;
-    }
+    // if (localStorage.getItem('Topics') === null) {
+    //   console.log('No Topics Found...Creating Localstorage Item');
+    //   let topics = [];
+    //   localStorage.setItem('Topics', JSON.stringify(topics));
+    //   return;
+    // }
 
-    else {
-      console.log('Found Topics...', localStorage);
-    }
+    // else {
+    //   console.log('Found Topics...', localStorage);
+    // }
   }
 
   getTopics() {

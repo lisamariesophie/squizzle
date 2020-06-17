@@ -1,1 +1,32 @@
-<p>quiz works!</p>
+<div class="card shadow main">
+    <h1>{{ topic.name }}</h1>
+    <div class="wrap">
+        <div class="container-fluid">
+            <div class="modal-dialog" *ngFor="let question of topic.quiz.questions; let i = index">
+                <span class="label" id="qid">Frage {{i+1}}</span>
+                <div class="modal-content">
+                    <div class="modal-header row">
+                            <div class="col-8">
+                                <h4>{{question.name}}  </h4>
+                            </div>
+                            <div class="col-4 points">
+                                <span class="label" id="points-accent">{{question.points}} Punkte</span>
+                            </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="quiz" id="quiz" data-toggle="buttons">
+                            <label *ngFor="let answer of question.answers; let i = index"
+                                class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
+                                        class="fa fa-chevron-right"></i></span> <input type="radio" name="answer"
+                                    value="{{i}}"> {{answer}}</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-muted">
+                        <button class="btn btn-primary" id="hint">Hinweis (-1)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <button (click)="goBack()">go back</button> -->
