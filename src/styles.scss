@@ -17,19 +17,13 @@ body {
     color: $white !important;
 }
 
-.side-nav{
-    width: 100%;
-    margin-bottom: 30px !important;
-}
-
-
 //Buttons
 .btn-primary {
-    background-color: $primary !important;
-    border: none !important;
+    background-color: $primary;
+    border: none;
     transition: all 0.2s ease-in-out;
     &:hover {
-        background-color: $accent !important;
+        background-color: $accent;
     }
 }
 
@@ -64,46 +58,17 @@ body {
 }
 
 .wrap {
-    padding: 1% 4% 2% 4%;
+    padding: 0% 0%;
 }
-
-.main {
-
-    .card {
-        min-width: 250px !important;
-        transition: all 0.2s ease-in-out;
-        margin: 0 auto; /* Added */
-        float: none; /* Added */
-        margin-bottom: 10px; /* Added */
-        color: $font;
-        cursor: pointer;
-
-        .card-title {
-            font-size: 22px;
-        }
-
-        .card-img {
-            font-family: 'Quicksand', sans-serif;
-            height: 200px;
-            color: $white;
-            background-color: $secondary;
-            font-size: 32px;
-            i {
-                color: $white;
-                font-size: 80px;
-            }
-        }
-
-        &:hover {
-            transform: scale(1.05);
-        }
-    }
-}
-
 
 .container {
-    margin-top: 100px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: $white;
     min-height: 100vh;
+    margin-bottom: 3rem;
 
     h1 {
         font-size: 40px !important;
@@ -146,19 +111,6 @@ body {
         }
     }
 
-    h4 {
-        font-family: 'Quicksand', sans-serif;
-        font-size: 24px;
-        color: $white;
-    }
-    
-    h5 {
-        font-size: 30px;
-        margin: 40px 0 20px 0;
-        color: $dark;
-        text-align: center;
-    }
-
     a {
         color: $primary;
         text-decoration: none;
@@ -189,10 +141,35 @@ body {
         }
     }
 
-   
-    
     //Cards
-    
+    .card {
+        min-width: 300px !important;
+        transition: all 0.2s ease-in-out;
+        margin: 25px 0;
+        color: $font;
+        cursor: pointer;
+
+        .card-title {
+            // font-family: 'Neucha', cursive;
+            font-size: 22px;
+        }
+
+        .card-img {
+            font-family: 'Quicksand', sans-serif;
+            height: 200px;
+            color: $white;
+            background-color: $secondary;
+            font-size: 32px;
+            i {
+                color: $white;
+                font-size: 80px;
+            }
+        }
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
 
     .table {
         .edit-col {
@@ -276,20 +253,23 @@ footer {
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) { 
     .container {
-        width: 100%;
+        width: 90%;
+    }
+    .wrap {
+        padding: 0% 3%;
     }
  }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) { 
     .container {
-        width: 100%;
+        width: 85%;
     }
  }
 
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) { 
     .container {
-        width: 100%;
+        width: 80%;
     }
  }
