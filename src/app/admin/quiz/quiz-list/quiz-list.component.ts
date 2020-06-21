@@ -44,7 +44,7 @@ export class QuizListComponent implements OnInit {
   }
 
   openFormModal(id: string, type: string) {
-    const modalRef = this.modalService.open(QuizCreateComponent, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
+    const modalRef = this.modalService.open(QuizCreateComponent, { ariaLabelledBy: 'create-quiz', backdrop: 'static', windowClass : "myCustomModalClass" });
     modalRef.componentInstance.topic = this.getTopic();
     modalRef.componentInstance.id = id;
     modalRef.componentInstance.topicType = type;

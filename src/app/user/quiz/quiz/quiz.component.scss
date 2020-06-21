@@ -8,6 +8,13 @@
     background-color: $secondary;
     color: $white;
     margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+
+}
+
+.points {
+    padding: 0;
 }
 
 #points-accent {
@@ -55,6 +62,11 @@ label .btn-label {
     }
 }
 
+.questionType {
+    // font-size: 14px;
+    font-weight: 300;
+}
+
 .modal-dialog{
     margin-bottom: 0 0 30px 0;
     width: 100% !important;
@@ -73,3 +85,5 @@ label .btn-label {
 .modal-body {
     min-height: 200px;
 }
+
+

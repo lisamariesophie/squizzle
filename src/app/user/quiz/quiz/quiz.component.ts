@@ -11,6 +11,7 @@ import { TopicsService } from 'src/app/services/topics.service';
 export class QuizComponent implements OnInit {
 
   topic: Topic;
+  IsHidden= true;
 
   constructor(private route: ActivatedRoute,
     private topicsService: TopicsService) { }
@@ -28,5 +29,23 @@ export class QuizComponent implements OnInit {
   get Topic() {
     return this.topic;
   }
+
+  getQuestionType(i: number) {
+    if(i == 1){
+      return "Single Choice";
+    }
+    else if(i == 2){
+      return "Multiple Choice";
+    }
+    else if(i == 4){
+      return "Freitext";
+    }
+  }
+
+  showHint(i:number, hint:string){
+    const hintDiv = document.getElementById(`hint${i}`);
+    const hintText = document.createTextNode("Hinweis: " + hint);
+    hintDiv.appendChild(hintText);
+   }
    
 }

@@ -3,17 +3,17 @@
     <div class="wrap">
         <div class="container-fluid">
             <div class="modal-dialog" *ngFor="let question of topic.quiz.questions; let i = index">
-                <span class="label" id="qid">Frage {{i+1}}</span>
+                <span class="label" id="qid">Frage {{i+1}}: <span class="questionType">{{getQuestionType(question.type)}}</span></span>
                 <div class="modal-content">
                     <div class="modal-header row">
-                            <div class="col-8">
-                                <h4>{{question.name}}  </h4>
+                            <div class="col-9">
+                                <h4>{{question.name}}</h4>
                             </div>
-                            <div class="col-4 points">
-                                <span class="label" id="points-accent">{{question.points}} Punkte</span>
+                            <div class="col-3 points my-auto text-right">
+                                <span class="label ml-auto" id="points-accent">{{question.points}} Punkte</span>
                             </div>
                     </div>
-                    <div class="modal-body">
+                    <div id="singleChoice" *ngIf="question.type == 1" class="modal-body">
                         <div class="quiz" id="quiz" data-toggle="buttons">
                             <label *ngFor="let answer of question.answers; let i = index"
                                 class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
@@ -21,8 +21,12 @@
                                     value="{{i}}"> {{answer}}</label>
                         </div>
                     </div>
+                    <div id="freeText"  *ngIf="question.type == 4" class="modal-body">
+                        <textarea name="freeTextAnswer" id="freeTextAnswer" class="form-control" rows="6"></textarea>
+                    </div>
                     <div class="modal-footer text-muted">
-                        <button class="btn btn-primary" id="hint">Hinweis (-1)</button>
+                        <button *ngIf="question.hint != '' " class="btn btn-primary" id="hintBtn" (click)="showHint(i, question.hint)">Hinweis (-1)</button>
+                    <div class="mr-auto" id="hint{{i}}"></div>
                     </div>
                 </div>
             </div>

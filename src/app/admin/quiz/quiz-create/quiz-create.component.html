@@ -9,10 +9,11 @@
             <div class="form-group">
                 <label for="name">Frageart</label>
                 <select id="type" name="type" class="form-control" formControlName="type">
-                    <option value="1">Multiple Choice</option>
-                    <option value="2">Bild/Video/Audio Frage - 4 Antworten</option>
+                    <option value="1">Single Choice</option>
+                    <option value="2">Multiple Choice</option>
+                    <option value="3">Bild/Video/Audio Frage - 4 Antworten</option>
                     <!-- <option value="3">Multiple Choice - 4 Bild/Video/Audio Antworten</option> -->
-                    <option value="3">Freitext</option>
+                    <option value="4">Freitext</option>
                 </select>
             </div>
             <div id="option1" *ngIf="selectedType == 1">
@@ -50,8 +51,12 @@
                     <label for="points">Punkte</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
+                <div class="form-group">
+                    <label for="hint">Hinweis (optional)</label>
+                    <input type="text" class="form-control" formControlName="hint" placeholder="Hinweis hinzufügen" />
+                </div>
             </div>
-            <div id="option2" *ngIf="selectedType == 2">
+            <div id="option2" *ngIf="selectedType == 3">
                 <img src="" id="tableBanner" />
                 <label for="answer">Bild/Video/Audio wählen</label>
                 <div class="form-group">
@@ -93,7 +98,7 @@
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
             </div>
-            <div id="option3" *ngIf="selectedType == 3">
+            <div id="option3" *ngIf="selectedType == 4">
                 <div class="form-group">
                     <label for="name">Frage</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
