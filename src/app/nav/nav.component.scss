@@ -1,4 +1,12 @@
+@import "../../assets/master";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.navbar {
+    background-color: $secondary !important;
+    color: $white !important;
+}
+
 .navbar-brand {
     font-size: 28px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Quicksand", sans-serif;
 }

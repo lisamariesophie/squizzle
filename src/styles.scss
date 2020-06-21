@@ -1,27 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/master";
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@500;600;700&display=swap");
 
-body {
-    font-family: "Open Sans", sans-serif;
-    background-color: $dark;
-    color: $font;
+html {
     margin: 0;
     padding: 0;
 }
 
-// Navbar
-.navbar {
-    background-color: $secondary !important;
-    color: $white !important;
+body {
+    font-family: "Open Sans", sans-serif;
+    // background-color: $dark;
+    background: rgb(47, 72, 88);
+    background: linear-gradient(180deg, rgba(47, 72, 88, 1) 35%, rgba(51, 101, 138, 1) 100%);
+    color: $font;
 }
 
-.side-nav{
+.side-nav {
     width: 100%;
     margin-bottom: 30px !important;
+    color: $dark !important;
 }
-
 
 //Buttons
 .btn-primary {
@@ -64,11 +63,10 @@ body {
 }
 
 .wrap {
-    padding: 1% 4% 2% 4%;
+    padding: 2% 4% 4% 4%;
 }
 
 .main {
-
     .card {
         min-width: 250px !important;
         transition: all 0.2s ease-in-out;
@@ -83,11 +81,12 @@ body {
         }
 
         .card-img {
-            font-family: 'Quicksand', sans-serif;
+            font-family: "Quicksand", sans-serif;
             height: 200px;
             color: $white;
             background-color: $secondary;
             font-size: 32px;
+            padding: 0 20px;
             i {
                 color: $white;
                 font-size: 80px;
@@ -100,22 +99,23 @@ body {
     }
 }
 
-
 .container {
     margin-top: 100px;
+    margin-bottom: 100px;
     min-height: 100vh;
+    max-width: 1400px;
 
     h1 {
         font-size: 40px !important;
         margin-bottom: 20px;
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         color: $white;
         background-color: $primary;
         padding: 2%;
     }
 
     h2 {
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 32px;
         margin: 30px 0 20px 0;
         color: $secondary;
@@ -131,7 +131,7 @@ body {
     }
 
     h3 {
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 26px;
         margin: 40px 0 20px 0;
         color: $secondary;
@@ -147,11 +147,11 @@ body {
     }
 
     h4 {
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 24px;
         color: $white;
     }
-    
+
     h5 {
         font-size: 30px;
         margin: 40px 0 20px 0;
@@ -189,14 +189,11 @@ body {
         }
     }
 
-   
-    
     //Cards
-    
 
     .table {
         .edit-col {
-            width: 150px !important;
+            width: 200px !important;
         }
 
         td {
@@ -205,16 +202,22 @@ body {
 
         .btn {
             float: right;
-            width: 50px;
+            width: 70px;
             margin: 0 10px;
         }
     }
 }
 
 //Modal
+
 .modal-header {
     background-color: $secondary !important;
     color: $white;
+    z-index: 100;
+}
+
+.modal-body {
+    z-index: 100;
 }
 
 .close {
@@ -241,19 +244,6 @@ form {
         border-left: 0;
         border-right: 0;
     }
-
-    textarea {
-
-    }
-}
-
-footer {
-    background-color: $secondary;
-    font-size: 14px;
-    color: $white;
-    padding: 2% 0;
-    z-index: -10;
-    margin-bottom: 0px;
 }
 
 .close-icon {
@@ -264,32 +254,32 @@ footer {
     font-size: 24px;
     color: $white;
     cursor: pointer;
-    z-index: 9999;
 }
 
 // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
 
 // Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {  }
+@media (min-width: 576px) {
+}
 
 // Medium devices (tablets, 768px and up)
-@media (min-width: 768px) { 
+@media (min-width: 768px) {
     .container {
         width: 100%;
     }
- }
+}
 
 // Large devices (desktops, 992px and up)
-@media (min-width: 992px) { 
+@media (min-width: 992px) {
     .container {
         width: 100%;
     }
- }
+}
 
 // Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) { 
+@media (min-width: 1200px) {
     .container {
         width: 100%;
     }
- }
+}

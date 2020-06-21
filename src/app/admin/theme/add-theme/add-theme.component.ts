@@ -18,8 +18,8 @@ export class AddThemeComponent implements OnInit, OnChanges {
   subtopics = [];
   topic = {
     name: [],
-    subtopics: Array<Subtopic>()
-  }
+    subtopics: Array<Subtopic>(),
+  };
 
   constructor(public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder, private topicsService: TopicsService) { }
@@ -53,8 +53,8 @@ export class AddThemeComponent implements OnInit, OnChanges {
 
   private generateID(): string {
     return '_' + (
-      Number(String(Math.random()).slice(2)) + 
-      Date.now() + 
+      Number(String(Math.random()).slice(2)) +
+      Date.now() +
       Math.round(performance.now())
     ).toString(36);
   }
@@ -76,8 +76,7 @@ export class AddThemeComponent implements OnInit, OnChanges {
       name: this.formControls.topic.value,
       subtopics: Object.assign(this.topic.subtopics),
       quiz: quiz
-    }
+    };
     this.topicsService.createTopic(topic);
-    
   }
 }
