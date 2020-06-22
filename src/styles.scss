@@ -10,9 +10,7 @@ html {
 
 body {
     font-family: "Open Sans", sans-serif;
-    // background-color: $dark;
-    background: rgb(47, 72, 88);
-    background: linear-gradient(180deg, rgba(47, 72, 88, 1) 35%, rgba(51, 101, 138, 1) 100%);
+    background-color: $dark;
     color: $font;
 }
 
@@ -53,7 +51,7 @@ body {
 
 .btn-accent {
     background-color: $accent !important;
-    color: $white;
+    color: $white !important;
     border: none;
     transition: all 0.2s ease-in-out;
     &:hover {
@@ -97,6 +95,10 @@ body {
             transform: scale(1.05);
         }
     }
+}
+
+section {
+    margin-bottom: 100px !important;
 }
 
 .container {
@@ -157,6 +159,17 @@ body {
         margin: 40px 0 20px 0;
         color: $dark;
         text-align: center;
+    }
+
+    h6{
+        font-family: "Quicksand", sans-serif;
+        font-size: 32px !important;
+        color: $primary;
+        text-align: center;
+    }
+
+    hr {
+        border-top: 1px solid $grey !important;
     }
 
     a {

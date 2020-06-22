@@ -1,2 +1,12 @@
 @import "../../assets/master";
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+.nav-link {
+    color: $font;
+
+    &.active {
+        background-color: $secondary !important;
+    }
+}
+
+
