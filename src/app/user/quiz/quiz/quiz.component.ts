@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Topic } from 'src/app/models/topic';
 import { ActivatedRoute } from '@angular/router';
 import { TopicsService } from 'src/app/services/topics.service';
+import { Question } from 'src/app/models/question';
 
 @Component({
   selector: 'app-quiz',
@@ -42,9 +43,12 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  showHint(i:number, hint:string){
+  showHint(i:number, question:Question){
     const hintDiv = document.getElementById(`hint${i}`);
-    const hintText = document.createTextNode("Hinweis: " + hint);
+    const hintBtn = document.getElementById(`hintBtn${i}`);
+    hintBtn.hidden = true;
+    const hintText = document.createTextNode("Hinweis: " + question.hint);
+    question.points -= 1;
     hintDiv.appendChild(hintText);
    }
    
