@@ -11,14 +11,14 @@ import { Topic } from 'src/app/models/topic';
   templateUrl: './add-theme.component.html',
   styleUrls: ['./add-theme.component.scss']
 })
-export class AddThemeComponent implements OnInit, OnChanges {
+export class AddThemeComponent implements OnInit{
 
   @Input() id: number;
   form: FormGroup;
   subtopics = [];
   topic = {
     name: [],
-    subtopics: Array<Subtopic>(),
+    subtopics: Array<Topic>(),
   };
 
   constructor(public activeModal: NgbActiveModal,
@@ -28,20 +28,11 @@ export class AddThemeComponent implements OnInit, OnChanges {
     this.createForm();
   }
 
-  ngOnChanges() {
-    this.topicsService.getTopics();
-  }
-
   private createForm() {
     this.form = this.formBuilder.group({
       topic: '',
       subtopic: ''
     });
-  }
-
-  public addSubtopic() {
-    this.subtopics.push(this.formControls.subtopic.value);
-    this.formControls.subtopic.reset();
   }
 
   get formControls() { return this.form.controls; }
@@ -65,7 +56,7 @@ export class AddThemeComponent implements OnInit, OnChanges {
     const subtopics = this.subtopics.slice();
     this.topic.subtopics.length = subtopics.length;
     for (let i = 0; i < subtopics.length; i++) {
-      this.topic.subtopics[i] = new Subtopic();
+      this.topic.subtopics[i] = new Topic();
       this.topic.subtopics[i].id = this.generateID();
       this.topic.subtopics[i].name = subtopics[i];
       this.topic.subtopics[i].quiz = quiz;
@@ -78,5 +69,10 @@ export class AddThemeComponent implements OnInit, OnChanges {
       quiz: quiz
     };
     this.topicsService.createTopic(topic);
+  }
+
+  public addSubtopic() {
+    this.subtopics.push(this.formControls.subtopic.value);
+    this.formControls.subtopic.reset();
   }
 }
