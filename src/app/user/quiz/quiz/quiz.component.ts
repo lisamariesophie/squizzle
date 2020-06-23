@@ -17,7 +17,7 @@ export class QuizComponent implements OnInit {
   form: FormGroup;
 
   constructor(private route: ActivatedRoute,
-    private topicsService: TopicsService, private formBuilder: FormBuilder) { }
+    private topicsService: TopicsService, private formBuilder: FormBuilder ) { }
 
   ngOnInit(): void {
     this.getTopic();
