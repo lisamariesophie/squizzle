@@ -56,6 +56,7 @@ export class QuizCreateComponent implements OnInit {
   }
 
   newQuestion() {
+    this.createQuestion();
     this.answers = [];
     this.form.reset();
   }
@@ -91,21 +92,18 @@ export class QuizCreateComponent implements OnInit {
 
   public createQuestion() {
     let question;
-    console.log(this.selectedType)
     if (this.selectedType == 1) {
-      console.log("single");
       question = {
         id: this.generateID(),
         name: this.formControls.name.value,
         type: this.formControls.type.value,
-        correct: this.formControls.correct.value,
+        correct: parseInt(this.formControls.correct.value),
         answers: Object.assign(this.answers),
         points: this.formControls.points.value,
         hint: this.formControls.hint.value
       }
     }
     if (this.selectedType == 4) {
-      console.log("free");
       this.answers.push(this.formControls.answer.value);
       question = {
         id: this.generateID(),
@@ -116,9 +114,6 @@ export class QuizCreateComponent implements OnInit {
         hint: this.formControls.hint.value
       }
     }
-
-    console.log(question)
-
     this.topicsService.updateTopic(this.topic, this.id, this.topicType, question);
   }
 }

@@ -3,6 +3,7 @@ import { Topic } from 'src/app/models/topic';
 import { ActivatedRoute } from '@angular/router';
 import { TopicsService } from 'src/app/services/topics.service';
 import { Question } from 'src/app/models/question';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-quiz',
@@ -13,13 +14,25 @@ export class QuizComponent implements OnInit {
 
   topic: Topic;
   IsHidden= true;
+  form: FormGroup;
 
   constructor(private route: ActivatedRoute,
-    private topicsService: TopicsService) { }
+    private topicsService: TopicsService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getTopic();
+    this.createForm();
+
   }
+  private createForm() {
+    this.form = this.formBuilder.group({
+      topic: '',
+      subtopic: ''
+    });
+  }
+
+  get formControls() { return this.form.controls; }
+
 
   getTopic(): Topic {
     const id = this.route.snapshot.paramMap.get('id');
@@ -48,8 +61,12 @@ export class QuizComponent implements OnInit {
     const hintBtn = document.getElementById(`hintBtn${i}`);
     hintBtn.hidden = true;
     const hintText = document.createTextNode("Hinweis: " + question.hint);
-    question.points -= 1;
+    this.topic.quiz.questions[i].points -= 1;
     hintDiv.appendChild(hintText);
+   }
+
+   submitQuiz(){
+
    }
    
 }
