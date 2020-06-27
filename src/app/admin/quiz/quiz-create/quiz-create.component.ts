@@ -67,6 +67,7 @@ export class QuizCreateComponent implements OnInit {
       });
     }
   }
+
   public addAnswer() {
     this.answers.push(this.formControls.addAnswer.value);
     this.formControls.addAnswer.reset();
@@ -128,12 +129,12 @@ export class QuizCreateComponent implements OnInit {
       }
     }
     if (this.selectedType == 4) {
-      this.answers.push(this.formControls.answer.value);
+      this.correct.push(this.formControls.addAnswer.value);
       question = {
         id: this.generateID(),
         name: this.formControls.name.value,
         type: this.formControls.type.value,
-        answers: Object.assign(this.answers),
+        correct: Object.assign(this.correct),
         points: this.formControls.points.value,
         hint: this.formControls.hint.value
       }

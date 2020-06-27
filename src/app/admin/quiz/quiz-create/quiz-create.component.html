@@ -23,10 +23,10 @@
                     <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>
                     <div class="answerList" *ngFor="let answer of answers; let i = index">
                         <label>
-                          <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
-                         <span> {{ toLetters(i+1) }}</span> {{ answer }}
+                            <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
+                            <span> {{ toLetters(i+1) }}</span> {{ answer }}
                         </label>
-                      </div>
+                    </div>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" formControlName="addAnswer"
                             placeholder="Antwort hinzufügen">
@@ -69,13 +69,11 @@
                     <ul *ngIf="answers != null">
                         <li class="answerList" *ngFor='let answer of answers; let i = index'>
                             <span>{{ toLetters(i+1) }}</span> {{ answer }} <div class="input-group-append">
-                                <!-- <button type="button" class="input-group-btn btn btn-primary"><i
-                                        class="fa fa-minus"></i></button> -->
                             </div>
                         </li>
                     </ul>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" formControlName="answer"
+                        <input type="text" class="form-control" formControlName="addAnswer"
                             placeholder="Antwort hinzufügen">
                         <div class="input-group-append">
                             <button type="button" class="input-group-btn btn btn-secondary" (click)="addAnswer()"><i
@@ -86,8 +84,8 @@
                 <div class="form-group">
                     <label for="name">Korrekte Antwort</label>
                     <select id="correct" name="correct" class="form-control" formControlName="correct">
-                        <option *ngFor="let answer of answers; let i = index" [attr.data-index]="i"
-                            value="{{ i + 1}}">{{ toLetters(i+1) }}</option>
+                        <option *ngFor="let answer of answers; let i = index" [attr.data-index]="i" value="{{ i + 1}}">
+                            {{ toLetters(i+1) }}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -101,9 +99,9 @@
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
                 <div class="form-group">
-                    <label for="answer">Beispielantwort</label>
-                    <textarea name="answer" class="form-control" rows="10" placeholder="Beispielantwort hinzufügen"
-                        formControlName="answer"></textarea>
+                    <label for="addAnswer">Beispielantwort</label>
+                    <textarea name="addAnswer" class="form-control" rows="10" placeholder="Beispielantwort hinzufügen"
+                        formControlName="addAnswer"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="points">Punkte</label>

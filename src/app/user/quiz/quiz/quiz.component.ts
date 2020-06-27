@@ -3,7 +3,7 @@ import { Topic } from 'src/app/models/topic';
 import { ActivatedRoute } from '@angular/router';
 import { TopicsService } from 'src/app/services/topics.service';
 import { Question } from 'src/app/models/question';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-quiz',
@@ -16,16 +16,20 @@ export class QuizComponent implements OnInit {
   form: FormGroup;
 
   constructor(private route: ActivatedRoute,
-    private topicsService: TopicsService, private formBuilder: FormBuilder ) { }
+    private topicsService: TopicsService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getTopic();
     this.createForm();
+    console.log(this.form)
 
   }
   private createForm() {
     this.form = this.formBuilder.group({
       answer: '',
+      userAnswers: this.formBuilder.array([this.formBuilder.group({
+        userAnswer: ['', [Validators.required]],
+      })])
     });
   }
 
@@ -42,29 +46,32 @@ export class QuizComponent implements OnInit {
     return this.topic;
   }
 
-  getQuestionType(i: number) {
-    if(i == 1){
-      return "Single Choice";
-    }
-    else if(i == 2){
+  getQuestionType(question: Question) {
+
+    if (question.type == 1 && question.correct.length > 1) {
       return "Multiple Choice";
     }
-    else if(i == 4){
+
+    else if (question.type == 4) {
       return "Freitext";
+    }
+
+    else {
+      return "Single Choice";
     }
   }
 
-  showHint(i:number, question:Question){
+  showHint(i: number, question: Question) {
     const hintDiv = document.getElementById(`hint${i}`);
     const hintBtn = document.getElementById(`hintBtn${i}`);
     hintBtn.hidden = true;
     const hintText = document.createTextNode("Hinweis: " + question.hint);
     this.topic.quiz.questions[i].points -= 1;
     hintDiv.appendChild(hintText);
-   }
+  }
 
-   submitQuiz(){
+  submitQuiz() {
 
-   }
-   
+  }
+
 }

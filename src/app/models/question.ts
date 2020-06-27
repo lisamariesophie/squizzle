@@ -7,7 +7,7 @@ export class Question {
     name: string;
     answers: string[];
     correct?: string[];
-    // selectedAnswer?: number;
+    userAnswer?: number;
     points: number;
     hint?: string;
 }

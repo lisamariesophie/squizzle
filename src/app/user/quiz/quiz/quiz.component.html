@@ -4,11 +4,12 @@
         <div class="container-fluid">
             <form [formGroup]="form" (ngSubmit)="submitQuiz()">
                 <section id="generalQuestions">
+                    {{this.form.value | json}}
                     <h6>Allgemein</h6>
                     <hr>
                     <div class="qContainer" *ngFor="let question of topic.quiz.questions; let i = index">
                         <span class="label" id="qid">Frage {{i+1}}: <span
-                                class="questionType">{{getQuestionType(question.type)}}</span></span>
+                                class="questionType">{{getQuestionType(question)}}</span></span>
                         <div class="modal-content">
                             <div class="modal-header row">
                                 <div class="col-9">
@@ -18,7 +19,8 @@
                                     <span class="label ml-auto" id="points-accent">Punkte: {{question.points}}</span>
                                 </div>
                             </div>
-                            <div id="singleChoice" *ngIf="question.type == 1" class="modal-body">
+                            <div id="singleChoice" *ngIf="getQuestionType(question) == 'Single Choice'"
+                                class="modal-body">
                                 <div class="quiz" id="quiz" data-toggle="buttons">
                                     <label *ngFor="let answer of question.answers; let i = index"
                                         class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
@@ -26,7 +28,8 @@
                                             type="radio" name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
-                            <div id="multipleChoice" *ngIf="question.type == 2" class="modal-body">
+                            <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
+                                class="modal-body">
                                 <div class="quiz" id="quiz" data-toggle="buttons">
                                     <label *ngFor="let answer of question.answers; let i = index"
                                         class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
@@ -34,7 +37,7 @@
                                             name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
-                            <div id="freeText" *ngIf="question.type == 4" class="modal-body">
+                            <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
                                 <textarea name="freeTextAnswer" id="freeTextAnswer" class="form-control"
                                     rows="6"></textarea>
                             </div>
@@ -46,12 +49,12 @@
                         </div>
                     </div>
                 </section>
-                <section *ngFor="let sub of topic.subtopics">
+                <!-- <section *ngFor="let sub of topic.subtopics">
                     <h6>{{ sub.name }}</h6>
                     <hr>
                     <div class="qContainer" *ngFor="let question of sub.quiz.questions; let i = index">
                         <span class="label" id="qid">Frage {{i+1}}: <span
-                                class="questionType">{{getQuestionType(question.type)}}</span></span>
+                                class="questionType">{{getQuestionType(question)}}</span></span>
                         <div class="modal-content">
                             <div class="modal-header row">
                                 <div class="col-9">
@@ -61,7 +64,8 @@
                                     <span class="label ml-auto" id="points-accent">Punkte: {{question.points}}</span>
                                 </div>
                             </div>
-                            <div id="singleChoice" *ngIf="question.type == 1" class="modal-body">
+                            <div id="singleChoice" *ngIf="getQuestionType(question) == 'Single Choice'"
+                                class="modal-body">
                                 <div class="quiz" id="quiz" data-toggle="buttons">
                                     <label *ngFor="let answer of question.answers; let i = index"
                                         class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
@@ -69,7 +73,8 @@
                                             name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
-                            <div id="multipleChoice" *ngIf="question.type == 2" class="modal-body">
+                            <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
+                                class="modal-body">
                                 <div class="quiz" id="quiz" data-toggle="buttons">
                                     <label *ngFor="let answer of question.answers; let i = index"
                                         class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
@@ -77,7 +82,7 @@
                                             name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
-                            <div id="freeText" *ngIf="question.type == 4" class="modal-body">
+                            <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
                                 <textarea name="freeTextAnswer" id="freeTextAnswer" class="form-control"
                                     rows="6"></textarea>
                             </div>
@@ -88,7 +93,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
             </form>
         </div>
     </div>
