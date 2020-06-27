@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/master";
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&display=swap');
 
 html {
     margin: 0;
@@ -79,7 +79,7 @@ body {
         }
 
         .card-img {
-            font-family: "Quicksand", sans-serif;
+            font-family: "Montserrat", sans-serif;
             height: 200px;
             color: $white;
             background-color: $secondary;
@@ -110,15 +110,17 @@ section {
     h1 {
         font-size: 40px !important;
         margin-bottom: 20px;
-        font-family: "Quicksand", sans-serif;
+        font-family: "Montserrat", sans-serif;
         color: $white;
         background-color: $primary;
         padding: 2%;
+        text-align: center;
     }
 
     h2 {
-        font-family: "Quicksand", sans-serif;
+        font-family: "Montserrat", sans-serif;
         font-size: 32px;
+        font-weight: bold;
         margin: 30px 0 20px 0;
         color: $secondary;
 
@@ -133,7 +135,7 @@ section {
     }
 
     h3 {
-        font-family: "Quicksand", sans-serif;
+        font-family: "Montserrat", sans-serif;
         font-size: 26px;
         margin: 40px 0 20px 0;
         color: $secondary;
@@ -149,7 +151,7 @@ section {
     }
 
     h4 {
-        font-family: "Quicksand", sans-serif;
+        font-family: "Montserrat", sans-serif;
         font-size: 24px;
         color: $white;
     }
@@ -162,7 +164,7 @@ section {
     }
 
     h6{
-        font-family: "Quicksand", sans-serif;
+        font-family: "Montserrat", sans-serif;
         font-size: 32px !important;
         color: $primary;
         text-align: center;
@@ -202,8 +204,6 @@ section {
         }
     }
 
-    //Cards
-
     .table {
         .edit-col {
             width: 200px !important;
@@ -219,6 +219,11 @@ section {
             margin: 0 10px;
         }
     }
+}
+
+
+.cards {
+    margin-bottom: 30px;
 }
 
 //Modal

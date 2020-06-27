@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AppComponent implements OnInit {
   title = 'QuizApp';
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService, private router: Router) {
+    
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -17,4 +20,6 @@ export class AppComponent implements OnInit {
       this.spinner.hide();
     }, 2500);
   }
+
+  
 }

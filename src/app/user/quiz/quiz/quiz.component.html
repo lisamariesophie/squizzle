@@ -6,7 +6,7 @@
                 <section id="generalQuestions">
                     <h6>Allgemein</h6>
                     <hr>
-                    <div class="modal-dialog" *ngFor="let question of topic.quiz.questions; let i = index">
+                    <div class="qContainer" *ngFor="let question of topic.quiz.questions; let i = index">
                         <span class="label" id="qid">Frage {{i+1}}: <span
                                 class="questionType">{{getQuestionType(question.type)}}</span></span>
                         <div class="modal-content">
@@ -22,7 +22,7 @@
                                 <div class="quiz" id="quiz" data-toggle="buttons">
                                     <label *ngFor="let answer of question.answers; let i = index"
                                         class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
-                                                class="fa fa-chevron-right"></i></span> <input formControl=""
+                                                class="fa fa-chevron-right"></i></span> <input formControlName="answer"
                                             type="radio" name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                 <section *ngFor="let sub of topic.subtopics">
                     <h6>{{ sub.name }}</h6>
                     <hr>
-                    <div class="modal-dialog" *ngFor="let question of sub.quiz.questions; let i = index">
+                    <div class="qContainer" *ngFor="let question of sub.quiz.questions; let i = index">
                         <span class="label" id="qid">Frage {{i+1}}: <span
                                 class="questionType">{{getQuestionType(question.type)}}</span></span>
                         <div class="modal-content">
@@ -92,36 +92,5 @@
             </form>
         </div>
     </div>
-    <button class="btn btn-accent">Quiz abgeben <i class="fa fa-check"></i></button>
+    <button class="btn btn-accent" (click)="submitQuiz()">Quiz abgeben <i class="fa fa-check"></i></button>
 </div>
-<!-- <button (click)="goBack()">go back</button> -->
-
-<!-- <div class="subQuestions" *ngFor="let sub of topic.subtopics">
-    <h3>{{ sub.name }} <button title="Einstellungen"><i class="fa fa-cog  fa-spin-hover"></i></button></h3>
-    <table class="table">
-        <thead class="thead-accent">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Fragen</th>
-                <th scope="col">Punkte</th>
-                <th class="edit-col" scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let question of sub.quiz.questions; let i = index">
-                <th scope="row">{{ i + 1 }}</th>
-                <td>{{ question.name }}</td>
-                <td>{{ question.points }}</td>
-                <td><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
-                            (click)="deleteQuestion(sub, question)"></i></button></td>
-            </tr>
-            <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td><button class="btn btn-primary" title="Frage hinzufügen"
-                        (click)="openFormModal(sub.id, 'subtopic')"><i class="fa fa-plus"></i></button></td>
-            </tr>
-        </tbody>
-    </table>
-</div> -->

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TopicsService } from 'src/app/services/topics.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Question } from 'src/app/models/question';
 import { Topic } from 'src/app/models/topic';
@@ -17,12 +17,13 @@ export class QuizCreateComponent implements OnInit {
   @Input() id: string;
   @Input() topicType: string;
 
-
+  submitted = false;
   form: FormGroup;
-  answers = [];
+  answers: Array<any> = [];
+  correct: Array<any> = [];
 
   constructor(public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder, private topicsService: TopicsService) { }
+    private formBuilder: FormBuilder, private topicsService: TopicsService) {}
 
   ngOnInit() {
     this.createForm();
@@ -32,27 +33,48 @@ export class QuizCreateComponent implements OnInit {
     this.form = this.formBuilder.group({
       type: ['', Validators.required],
       name: ['', Validators.required],
-      answer: '',
-      correct: ['', Validators.required],
+      checkArray: this.formBuilder.array([]),
+      addAnswer: ['', Validators.required],
       points: ['', Validators.required],
       hint: ''
     });
+  }
+
+  get formControls() { return this.form.controls; }
+
+  get checkArray() {
+    return this.form.get('checkArray') as FormArray;
   }
 
   get selectedType() {
     return this.formControls.type.value;
   }
 
-  get formControls() { return this.form.controls; }
+  onCheckboxChange(e) {
+    const checkArray: FormArray = this.form.get('checkArray') as FormArray;
+    if (e.target.checked) {
+      checkArray.push(new FormControl(e.target.value));
+      console.log(checkArray);
+    }
+    else {
+      let i: number = 0;
+      checkArray.controls.forEach((item: FormControl) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+  public addAnswer() {
+    this.answers.push(this.formControls.addAnswer.value);
+    this.formControls.addAnswer.reset();
+  }
 
   public submitForm() {
     this.createQuestion();
     this.activeModal.close(this.form.value);
-  }
-
-  public addAnswer() {
-    this.answers.push(this.formControls.answer.value);
-    this.formControls.answer.reset();
   }
 
   newQuestion() {
@@ -60,7 +82,7 @@ export class QuizCreateComponent implements OnInit {
     this.answers = [];
     this.form.reset();
   }
-
+  
   public toLetters(num) {
     "use strict";
     var mod = num % 26,
@@ -78,10 +100,6 @@ export class QuizCreateComponent implements OnInit {
     return out;
   }
 
-  get answersArray() {
-    return this.answers;
-  }
-
   private generateID(): string {
     return (
       Number(String(Math.random()).slice(2)) +
@@ -91,14 +109,20 @@ export class QuizCreateComponent implements OnInit {
   }
 
   public createQuestion() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    // if (this.form.invalid) {
+    //   return;
+    // }
     let question;
     if (this.selectedType == 1) {
       question = {
         id: this.generateID(),
         name: this.formControls.name.value,
         type: this.formControls.type.value,
-        correct: parseInt(this.formControls.correct.value),
         answers: Object.assign(this.answers),
+        correct: Object.assign(this.checkArray.value),
         points: this.formControls.points.value,
         hint: this.formControls.hint.value
       }
@@ -114,6 +138,7 @@ export class QuizCreateComponent implements OnInit {
         hint: this.formControls.hint.value
       }
     }
+    // console.log(question);
     this.topicsService.updateTopic(this.topic, this.id, this.topicType, question);
   }
 }

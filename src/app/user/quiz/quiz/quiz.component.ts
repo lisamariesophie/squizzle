@@ -13,7 +13,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class QuizComponent implements OnInit {
 
   topic: Topic;
-  IsHidden= true;
   form: FormGroup;
 
   constructor(private route: ActivatedRoute,
@@ -26,8 +25,7 @@ export class QuizComponent implements OnInit {
   }
   private createForm() {
     this.form = this.formBuilder.group({
-      topic: '',
-      subtopic: ''
+      answer: '',
     });
   }
 
