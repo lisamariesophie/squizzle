@@ -182,41 +182,24 @@ section {
         }
     }
 
-    //Floating Button
-    .float {
-        position: fixed;
-        width: 60px;
-        height: 60px;
-        bottom: 25px;
-        right: 25px;
-        background-color: $primary;
-        border-radius: 50px;
-        text-align: center;
-        box-shadow: 2px 2px 3px #999;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-            transform: scale(1.05);
-        }
-
-        i {
-            margin-top: 22px;
-            color: $white;
-        }
-    }
-
     .table {
         .edit-col {
             width: 200px !important;
-        }
-
-        td {
-            color: $font;
         }
 
         .btn {
             float: right;
             width: 70px;
             margin: 0 10px;
+        }
+
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td {
+            color: $font;
         }
     }
 }

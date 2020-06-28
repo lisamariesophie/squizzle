@@ -21,6 +21,10 @@
       color: $white;
   }
 
+  .tquestion {
+      text-align: left !important;
+  }
+
   .subQuestions {
       thead {
           font-size: 14px;
@@ -29,9 +33,10 @@
 
   .export {
       float: right;
-      font-size: 16px;
+      font-size: 14px;
     //   width: 80px !important;
     i {
         color: white !important;
     }
   }
+

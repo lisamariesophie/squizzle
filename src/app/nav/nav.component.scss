@@ -4,9 +4,21 @@
 .navbar {
     background-color: $secondary !important;
     color: $white !important;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
 }
 
 .navbar-brand {
-    font-size: 28px;
-    font-family: "Montserrat", sans-serif;
+    font-size: 30px;
+    padding: 0;
+
 }
+
+  .navbar-nav .nav-link {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 50px;
+    line-height: 50px;
+  }
+
+
