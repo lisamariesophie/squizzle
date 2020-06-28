@@ -21,8 +21,6 @@ export class QuizComponent implements OnInit {
   ngOnInit(): void {
     this.getTopic();
     this.createForm();
-    console.log(this.form)
-
   }
   private createForm() {
     this.form = this.formBuilder.group({
@@ -47,7 +45,6 @@ export class QuizComponent implements OnInit {
   }
 
   getQuestionType(question: Question) {
-
     if (question.type == 1 && question.correct.length > 1) {
       return "Multiple Choice";
     }
@@ -68,6 +65,7 @@ export class QuizComponent implements OnInit {
     const hintText = document.createTextNode("Hinweis: " + question.hint);
     this.topic.quiz.questions[i].points -= 1;
     hintDiv.appendChild(hintText);
+    // this.topicsService.updateTopic(this.topic);
   }
 
   submitQuiz() {

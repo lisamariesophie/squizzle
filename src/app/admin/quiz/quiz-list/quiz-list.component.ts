@@ -12,12 +12,12 @@ import { QuizCreateComponent } from '../quiz-create/quiz-create.component';
   styleUrls: ['./quiz-list.component.scss']
 })
 export class QuizListComponent implements OnInit {
-
+  points: number = 0;
   topic: Topic;
 
   constructor(private route: ActivatedRoute,
     private topicsService: TopicsService,
-    private location: Location, protected modalService: NgbModal, private cdr: ChangeDetectorRef) { }
+    private location: Location, protected modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getTopic();
@@ -34,9 +34,8 @@ export class QuizListComponent implements OnInit {
   }
 
   deleteQuestion(topic, question) {
-    if (confirm('Sicher?'))
+    if (confirm('Frage löschen?'))
       this.topicsService.deleteQuestion(topic, question);
-      this.cdr.detectChanges();
   }
 
   setLive(){
@@ -45,8 +44,12 @@ export class QuizListComponent implements OnInit {
     this.topicsService.updateTopic(this.topic);
   }
 
-  goBack(): void {
-    this.location.back();
+  getPoints() {
+    let points = 0;
+    for(let question of this.topic.quiz.questions){
+      points += question.points;
+    }
+    return points;
   }
 
   openFormModal(id: string, type: string) {

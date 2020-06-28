@@ -10,6 +10,7 @@
                 <label for="name">Frageart</label>
                 <select id="type" name="type" class="form-control" formControlName="type">
                     <option value="1">Multiple Choice</option>
+                    <option value="2">Skala Frage</option>
                     <!-- <option value="3">Bild/Video/Audio Frage - 4 Antworten</option> -->
                     <option value="4">Freitext</option>
                 </select>
@@ -36,13 +37,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="form-group">
-                    <label for="correct">Korrekte Antwort</label>
-                    <select id="correct" name="correct" class="form-control" formControlName="correct">
-                        <option *ngFor="let answer of answers; let i = index" [attr.data-index]="i"
-                            value="{{ i }}">{{ toLetters(i+1) }}</option>
-                    </select>
-                </div> -->
                 <div class="form-group">
                     <label for="points">Punkte</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
@@ -52,7 +46,8 @@
                     <input type="text" class="form-control" formControlName="hint" placeholder="Hinweis hinzufügen" />
                 </div>
             </div>
-            <div id="option2" *ngIf="selectedType == 3">
+            <div id="option2" *ngIf="selectedType == 3"></div>
+            <div id="option3" *ngIf="selectedType == 3">
                 <img src="" id="tableBanner" />
                 <label for="answer">Bild/Video/Audio wählen</label>
                 <div class="form-group">
@@ -112,10 +107,10 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-secondary" type="button" (click)="newQuestion()">
-            Neue Frage
+            Weitere Frage
         </button>
         <button class="btn btn-primary" type="submit">
-            Fertig
+            <i class="fa fa-check"></i>
         </button>
     </div>
 </form>

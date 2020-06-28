@@ -7,6 +7,11 @@
     &.active {
         background-color: $secondary !important;
     }
+
+    &:hover {
+        background-color: $secondary;
+        color: $white;
+    }
 }
 
 

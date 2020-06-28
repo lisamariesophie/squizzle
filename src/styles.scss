@@ -120,8 +120,8 @@ section {
     h2 {
         font-family: "Montserrat", sans-serif;
         font-size: 32px;
-        font-weight: bold;
-        margin: 30px 0 20px 0;
+        font-weight: 600;
+        margin-bottom: 25px;
         color: $secondary;
 
         button {
@@ -152,8 +152,9 @@ section {
 
     h4 {
         font-family: "Montserrat", sans-serif;
-        font-size: 24px;
+        font-size: 22px !important;
         color: $white;
+        margin: 0 !important;
     }
 
     h5 {
@@ -165,13 +166,14 @@ section {
 
     h6{
         font-family: "Montserrat", sans-serif;
-        font-size: 32px !important;
-        color: $primary;
-        text-align: center;
+        font-size: 34px !important;
+        font-weight: 600 !important;
+        text-align: left;
     }
 
     hr {
         border-top: 1px solid $grey !important;
+        margin-bottom: 40px !important;
     }
 
     a {
@@ -210,7 +212,6 @@ section {
 }
 
 //Modal
-
 .modal-header {
     background-color: $secondary !important;
     color: $white;

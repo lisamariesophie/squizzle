@@ -139,7 +139,7 @@ export class QuizCreateComponent implements OnInit {
         hint: this.formControls.hint.value
       }
     }
-    // console.log(question);
-    this.topicsService.updateQuestions(this.topic, this.id, this.topicType, question);
+    console.log(question);
+    this.topicsService.updateQuestions(this.topic, this.topicType, question);
   }
 }

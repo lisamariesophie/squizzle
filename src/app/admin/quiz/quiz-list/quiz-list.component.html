@@ -7,7 +7,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th class="tquestion" scope="col">Fragen</th>
-                    <th scope="col">Punkte</th>
+                    <th scope="col">Punkte ({{getPoints()}})</th>
                     <th class="edit-col" scope="col"><button *ngIf="!this.topic.live" class="btn btn-accent export" title="Quiz freigeben" (click)="setLive()">Offline</button><button *ngIf="this.topic.live" class="btn btn-accent export" title="Quiz beenden"  (click)="setLive()">Online</button></th>
                 </tr>
             </thead>
@@ -60,4 +60,3 @@
             </table>
         </div>
     </div>
-    <!-- <button (click)="goBack()">go back</button> -->

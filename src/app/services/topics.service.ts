@@ -12,13 +12,11 @@ export class TopicsService extends InitTheme {
   constructor(private storage: LocalStorageService) {
     super();
     if (this.getTopics() === null) {
-      console.log('No Topics Found...Creating Localstorage');
       const topics = [];
       this.storage.store('Topics', topics);
       return;
     }
     else {
-      console.log('Found Topics...', this.getTopics());
     }
   }
 
@@ -51,16 +49,16 @@ export class TopicsService extends InitTheme {
     this.storage.store('Topics', topics);
   }
 
-  updateQuestions(topic: Topic, id: string, type: string, question: Question) {
+  updateQuestions(topic: Topic, type: string, question: Question) {
     const topics = this.getTopics();
     if (type === 'topic') {
-      const i = topics.findIndex(x => x.id === id);
+      const i = topics.findIndex(x => x.id === topic.id);
       topics[i].quiz.questions.push(question);
       this.storage.store('Topics', topics);
     }
     else if (type === 'subtopic') {
       const i = topics.findIndex(x => x.id === topic.id);
-      const j = topics[i].subtopics.findIndex(x => x.id === id);
+      const j = topics[i].subtopics.findIndex(x => x.id === topic.id);
       topics[i].subtopics[j].quiz.questions.push(question);
       this.storage.store('Topics', topics);
     }

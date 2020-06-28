@@ -19,12 +19,12 @@
 
 #points-accent {
     font-size: 14px;
+    color: $white;
     padding: 5px 10px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 50px;
-    background-color: $accent;
-    color: $white;
+    background-color: $light;
 }
 
 label.btn {

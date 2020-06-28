@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Subtopic } from 'src/app/models/subtopic';
 import { TopicsService } from 'src/app/services/topics.service';
 import { Quiz } from 'src/app/models/quiz';
@@ -20,6 +20,7 @@ export class AddThemeComponent implements OnInit{
     name: [],
     subtopics: Array<Topic>(),
   };
+  submitted = false;
 
   constructor(public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder, private topicsService: TopicsService) { }
@@ -30,7 +31,7 @@ export class AddThemeComponent implements OnInit{
 
   private createForm() {
     this.form = this.formBuilder.group({
-      topic: '',
+      topic: ['', Validators.required],
       subtopic: ''
     });
   }
@@ -38,12 +39,16 @@ export class AddThemeComponent implements OnInit{
   get formControls() { return this.form.controls; }
 
   public submitForm() {
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
     this.addTopic();
     this.activeModal.close(this.form.value);
   }
 
   private generateID(): string {
-    return '_' + (
+    return (
       Number(String(Math.random()).slice(2)) +
       Date.now() +
       Math.round(performance.now())
