@@ -17,6 +17,7 @@ import { TopicsComponent } from './user/topics/topics.component';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     FooterComponent,
     QuizComponent,
     TopicsComponent,
-    SideNavComponent
+    SideNavComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

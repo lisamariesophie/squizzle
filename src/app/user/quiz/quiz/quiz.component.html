@@ -1,11 +1,11 @@
 <div class="card shadow main">
-    <h1>{{ topic.name }}</h1>
+    <h1>Quiz</h1>
     <div class="wrap">
         <div class="container-fluid">
             <form [formGroup]="form" (ngSubmit)="submitQuiz()">
                 <section id="generalQuestions">
-                    {{this.form.value | json}}
-                    <h6>Allgemein</h6>
+                    <!-- {{this.form.value | json}} -->
+                    <h6>{{ topic.name }}</h6>
                     <hr>
                     <div class="qContainer" *ngFor="let question of topic.quiz.questions; let i = index">
                         <span class="label" id="qid">Frage {{i+1}}: <span

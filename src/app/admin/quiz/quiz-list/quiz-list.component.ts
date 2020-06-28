@@ -41,11 +41,8 @@ export class QuizListComponent implements OnInit {
 
   setLive(){
     this.topic = this.getTopic();
-    console.log('BEFORE Live', this.topic.live);
     this.topic.live = !this.topic.live;
     this.topicsService.updateTopic(this.topic);
-    console.log('UPDATED Live', this.topic.live);
-
   }
 
   goBack(): void {

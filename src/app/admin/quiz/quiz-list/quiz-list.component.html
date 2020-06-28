@@ -1,20 +1,20 @@
 <div class="card shadow main">
-    <h1>Quiz erstellen<button class="btn btn-accent export" (click)="setLive()">Export Quiz</button></h1>
+    <h1>Quiz erstellen</h1>
     <div class="wrap">
         <h2>{{ topic.name }} <button title="Einstellungen"><i class="fa fa-cog fa-spin-hover"></i></button></h2>
         <table id="questions" class="table">
             <thead class="thead-accent">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Fragen</th>
+                    <th class="tquestion" scope="col">Fragen</th>
                     <th scope="col">Punkte</th>
-                    <th class="edit-col" scope="col"></th>
+                    <th class="edit-col" scope="col"><button *ngIf="!this.topic.live" class="btn btn-accent export" title="Quiz freigeben" (click)="setLive()">Offline</button><button *ngIf="this.topic.live" class="btn btn-accent export" title="Quiz beenden"  (click)="setLive()">Online</button></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let question of topic.quiz.questions; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ question.name }}</td>
+                    <td class="tquestion">{{ question.name }}</td>
                     <td>{{ question.points }}</td>
                     <td><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
                                 (click)="deleteQuestion(topic, question)"></i></button></td>

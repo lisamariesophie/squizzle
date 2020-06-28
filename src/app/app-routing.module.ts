@@ -4,14 +4,16 @@ import { ThemesComponent } from './admin/theme/themes/themes.component';
 import { QuizListComponent } from './admin/quiz/quiz-list/quiz-list.component';
 import { TopicsComponent } from './user/topics/topics.component';
 import { QuizComponent } from './user/quiz/quiz/quiz.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'user/topics', pathMatch: 'full' },
-  { path: 'admin/topics', component: ThemesComponent },
-  { path: 'admin/topics/:id', component: QuizListComponent },
-  { path: 'user/topics', component: TopicsComponent },
-  { path: 'user/topics/quiz/:id', component: QuizComponent },
+  { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+  { path: 'admin/dashboard', component: ThemesComponent },
+  { path: 'admin/dashboard/topic/:id', component: DashboardComponent },
+  { path: 'admin/dashboard/quiz/:id', component: DashboardComponent },
+  { path: 'topics', component: TopicsComponent },
+  { path: 'topics/quiz/:id', component: QuizComponent },
 ]
 
 @NgModule({
