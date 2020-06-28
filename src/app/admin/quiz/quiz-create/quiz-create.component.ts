@@ -140,6 +140,6 @@ export class QuizCreateComponent implements OnInit {
       }
     }
     // console.log(question);
-    this.topicsService.updateTopic(this.topic, this.id, this.topicType, question);
+    this.topicsService.updateQuestions(this.topic, this.id, this.topicType, question);
   }
 }

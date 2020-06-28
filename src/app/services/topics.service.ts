@@ -37,6 +37,13 @@ export class TopicsService extends InitTheme {
     this.storage.store('Topics', topics);
   }
 
+  updateTopic(topic: Topic){
+    const topics = this.getTopics();
+    const i = topics.findIndex(x => x.id === topic.id);
+    topics[i] = topic;
+    this.storage.store('Topics', topics);
+  }
+
   deleteTopic(id: string) {
     const topics = this.getTopics();
     const i = topics.findIndex(x => x.id === id);
@@ -44,7 +51,7 @@ export class TopicsService extends InitTheme {
     this.storage.store('Topics', topics);
   }
 
-  updateTopic(topic: Topic, id: string, type: string, question: Question) {
+  updateQuestions(topic: Topic, id: string, type: string, question: Question) {
     const topics = this.getTopics();
     if (type === 'topic') {
       const i = topics.findIndex(x => x.id === id);
