@@ -1,4 +1,5 @@
 import { Quiz } from './quiz';
+import { Settings } from './settings';
 
 export class Topic {
     id: string;
@@ -6,4 +7,5 @@ export class Topic {
     live: boolean = false;
     subtopics?: Topic[];  
     quiz: Quiz;  
+    settings?: Settings;
 }

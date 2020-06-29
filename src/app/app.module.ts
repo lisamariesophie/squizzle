@@ -18,6 +18,8 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { QuizSettingsComponent } from './admin/quiz/quiz-settings/quiz-settings.component';
+
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
     QuizComponent,
     TopicsComponent,
     SideNavComponent,
-    DashboardComponent
+    DashboardComponent,
+    QuizSettingsComponent
   ],
   imports: [
     BrowserModule,

@@ -5,7 +5,7 @@
             <form [formGroup]="form" (ngSubmit)="submitQuiz()">
                 <section id="generalQuestions">
                     <!-- {{this.form.value | json}} -->
-                    <h6>{{ topic.name }}</h6>
+                    <h6>{{ topic.name }} {{ display }}</h6>
                     <hr>
                     <div class="qContainer" *ngFor="let question of topic.quiz.questions; let i = index">
                         <span class="label" id="qid">Frage {{i+1}}: <span

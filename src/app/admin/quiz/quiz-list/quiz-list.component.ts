@@ -5,6 +5,7 @@ import { TopicsService } from 'src/app/services/topics.service';
 import { Topic } from 'src/app/models/topic';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuizCreateComponent } from '../quiz-create/quiz-create.component';
+import { QuizSettingsComponent } from '../quiz-settings/quiz-settings.component';
 
 @Component({
   selector: 'app-quiz-list',
@@ -57,6 +58,15 @@ export class QuizListComponent implements OnInit {
     modalRef.componentInstance.topic = this.getTopic();
     modalRef.componentInstance.id = id;
     modalRef.componentInstance.topicType = type;
+    modalRef.result.then((result) => {
+    }).catch((error) => {
+    });
+  }
+
+  openSettingsModal(id: string) {
+    const modalRef = this.modalService.open(QuizSettingsComponent, { ariaLabelledBy: 'quiz-settings', windowClass : "myCustomModalClass" });
+    modalRef.componentInstance.topic = this.getTopic();
+    modalRef.componentInstance.id = id;
     modalRef.result.then((result) => {
     }).catch((error) => {
     });
