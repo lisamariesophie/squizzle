@@ -14,9 +14,6 @@ export class QuizComponent implements OnInit {
 
   topic: Topic;
   form: FormGroup;
-  timeLeft: number = 0;
-  interval;
-  public display: any;
 
   constructor(private route: ActivatedRoute,
     private topicsService: TopicsService, private formBuilder: FormBuilder) { }
@@ -24,9 +21,6 @@ export class QuizComponent implements OnInit {
   ngOnInit(): void {
     this.getTopic();
     this.createForm();
-    if (this.topic.settings.time > 0 && this.topic.settings.time !== null) {
-      this.timeLeft = this.topic.settings.time;
-    }
   }
   
   private createForm() {
