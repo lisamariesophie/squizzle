@@ -111,11 +111,10 @@ export class QuizCreateComponent implements OnInit {
 
   public createQuestion() {
     this.submitted = true;
-
     // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
     let question;
     if (this.selectedType == 1) {
       question = {
