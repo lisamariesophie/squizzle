@@ -19,6 +19,7 @@ import { Location } from '@angular/common';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { QuizSettingsComponent } from './admin/quiz/quiz-settings/quiz-settings.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -35,7 +36,8 @@ import { QuizSettingsComponent } from './admin/quiz/quiz-settings/quiz-settings.
     TopicsComponent,
     SideNavComponent,
     DashboardComponent,
-    QuizSettingsComponent
+    QuizSettingsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
