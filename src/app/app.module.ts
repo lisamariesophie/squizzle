@@ -50,8 +50,6 @@ import { environment } from '../environments/environment';
     NgxSpinnerModule,
     BrowserAnimationsModule,
     NgxWebstorageModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [NgbActiveModal, Location],
