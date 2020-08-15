@@ -5,7 +5,7 @@
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 50px;
-    background-color: $accent;
+    background-color: $secondary;
     color: $white;
     margin-bottom: 10px;
     font-weight: bold;
@@ -27,7 +27,7 @@
 }
 
 label.btn {
-    background-color: $secondary;
+    background-color: $dark;
     padding: 18px 60px;
     white-space: normal;
     -webkit-transform: scale(1);
@@ -40,7 +40,7 @@ label.btn {
 
 label.btn:hover {
     text-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
-    background-color: $dark;
+    background-color: $secondary;
 }
 
 label.btn-block {
@@ -82,7 +82,7 @@ label .btn-label {
 }
 
 .modal-header {
-    background-color: $dark !important;
+    background-color: $secondary !important;
     margin: 0 !important;
 }
 

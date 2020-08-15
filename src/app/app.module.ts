@@ -20,7 +20,9 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { QuizSettingsComponent } from './admin/quiz/quiz-settings/quiz-settings.component';
 import { LoginComponent } from './login/login.component';
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -48,6 +50,8 @@ import { LoginComponent } from './login/login.component';
     NgxSpinnerModule,
     BrowserAnimationsModule,
     NgxWebstorageModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [NgbActiveModal, Location],

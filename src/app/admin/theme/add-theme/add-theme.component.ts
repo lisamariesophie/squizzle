@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Subtopic } from 'src/app/models/subtopic';
 import { TopicsService } from 'src/app/services/topics.service';
 import { Quiz } from 'src/app/models/quiz';
 import { Topic } from 'src/app/models/topic';

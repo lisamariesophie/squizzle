@@ -3,9 +3,14 @@
 
 .addTopic {
     .card-img {
-        background-color: $accent !important;
+        background-color: $primary !important;
+        transition: all 1s ease;
+
         i {
             font-size: 36px;
         }
+    }
+    .card-img:hover {
+        background-color: $accent !important;
     }
 }

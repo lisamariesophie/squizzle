@@ -10,7 +10,7 @@ html {
 
 body {
     font-family: "Open Sans", sans-serif;
-    background-color: $dark;
+    background-color: $light;
     color: $font;
 }
 
@@ -21,6 +21,10 @@ body {
 }
 
 //Buttons
+.btn {
+    border-radius: 0 !important;
+}
+
 .btn-primary {
     background-color: $primary !important;
     border: none !important;
@@ -31,32 +35,23 @@ body {
 }
 
 .btn-light {
-    color: $dark;
+    color: $white;
     background-color: $light;
     border: none;
     transition: all 0.2s ease-in-out;
     &:hover {
         background-color: $primary;
+    color: $white;
+
     }
 }
 
 .btn-secondary {
-    background-color: $secondary;
+    background-color: $dark;
     border: none;
     transition: all 0.2s ease-in-out;
     &:hover {
         background-color: $accent;
-    }
-}
-
-.btn-accent {
-    background-color: $accent !important;
-    color: $white !important;
-    border: none;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-        background-color: $primary !important;
-        color: $white;
     }
 }
 
@@ -108,12 +103,12 @@ section {
     max-width: 1400px;
 
     h1 {
-        font-size: 40px !important;
+        font-size: 32px !important;
         margin-bottom: 20px;
         font-family: "Montserrat", sans-serif;
         color: $white;
         background-color: $primary;
-        padding: 2%;
+        padding: 1%;
         text-align: center;
     }
 
@@ -212,11 +207,36 @@ section {
     margin-bottom: 30px;
 }
 
+.card {
+    border-radius: 0 !important;
+    border: 0 !important;
+    .card-img {
+        border-radius: 0 !important;
+    }
+}
+
 //Modal
+.modal-content { 
+    border: 0px !important;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+}
+
+.modal-dialog {
+    border: 0px !important;
+}
 .modal-header {
     background-color: $secondary !important;
     color: $white;
     z-index: 100;
+    border: 0px !important;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+}
+.modal-footer {
+    border: 0px !important;
 }
 
 .modal-body {
