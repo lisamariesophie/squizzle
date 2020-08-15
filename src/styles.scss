@@ -55,6 +55,17 @@ body {
     }
 }
 
+.btn-accent {
+    background-color: $accent !important;
+    color: $white !important;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background-color: $primary !important;
+        color: $white;
+    }
+}
+
 .wrap {
     padding: 2% 4% 4% 4%;
 }
