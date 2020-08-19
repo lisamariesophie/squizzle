@@ -19,14 +19,12 @@
 #points-accent {
     font-size: 14px;
     color: $white;
-    padding: 5px 10px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
-    background-color: $light;
+    padding: 0px 10px;
+    background-color: $secondary;
 }
 
 label.btn {
+    font-size: 18px;
     background-color: $dark;
     padding: 18px 60px;
     white-space: normal;
@@ -62,16 +60,14 @@ label .btn-label {
 }
 
 .questionType {
-    // font-size: 14px;
     font-weight: 300;
 }
 
-
-.qContainer{
+.qContainer {
     margin-bottom: 50px !important;
-    }
+}
 
-.modal-dialog{
+.modal-dialog {
     margin-bottom: 0 0 30px 0;
     width: 100% !important;
 }
@@ -79,15 +75,31 @@ label .btn-label {
 .modal-content {
     margin-top: 10px;
     width: 100% !important;
+    border: 0.5px solid $secondary !important;
+    border-radius: 0 !important;
 }
 
 .modal-header {
     background-color: $secondary !important;
+    border-radius: 0 !important;
     margin: 0 !important;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .modal-body {
     min-height: 200px;
 }
 
+.modal-footer {
+    font-size: 16px;
+    color: $font;
+}
 
+input[type="checkbox"], input[type="radio"] {
+    display:none;
+}
+
+.active {
+    background-color: $accent !important;
+}

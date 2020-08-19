@@ -23,7 +23,7 @@ export class QuizCreateComponent implements OnInit {
   correct: Array<any> = [];
 
   constructor(public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder, private topicsService: TopicsService) {}
+    private formBuilder: FormBuilder, private topicsService: TopicsService) { }
 
   ngOnInit() {
     this.createForm();
@@ -68,6 +68,17 @@ export class QuizCreateComponent implements OnInit {
     }
   }
 
+  public setAnswers(event) {
+    const value = event.target.value;
+    if (value == 2) {
+      this.answers = ["Wahr", "Falsch"]
+    }
+    if (value == 3) {
+      this.answers = ["Stimme gar nicht zu", "Stimme nicht zu", "Neutral", "Stimme zu", "Stimme voll zu", "Keine Angabe"];
+      console.log(this.answers);
+    }
+  }
+
   public addAnswer() {
     this.answers.push(this.formControls.addAnswer.value);
     this.formControls.addAnswer.reset();
@@ -83,7 +94,7 @@ export class QuizCreateComponent implements OnInit {
     this.answers = [];
     this.form.reset();
   }
-  
+
   public toLetters(num) {
     "use strict";
     var mod = num % 26,
@@ -126,6 +137,26 @@ export class QuizCreateComponent implements OnInit {
         correct: Object.assign(this.checkArray.value),
         points: this.formControls.points.value,
         hint: this.formControls.hint.value
+      }
+    }
+    if (this.selectedType == 2) {
+      question = {
+        id: this.generateID(),
+        name: this.formControls.name.value,
+        type: this.formControls.type.value,
+        answers: Object.assign(this.answers),
+        correct: Object.assign(this.checkArray.value),
+        points: this.formControls.points.value,
+        hint: this.formControls.hint.value
+      }
+    }
+    if (this.selectedType == 3) {
+      question = {
+        id: this.generateID(),
+        name: this.formControls.name.value,
+        type: this.formControls.type.value,
+        points: 0,
+        answers: Object.assign(this.answers)
       }
     }
     if (this.selectedType == 4) {

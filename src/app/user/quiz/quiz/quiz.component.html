@@ -13,19 +13,10 @@
                         <div class="modal-content">
                             <div class="modal-header row">
                                 <div class="col-9 my-auto">
-                                    <h4>{{question.name}}</h4>
+                                    {{question.name}}
                                 </div>
-                                <div class="col-3 points my-auto text-right">
+                                <div *ngIf="getQuestionType(question) !='Evaluation'" class="col-3 points my-auto text-right">
                                     <span class="label ml-auto" id="points-accent">Punkte: {{question.points}}</span>
-                                </div>
-                            </div>
-                            <div id="singleChoice" *ngIf="getQuestionType(question) == 'Single Choice'"
-                                class="modal-body">
-                                <div class="quiz" id="quiz" data-toggle="buttons">
-                                    <label *ngFor="let answer of question.answers; let i = index"
-                                        class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
-                                                class="fa fa-chevron-right"></i></span> <input formControlName="answer"
-                                            type="radio" name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
                             <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
@@ -33,67 +24,39 @@
                                 <div class="quiz" id="quiz" data-toggle="buttons">
                                     <label *ngFor="let answer of question.answers; let i = index"
                                         class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
-                                                class="fa fa-chevron-right"></i></span> <input type="checkbox"
+                                                class="fa fa-chevron-right"></i></span><input type="checkbox"
                                             name="answer" value="{{i}}"> {{answer}}</label>
                                 </div>
                             </div>
+                            <div id="evaluation" *ngIf="getQuestionType(question) == 'Evaluation'"
+                                class="modal-body">
+                                <div class="quiz" id="quiz" data-toggle="buttons">
+                                    <label *ngFor="let answer of question.answers; let i = index"
+                                        class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
+                                                class="fa fa-chevron-right"></i></span><input type="radio"
+                                            name="answer" value="{{i}}"> {{answer}}</label>
+                                </div>
+                            </div>
+                            <!-- <div id="evaluation" *ngIf="getQuestionType(question) == 'Evaluation'"
+                                class="modal-body">
+                                <div class="quiz" id="quiz" data-toggle="buttons">
+                                    <div class="slidecontainer">
+                                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                                      </div>
+                                </div>
+                            </div> -->
                             <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
                                 <textarea name="freeTextAnswer" id="freeTextAnswer" class="form-control"
                                     rows="6"></textarea>
                             </div>
-                            <div class="modal-footer text-muted">
-                                <button *ngIf="question.hint != '' " class="btn btn-primary" id="hintBtn{{i}}"
+                            <div class="modal-footer">
+                                <button *ngIf="question.hint != null" class="btn btn-primary" id="hintBtn{{i}}"
                                     (click)="showHint(i, question)">Hinweis (-1 Punkt)</button>
                                 <div class="mr-auto" id="hint{{i}}"></div>
                             </div>
                         </div>
                     </div>
                 </section>
-                <!-- <section *ngFor="let sub of topic.subtopics">
-                    <h6>{{ sub.name }}</h6>
-                    <hr>
-                    <div class="qContainer" *ngFor="let question of sub.quiz.questions; let i = index">
-                        <span class="label" id="qid">Frage {{i+1}}: <span
-                                class="questionType">{{getQuestionType(question)}}</span></span>
-                        <div class="modal-content">
-                            <div class="modal-header row">
-                                <div class="col-9">
-                                    <h4>{{question.name}}</h4>
-                                </div>
-                                <div class="col-3 points my-auto text-right">
-                                    <span class="label ml-auto" id="points-accent">Punkte: {{question.points}}</span>
-                                </div>
-                            </div>
-                            <div id="singleChoice" *ngIf="getQuestionType(question) == 'Single Choice'"
-                                class="modal-body">
-                                <div class="quiz" id="quiz" data-toggle="buttons">
-                                    <label *ngFor="let answer of question.answers; let i = index"
-                                        class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
-                                                class="fa fa-chevron-right"></i></span> <input type="radio"
-                                            name="answer" value="{{i}}"> {{answer}}</label>
-                                </div>
-                            </div>
-                            <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
-                                class="modal-body">
-                                <div class="quiz" id="quiz" data-toggle="buttons">
-                                    <label *ngFor="let answer of question.answers; let i = index"
-                                        class="btn btn-lg btn-secondary btn-block"><span class="btn-label"><i
-                                                class="fa fa-chevron-right"></i></span> <input type="checkbox"
-                                            name="answer" value="{{i}}"> {{answer}}</label>
-                                </div>
-                            </div>
-                            <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
-                                <textarea name="freeTextAnswer" id="freeTextAnswer" class="form-control"
-                                    rows="6"></textarea>
-                            </div>
-                            <div class="modal-footer text-muted">
-                                <button *ngIf="question.hint != '' " class="btn btn-primary" id="hintBtn{{i}}"
-                                    (click)="showHint(i, question)">Hinweis (-1 Punkt)</button>
-                                <div class="mr-auto" id="hint{{i}}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section> -->
             </form>
         </div>
     </div>

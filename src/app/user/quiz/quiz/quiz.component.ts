@@ -45,12 +45,16 @@ export class QuizComponent implements OnInit {
   }
 
   getQuestionType(question: Question) {
-    if (question.type == 1 && question.correct.length > 1) {
+    if (question.type == 1 || question.type == 2) {
       return "Multiple Choice";
     }
 
     else if (question.type == 4) {
       return "Freitext";
+    }
+
+    else if(question.type == 3) {
+      return "Evaluation";
     }
 
     else {
