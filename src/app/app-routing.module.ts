@@ -5,10 +5,12 @@ import { QuizListComponent } from './admin/quiz/quiz-list/quiz-list.component';
 import { TopicsComponent } from './user/topics/topics.component';
 import { QuizComponent } from './user/quiz/quiz/quiz.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'admin/dashboard', component: ThemesComponent },
   { path: 'admin/dashboard/topic/:id', component: DashboardComponent },
   { path: 'admin/dashboard/quiz/:id', component: DashboardComponent },
