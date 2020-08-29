@@ -16,7 +16,7 @@
                         <hr class="my-2">
 
                         <button class="btn btn-lg btn-accent btn-block text-uppercase" type="button"
-                            (click)="login()">Anmelden</button>
+                        (click)="authService.login(userName.value, userPassword.value)">Anmelden</button>
                         <!-- <p class="text-center">oder</p> -->
                         <!-- <button class="btn btn-lg btn-accent btn-block text-uppercase" type="button" (click)="authService.Login(userName.value, userPassword.value)">Registrieren</button> -->
                     </form>
