@@ -6,6 +6,7 @@ import { TopicsService } from '../_services/topics.service';
 import { ActivatedRoute } from '@angular/router';
 import { TopicsDatabaseService } from '../_services/topics-database.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { GapText } from '../_models/gaptext.model';
 
 @Component({
   selector: 'app-quiz',
@@ -17,6 +18,7 @@ export class QuizComponent implements OnInit {
   topic: Topic;
   topicId: string;
   form: FormGroup;
+  gapTexts: GapText[];
 
   constructor(private route: ActivatedRoute,
     private topicsService: TopicsDatabaseService, private formBuilder: FormBuilder, private afAuth: AngularFireAuth) { }
@@ -29,7 +31,6 @@ export class QuizComponent implements OnInit {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      answer: '',
       userAnswers: this.formBuilder.array([this.formBuilder.group({
         userAnswer: ['', [Validators.required]],
         userGaps: this.formBuilder.array([])
@@ -64,6 +65,9 @@ export class QuizComponent implements OnInit {
     }
     else if (question.type == 3) {
       return "Evaluation";
+    }
+    else if (question.type == 4) {
+      return "Lückentext";
     }
     else if (question.type == 5) {
       return "Freitext";

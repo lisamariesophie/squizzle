@@ -4,9 +4,10 @@ import { FormControl, FormArray, Validators, FormBuilder, FormGroup } from '@ang
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Topic } from 'src/app/_models/topic.model';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
-import { Quiz } from 'src/app/_models/quiz.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question-create',
@@ -18,16 +19,18 @@ export class QuestionCreateComponent implements OnInit {
   @Input() topic: Topic;
   @Input() id: string;
 
-  submitted = false;
   form: FormGroup;
   answers: Array<any> = [];
-  gapText: Array<GapText> = [];
+  gapText: Array<any> = [];
   correct: Array<any> = [];
-  solution;
+  solution: any = '';
   gapCounter: number = 0;
+  imgSrc: string = '../../../../assets/img/squizzel.png';
+  selectedImg: any = null;
+  downloadUrl: string;
 
   constructor(public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder, private topicsService: TopicsDatabaseService, private route: ActivatedRoute, private afAuth: AngularFireAuth) { }
+    private formBuilder: FormBuilder, private topicsService: TopicsDatabaseService, private route: ActivatedRoute, private afAuth: AngularFireAuth, private storage: AngularFireStorage) { }
 
   ngOnInit() {
     this.createForm();
@@ -38,11 +41,12 @@ export class QuestionCreateComponent implements OnInit {
       type: ['', Validators.required],
       name: ['', Validators.required],
       checkArray: this.formBuilder.array([]),
-      addAnswer: ['', Validators.required],
-      addGap: ['', Validators.required],
-      addGapText: ['', Validators.required],
+      addAnswer: [''],
+      addGap: [''],
+      addGapText: [''],
       points: ['', Validators.required],
-      hint: ''
+      hint: '',
+      imgUrl: ''
     });
   }
 
@@ -130,13 +134,12 @@ export class QuestionCreateComponent implements OnInit {
     ).toString(36);
   }
 
-  public createQuestion() {
-    this.submitted = true;
+  createQuestion() {
     // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   console.log("Form invalid")
-    //   return;
-    // }
+    if (this.form.invalid) {
+      console.log("Form invalid")
+      return;
+    }
     let question;
     // Multiple Choice
     if (this.selectedType == 1) {
@@ -172,6 +175,30 @@ export class QuestionCreateComponent implements OnInit {
         answers: Object.assign(this.answers)
       }
     }
+    //Bild 
+    if (this.selectedType == 4) {
+      const filePath = `images/${this.selectedImg.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}` // avoid duplicate filenames
+      const fileRef = this.storage.ref(filePath);
+      this.storage.upload(filePath, this.selectedImg).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            question = {
+              id: this.generateID(),
+              imgUrl: url,
+              name: this.formControls.name.value,
+              type: this.formControls.type.value,
+              answers: Object.assign(this.answers),
+              correct: Object.assign(this.checkArray.value),
+              points: this.formControls.points.value,
+              hint: this.formControls.hint.value,
+            }
+            this.uploadQuestion(question);
+          })
+        })).subscribe(); //finalize -> wait for upload complete
+        this.imgSrc = '';
+        this.selectedImg = null;
+      
+    }
     // Freitext
     if (this.selectedType == 5) {
       this.correct.push(this.formControls.addAnswer.value);
@@ -186,30 +213,50 @@ export class QuestionCreateComponent implements OnInit {
     }
     // Lückentext
     if (this.selectedType == 6) {
+      var map = this.gapText.map((obj) => { return Object.assign({}, obj) });
       question = {
         id: this.generateID(),
         type: this.formControls.type.value,
         name: this.formControls.name.value,
-        gapText: Object.assign(this.gapText),
+        gapText: map,
         points: this.formControls.points.value
       }
     }
+    if(this.selectedType != 4){
+      this.uploadQuestion(question);
+    }
+  }
+
+  uploadQuestion(question: any) {
     if (!this.topic.hasOwnProperty('quiz')) {
       console.log("'Quiz empty")
-      const quiz = {questions: []};
+      const quiz = { questions: [] };
       this.topic.quiz = quiz;
     }
     this.topic.quiz.questions.push(question);
     this.afAuth.authState.subscribe(user => {
-      if(user) {
+      if (user) {
         const userId = user.uid;
         this.topicsService.updateTopic(userId, this.id, this.topic);
       }
     });
   }
 
+  showImgPrev(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImg = event.target.files[0];
+    } else {
+      //reset if no Img chosen
+      this.imgSrc = '';
+      this.selectedImg = null;
+    }
+  }
 
-  public toLetters(num) {
+
+  toLetters(num) {
     "use strict";
     var mod = num % 26,
       pow = num / 26 | 0,
@@ -217,7 +264,7 @@ export class QuestionCreateComponent implements OnInit {
     return pow ? this.toLetters(pow) + out : out;
   }
 
-  public fromLetters(str) {
+  fromLetters(str) {
     "use strict";
     var out = 0, len = str.length, pos = len;
     while (--pos > -1) {

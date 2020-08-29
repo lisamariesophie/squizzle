@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { QuestionCreateComponent } from '../question-create/question-create.component';
 import { Topic } from 'src/app/_models/topic.model';
 import { ActivatedRoute } from '@angular/router';
-import { TopicsService } from 'src/app/_services/topics.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionSettingsComponent } from '../question-settings/question-settings.component';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
@@ -31,15 +30,11 @@ export class QuestionListComponent implements OnInit {
 
   getTopic() {
     this.afAuth.authState.subscribe(user => {
-      if(user) {
+      if (user) {
         const userId = user.uid;
         this.topicsDatabase.getTopic(userId, this.topicId).subscribe(singleDoc => {
           this.topic = singleDoc;
-          console.log(this.topic)
         });
-      } else {
-        // Empty the value when user signs out
-        const userId = null;
       }
     });
   }
@@ -51,7 +46,7 @@ export class QuestionListComponent implements OnInit {
           topic.quiz.questions.splice(i, 1);
         }
         this.afAuth.authState.subscribe(user => {
-          if(user) {
+          if (user) {
             const userId = user.uid;
             this.topicsDatabase.updateTopic(userId, this.topicId, this.topic);
           }
@@ -62,9 +57,8 @@ export class QuestionListComponent implements OnInit {
 
   setLive() {
     this.topic.live = !this.topic.live;
-    console.log('SEND', this.topicId, this.topic)
     this.afAuth.authState.subscribe(user => {
-      if(user) {
+      if (user) {
         const userId = user.uid;
         this.topicsDatabase.updateTopic(userId, this.topicId, this.topic);
 
@@ -77,7 +71,7 @@ export class QuestionListComponent implements OnInit {
     if (this.topic == null) {
       return 0;
     }
-    if(!this.topic.hasOwnProperty('quiz')){
+    if (!this.topic.hasOwnProperty('quiz')) {
       return 0;
     }
     for (let question of this.topic.quiz.questions) {

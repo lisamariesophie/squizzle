@@ -84,12 +84,10 @@
             </div>
             <!-- Bild Frage -->
             <div id="option4" *ngIf="selectedType == 4">
-                <img src="" id="tableBanner" />
-                <label for="answer">Bild/Video/Audio wählen</label>
-                <div class="form-group">
-                    <input type="file" id="bannerImg" />
-                    <button class="btn btn-primary" type="button">Upload</button>
-                    <div id="res"></div>
+                <img class="my-3" [src]="imgSrc" width="300px">
+                <div class="form-group mb-3">
+                    <label for="answer">Bild wählen</label>
+                    <input class="form-control" type="file" formControlName="imgUrl" accept="image/*" (change)="showImgPrev($event)"/>
                 </div>
                 <div class="form-group">
                     <label for="name">Frage</label>

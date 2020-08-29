@@ -37,13 +37,12 @@ label.btn {
 }
 
 label.btn:hover {
-    text-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
-    background-color: $secondary;
+    background-color: $dark;
 }
 
-label.btn:active, label.btn:focus, input[type="checkbox"]:checked {
-    background-color: $accent !important;
-}
+input:checked~.btn-label {
+    background: $accent !important;
+  }
 
 label.btn-block {
     text-align: left;
@@ -60,6 +59,16 @@ label .btn-label {
     height: 100%;
     i {
         margin-top: 24px !important;
+    }
+}
+
+label:hover{
+    .btn-label{
+        background-color: $accent;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
     }
 }
 
@@ -100,9 +109,9 @@ label .btn-label {
     color: $font;
 }
 
-// input[type="checkbox"], input[type="radio"] {
-//     display:none;
-// }
+input[type="checkbox"], input[type="radio"] {
+    display:none;
+}
 
 
 #gapText {
