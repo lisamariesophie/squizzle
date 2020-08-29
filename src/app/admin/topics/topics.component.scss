@@ -1,0 +1,16 @@
+@import "../../../assets/master";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.addTopic {
+    .card-img {
+        background-color: $primary !important;
+        transition: all 1s ease;
+
+        i {
+            font-size: 36px;
+        }
+    }
+    .card-img:hover {
+        background-color: $accent !important;
+    }
+}

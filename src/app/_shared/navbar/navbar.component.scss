@@ -1,0 +1,23 @@
+@import "../../../styles.scss";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.navbar {
+    background-color: $secondary !important;
+    color: $white !important;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    .navbar-brand {
+        font-size: 32px;
+        img {
+            width: 42px;
+        }
+    }
+
+    .navbar-nav .nav-link {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 0 !important;
+    }
+}

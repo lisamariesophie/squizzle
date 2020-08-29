@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4 class="modal-title">Neues Thema hinzufügen</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        x</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name">Thema</label>
+            <input type="text" class="form-control" formControlName="topic" placeholder="Thema hinzufügen"
+                [ngClass]="{ 'is-invalid': submitted && formControls.topic.errors }" />
+            <div *ngIf="submitted && formControls.topic.errors" class="invalid-feedback">
+                <div *ngIf="formControls.topic.errors.required">Thema benötigt</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary">
+            <i class="fa fa-check"></i>
+        </button>
+    </div>
+</form>

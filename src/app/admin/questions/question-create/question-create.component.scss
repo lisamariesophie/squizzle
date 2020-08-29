@@ -1,0 +1,23 @@
+@import "../../../../assets/master";
+
+.answerList {
+    font-size: 16px;
+    span {
+        color: $accent;
+        font-weight: bold;
+        font-size: 20px;
+    }
+}
+
+.gapText {
+    p {
+        float: left;
+        display: inline;
+        padding-right: 4px;
+    }
+
+    .gap {
+        color: $accent;
+        text-decoration: underline $accent !important;
+    }
+}

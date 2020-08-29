@@ -1,0 +1,29 @@
+@import "../../../../assets/master";
+
+.fa-spin-hover:hover {
+    -webkit-animation: fa-spin 3s infinite linear;
+    -moz-animation: fa-spin 3s infinite linear;
+    -o-animation: fa-spin 3s infinite linear;
+    animation: fa-spin 3s infinite linear;
+}
+
+thead {
+    background-color: $secondary;
+    color: $white;
+}
+
+.tquestion {
+    text-align: left !important;
+}
+
+.tbtn {
+    width: 100px;
+}
+
+.export {
+    float: right;
+    font-size: 14px;
+    i {
+        color: white !important;
+    }
+}

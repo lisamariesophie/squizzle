@@ -3,6 +3,7 @@
         <app-side-nav></app-side-nav>
     </div>
     <div class="col-xl-10 col-sm-12">
-        <app-quiz-list *ngIf="showComponent() === 'questions'"></app-quiz-list>
+        <app-question-list *ngIf="showComponent() === 'questions'"></app-question-list>
         <app-quiz *ngIf="showComponent() === 'quiz'"></app-quiz>
     </div>
+</div>

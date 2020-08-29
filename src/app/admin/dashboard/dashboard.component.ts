@@ -1,36 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Topic } from 'src/app/models/topic';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TopicsService } from 'src/app/services/topics.service';
+import { TopicsService } from 'src/app/_services/topics.service';
+import { Topic } from 'src/app/_models/topic.model';
+import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
-  topic: Topic;
+  topic: Observable<Topic>;
 
-  constructor(private route: ActivatedRoute,
-    private topicsService: TopicsService, public router: Router) { }
+  constructor(private route: ActivatedRoute, public router: Router) { }
 
-  ngOnInit(): void {
-    this.getTopic();
-  }
-
-  getTopic(): Topic {
+  showComponent() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.topic = this.topicsService.getTopic(id);
-    return this.topic;
-  }
-
-  showComponent(){
-    if(this.router.url == `/admin/dashboard/quiz/${this.topic.id}`){
+    if (this.router.url == `/admin/quiz/${id}`) {
       return 'quiz';
     }
-    else if(this.router.url == `/admin/dashboard/topic/${this.topic.id}`){
-      return 'questions'
+    else if (this.router.url == `/admin/topic/${id}`) {
+      return 'questions';
     }
   }
 }
