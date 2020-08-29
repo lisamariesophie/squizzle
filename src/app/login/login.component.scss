@@ -1,9 +1,23 @@
+@import "../../assets/master";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
 .card-signin {
     max-width: 450px;
     margin: 0 auto;
 
     input {
         height: 45px;
-        border:none;
     }
+
+    hr {
+            border-top: 1px solid $primary !important;
+        
+        margin-bottom: 20px !important ;
+    }
+}
+
+h1 {
+    font-size: 28px !important;
+    margin-bottom: 0px;
+    padding: 3% 1%;
 }
