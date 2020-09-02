@@ -12,7 +12,7 @@
                     <option value="1">Multiple Choice</option>
                     <option value="2">Wahr/Falsch Frage</option>
                     <option value="3">Skala Frage / Meinungsabfrage</option>
-                    <option value="4">Bild/Video/Audio Frage</option>
+                    <option value="4">Bild Frage</option>
                     <option value="5">Freitext</option>
                     <option value="6">Lückentext</option>
 
@@ -21,11 +21,11 @@
             <!-- Multiple Choice -->
             <div id="option1" *ngIf="selectedType == 1">
                 <div class="form-group">
-                    <label for="name">Frage</label>
+                    <label for="name">Frage*</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
                 <div class="form-group">
-                    <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>
+                    <label for="answer">Antworten* (Korrekte Antworten ankreuzen)</label>
                     <div class="answerList" *ngFor="let answer of answers; let i = index">
                         <label>
                             <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte</label>
+                    <label for="points">Punkte*</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
                 <div class="form-group">
@@ -53,11 +53,11 @@
             <!-- Wahr-Falsch Frage -->
             <div id="option2" *ngIf="selectedType == 2">
                 <div class="form-group">
-                    <label for="name">Frage</label>
+                    <label for="name">Frage*</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
                 <div class="form-group">
-                    <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>
+                    <label for="answer">Antworten* (Korrekte Antworten ankreuzen)</label>
                     <div class="answerList" *ngFor="let answer of answers; let i = index">
                         <label>
                             <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte</label>
+                    <label for="points">Punkte*</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
                 <div class="form-group">
@@ -78,23 +78,27 @@
             <!-- Skala Frage -->
             <div id="option3" *ngIf="selectedType == 3">
                 <div class="form-group">
-                    <label for="name">Frage/Aussage</label>
+                    <label for="name">Frage/Aussage*</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
             </div>
             <!-- Bild Frage -->
             <div id="option4" *ngIf="selectedType == 4">
-                <img class="my-3" [src]="imgSrc" width="300px">
+                <div class="row mb-3">
+                    <div class="col-12 my-auto text-center">
+                        <img class="questionImg" [src]="imgSrc">
+                    </div>
+                </div>
                 <div class="form-group mb-3">
                     <label for="answer">Bild wählen</label>
                     <input class="form-control" type="file" formControlName="imgUrl" accept="image/*" (change)="showImgPrev($event)"/>
                 </div>
                 <div class="form-group">
-                    <label for="name">Frage</label>
+                    <label for="name">Frage*</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
                 <div class="form-group">
-                    <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>
+                    <label for="answer">Antworten* (Korrekte Antworten ankreuzen)</label>
                     <div class="answerList" *ngFor="let answer of answers; let i = index">
                         <label>
                             <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
@@ -111,14 +115,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte</label>
+                    <label for="points">Punkte*</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
             </div>
             <!-- Freitext -->
             <div id="option5" *ngIf="selectedType == 5">
                 <div class="form-group">
-                    <label for="name">Frage</label>
+                    <label for="name">Frage*</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
                 <div class="form-group">
@@ -127,14 +131,14 @@
                         formControlName="addAnswer"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte</label>
+                    <label for="points">Punkte*</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
             </div>
             <!-- Lückentext -->
             <div id="option6" *ngIf="selectedType == 6">
                 <div class="form-group">
-                    <label for="name">Titel</label>
+                    <label for="name">Titel*</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Titel hinzufügen" />
                 </div>
                 <div class="form-group">
@@ -162,7 +166,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte</label>
+                    <label for="points">Punkte*</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
             </div>

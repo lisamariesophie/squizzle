@@ -1,6 +1,9 @@
 import { Roles } from './roles';
+import { Topic } from './topic.model';
 
-export interface User {
+export class User {
     uid: string;
     email: string;
+    roles: Roles;
+    topics?: Array<Topic>;
 }

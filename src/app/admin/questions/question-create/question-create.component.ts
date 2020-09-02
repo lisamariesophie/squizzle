@@ -25,7 +25,7 @@ export class QuestionCreateComponent implements OnInit {
   correct: Array<any> = [];
   solution: any = '';
   gapCounter: number = 0;
-  imgSrc: string = '../../../../assets/img/squizzel.png';
+  imgSrc: string = '';
   selectedImg: any = null;
   downloadUrl: string;
 
@@ -44,7 +44,7 @@ export class QuestionCreateComponent implements OnInit {
       addAnswer: [''],
       addGap: [''],
       addGapText: [''],
-      points: ['', Validators.required],
+      points: [''],
       hint: '',
       imgUrl: ''
     });

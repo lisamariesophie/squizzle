@@ -7,16 +7,19 @@ import { QuizComponent } from './quiz/quiz.component';
 import { QuizzesComponent } from './quizzes/quizzes.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { LoginGuard } from './_guards/login.guard';
+import { PasswordlessAuthComponent } from './passwordless-auth/passwordless-auth.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'login', component: LoginComponent},
   { path: 'admin', component: TopicsComponent, canActivate: [AuthGuard] },
   { path: 'admin/topic/:id', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'admin/quiz/:id', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'quizzes', component: QuizzesComponent, canActivate: [AuthGuard] },
-  { path: 'quizzes/quiz/:id', component: QuizComponent },
+  { path: 'quizzes', component: QuizzesComponent, canActivate: [LoginGuard] },
+  { path: 'quizzes/quiz/:id', component: QuizComponent, canActivate: [LoginGuard] },
+  { path: 'register', component: RegisterComponent }
 ]
 
 @NgModule({

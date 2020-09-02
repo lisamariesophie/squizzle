@@ -57,14 +57,14 @@ export class CreateTopicComponent implements OnInit {
   // }
 
   private addTopic() {
-    const topic: Topic = {
-      live: false,
-      name: this.formControls.topic.value,
-    };
     this.afAuth.authState.subscribe(user => {
       if(user) {
-        const userId = user.uid;
-        this.topicsService.createTopic(userId, topic);
+        const topic: Topic = {
+          live: false,
+          name: this.formControls.topic.value,
+          authorUID: user.uid
+        };
+        this.topicsService.createTopic(topic);
       }
     });
     

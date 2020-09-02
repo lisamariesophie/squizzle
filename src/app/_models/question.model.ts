@@ -5,10 +5,10 @@ export class Question {
     img?: string;
     type: number;
     name: string;
-    answers: string[];
-    correct?: string[];
+    answers: Array<string>;
+    correct?: Array<string>;
     points?: number;
     hint?: string = "";
-    gapText?: GapText[];
+    gapText?: Array<any>;
     imgUrl?: string;
 }

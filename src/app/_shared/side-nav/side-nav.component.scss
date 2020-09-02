@@ -2,16 +2,17 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 .nav-link {
-    color: $font;
+    color: $font !important;
 
     &.active {
         background-color: $secondary !important;
         border-radius: 0 !important;
+        color: $white !important;
     }
 
     &:hover {
-        background-color: $primary;
-        color: $white;
+        background-color: $primary !important;
+        color: $white !important;
         border-radius: 0 !important;
     }
 }

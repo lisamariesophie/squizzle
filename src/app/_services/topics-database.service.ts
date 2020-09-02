@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Topic } from '../_models/topic.model';
-import { Observable } from 'rxjs';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +11,35 @@ export class TopicsDatabaseService {
 
   constructor(private firestore: AngularFirestore) {
     this.userRef = this.firestore.collection('users');
-    this.topicsRef = this.firestore.collection('topics', ref => ref.orderBy('name', 'desc'));
+    this.topicsRef = this.firestore.collection('topics');
     
   }
 
   getTopics(uid: string) {
-    return this.userRef.doc(uid).collection('topics');
+    return this.topicsCollection(uid);
+  }
+  
+  getUserTopics(id: string){
+    return this.userRef.doc(id).valueChanges();
   }
 
-  getTopic(uid: string, id: string): any {
-    return this.userRef.doc(uid).collection('topics').doc(id).valueChanges();
+  getTopic(id: string): any {
+    return this.topicsRef.doc(id).valueChanges();
   }
 
-  createTopic(uid: string, topic: Topic) {
-    return this.userRef.doc(uid).collection('topics').add(topic);
+  createTopic(topic: Topic) {
+    return this.topicsRef.add(topic);
   }
 
   updateTopic(uid: string, id:string, topic: Topic) {
-    return this.userRef.doc(uid).collection('topics').doc(id).update(topic);
+    return this.topicsCollection(uid).doc(id).update(topic);
   }
 
-  deleteTopic(key: string): Promise<void> {
-    return this.topicsRef.doc(key).delete();
+  deleteTopic(id: string) {
+    return this.topicsRef.doc(id).delete();
+  }
+
+  topicsCollection(uid) {
+    return this.firestore.collection('topics', ref => ref.where("authorUID", '==', uid))
   }
 }

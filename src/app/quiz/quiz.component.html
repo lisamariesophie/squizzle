@@ -23,7 +23,7 @@
                                 class="modal-body">
                                 <div *ngIf="question.imgUrl != null" class="row mb-3">
                                     <div class="col-12 my-auto text-center">
-                                        <img [src]="question?.imgUrl" height="300px">
+                                        <img class="questionImg" [src]="question?.imgUrl">
                                     </div>
                                 </div>
                                 <div class="quiz" id="quiz" data-toggle="buttons">

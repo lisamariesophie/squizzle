@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card shadow main card-signin my-5">
+                <h1>Registrieren</h1>
+                <div class="card-body">
+                    <form class="form-signin">
+                        <div class="form-label-group my-3">
+                            <input type="email" id="inputEmail" class="form-control" placeholder="Email" #email
+                                required autofocus>
+                        </div>
+                        <div class="form-label-group my-3">
+                            <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                #password required>
+                        </div>
+                        
+                        <div class="form-label-group my-3">
+                            <input type="password" class="form-control" placeholder="Password"
+                                #confirmPassword required>
+                        </div>
+
+                        <hr class="my-2">
+                        <button class="btn btn-lg btn-accent btn-block text-uppercase" type="button"
+                            (click)="register(email.value, password.value, confirmPassword.value)">Registrieren</button>
+                        <!-- <p class="text-center">oder</p> -->
+                        <!-- <button class="btn btn-lg btn-accent btn-block text-uppercase" type="button" (click)="authService.Login(userName.value, userPassword.value)">Registrieren</button> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

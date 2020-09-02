@@ -3,7 +3,7 @@
     <div class="wrap">
         <div class="card-deck">
             <div class="cards" *ngFor="let topic of topics">
-                <div *ngIf="topic.live == true" class="card shadow" routerLink="/quizzes/quiz/{{topic.id}}">
+                <div class="card shadow" routerLink="/quizzes/quiz/{{topic.id}}">
                     <div class="card-img d-flex align-items-center justify-content-center">
                         {{ topic?.name }}
                     </div>

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../_services/authentication.service';
+import { take, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +10,22 @@ import { AuthenticationService } from '../_services/authentication.service';
 export class LoginGuard implements CanActivate {
   constructor(
     public authService: AuthenticationService,
-    public router: Router
-  ) { }
+    public router: Router,
+    public route: ActivatedRoute  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // if (this.authService.isLoggedIn) {
-    //   this.router.navigate(['admin'])
-    // }
-    return true;
+    return this.authService.user.pipe(
+      take(1),
+      map(user => !!user),
+      tap(loggedIn => {
+        if (!loggedIn) {
+          window.alert('Access denied. Please Sign In.')
+          this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+        }
+      })
+    )
   }
 
 }

@@ -6,9 +6,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a *ngIf="authService.loggedIn" class="nav-item nav-link" routerLink="/admin" [routerLinkActive]="['active']">Dashboard<span
+            <a *ngIf="authService.isAdmin(user)" class="nav-item nav-link" routerLink="/admin" [routerLinkActive]="['active']">Dashboard<span
                     class="sr-only">(current)</span></a>
-            <a *ngIf="authService.loggedIn" class="nav-item nav-link" routerLink="/quizzes" [routerLinkActive]="['active']">Quizzes</a>
+            <a *ngIf="authService.loggedIn && !authService.isAdmin(user)" class="nav-item nav-link" routerLink="/quizzes" [routerLinkActive]="['active']">Quizzes</a>
         </div>
         <div class="navbar-nav ml-auto">
             <a *ngIf="authService.loggedIn" class="nav-item nav-link" routerLink="/login" (click)="authService.logout()">Logout</a>

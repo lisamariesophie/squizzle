@@ -32,7 +32,7 @@ export class QuestionListComponent implements OnInit {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         const userId = user.uid;
-        this.topicsDatabase.getTopic(userId, this.topicId).subscribe(singleDoc => {
+        this.topicsDatabase.getTopic(this.topicId).subscribe(singleDoc => {
           this.topic = singleDoc;
         });
       }
@@ -61,7 +61,6 @@ export class QuestionListComponent implements OnInit {
       if (user) {
         const userId = user.uid;
         this.topicsDatabase.updateTopic(userId, this.topicId, this.topic);
-
       }
     });
   }
@@ -98,7 +97,4 @@ export class QuestionListComponent implements OnInit {
     }).catch((error) => {
     });
   }
-
-
-
 }

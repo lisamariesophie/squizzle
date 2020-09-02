@@ -52,7 +52,7 @@ export class QuizComponent implements OnInit {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         const userId = user.uid;
-        this.topicsService.getTopic(userId, this.topicId).subscribe(singleDoc => {
+        this.topicsService.getTopic(this.topicId).subscribe(singleDoc => {
           this.topic = singleDoc;
         });
       }
@@ -90,8 +90,6 @@ export class QuizComponent implements OnInit {
     // this.topicsService.updateTopic(this.topicId, this.topic);
   }
 
-  submitQuiz() {
-
-  }
+  submitQuiz() { }
 
 }
