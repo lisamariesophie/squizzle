@@ -9,8 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  submitted = false;
-  form: FormGroup;
 
   constructor(public authService: AuthenticationService) { }
   ngOnInit() { }

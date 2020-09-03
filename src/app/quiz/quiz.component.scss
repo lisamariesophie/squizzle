@@ -122,3 +122,9 @@ input[type="checkbox"], input[type="radio"] {
         padding-right: 4px;
     }
 }
+
+#hint {
+    color: $primary;
+    font-size: 18px;
+    font-weight: bold;
+}

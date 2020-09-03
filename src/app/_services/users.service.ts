@@ -17,11 +17,15 @@ export class UsersService {
   }
 
   userCollection(topicId) {
-    return this.firestore.collection('users', ref => ref.where("topicId", '==', topicId))
+    
   }
 
   getUser(id: string): any {
     return this.firestore.collection('users').doc(id).valueChanges();
+  }
+
+  getUsersOfTopic(topicId){
+    return this.firestore.collection('users', ref => ref.where("topicId", '==', topicId))
   }
 }
 

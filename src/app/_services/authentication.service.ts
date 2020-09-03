@@ -80,15 +80,16 @@ export class AuthenticationService {
             this.router.navigate(['/admin']);
           }
           else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
-            let topic: Topic;
             this.topicsService.getTopic(this.returnUrl.split('/').pop()).pipe(take(1)).subscribe(singleDoc => {
+              let topic: any;
               topic = singleDoc;
-              topic.id = this.returnUrl.split('/').pop();
-              user.topics.push(topic);
+              const topicId = this.returnUrl.split('/').pop();
+              // user.topics.push(topic);
+              this.topicsService.createUserTopic(user.uid, topicId, topic);
               this.setUserData(user, false, true)
               this.router.navigateByUrl(this.returnUrl);
             });
-          } 
+          }
           else {
             this.router.navigateByUrl(this.returnUrl);
           }
@@ -113,7 +114,7 @@ export class AuthenticationService {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
     let data;
-    if (isUser && this.returnUrl != '' && this.returnUrl != '/quizzes') {
+    // if (isUser && this.returnUrl != '' && this.returnUrl != '/quizzes') {
       console.log("Redirect acitve")
       data = {
         uid: user.uid,
@@ -122,56 +123,32 @@ export class AuthenticationService {
           user: isUser,
           admin: isAdmin
         },
-        topics: user.topics
+        // topics: user.topics
       }
-    }
-    else if (isUser) {
-      console.log("No Redirect")
-      data = {
-        uid: user.uid,
-        email: user.email,
-        roles: {
-          user: isUser,
-          admin: isAdmin
-        },
-        topics: []
-      }
-    }
-    else {
-      data = {
-        uid: user.uid,
-        email: user.email,
-        roles: {
-          user: isUser,
-          admin: isAdmin
-        }
-      }
-    }
-    console.log('SET DATA', data)
+    // }
+    // else if (isUser) {
+    //   console.log("No Redirect")
+    //   data = {
+    //     uid: user.uid,
+    //     email: user.email,
+    //     roles: {
+    //       user: isUser,
+    //       admin: isAdmin
+    //     },
+    //     // topics: []
+    //   }
+    // }
+    // else {
+    //   data = {
+    //     uid: user.uid,
+    //     email: user.email,
+    //     roles: {
+    //       user: isUser,
+    //       admin: isAdmin
+    //     }
+    //   }
+    // }
     return userRef.set(data, { merge: true })
-  }
-
-  async confirmSignIn(url) {
-    try {
-      if (this.afAuth.auth.isSignInWithEmailLink(url)) {
-        let email = window.localStorage.getItem('SignInEmail');
-        console.log("Signed In with email: ", email)
-        // If missing email, prompt user for it
-        if (!email) {
-          email = window.prompt('Please provide your email for confirmation');
-        }
-        // Signin user and remove the email localStorage
-        const result = await this.afAuth.auth.signInWithEmailLink(email, url,);
-        const topicId = localStorage.getItem("TopicId");
-        this.setUserData(result.user, false, true);
-        window.localStorage.removeItem('SignInEmail');
-        const redirect = localStorage.getItem("Redirect");
-        this.router.navigateByUrl("/" + redirect);
-        localStorage.removeItem("Redirect");
-      }
-    } catch (err) {
-      console.log("Error ", err.code)
-    }
   }
 
   canRead(user: User): boolean {

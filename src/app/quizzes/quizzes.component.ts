@@ -18,14 +18,21 @@ export class QuizzesComponent implements OnInit {
     this.getTopics();
   }
 
+
+
   getTopics() {
     this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.topicsDatabase.getUserTopics(user.uid).subscribe(user => {
-          this.user = user;
-          this.topics = this.user.topics;
-        });
-      }
+      if(user) {
+        const userId = user.uid;
+        this.topicsDatabase.getUserTopics(userId).snapshotChanges().subscribe(res => {
+          this.topics = res.map(document => {
+            return {
+              id: document.payload.doc.id,
+              ...document.payload.doc.data() as {}
+            } as Topic;
+          })
+        })
+      } 
     });
   }
 }

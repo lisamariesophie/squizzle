@@ -12,15 +12,15 @@ export class TopicsDatabaseService {
   constructor(private firestore: AngularFirestore) {
     this.userRef = this.firestore.collection('users');
     this.topicsRef = this.firestore.collection('topics');
-    
+
+  }
+
+  topicsCollection(uid) {
+    return this.firestore.collection('topics', ref => ref.where("authorUID", '==', uid))
   }
 
   getTopics(uid: string) {
     return this.topicsCollection(uid);
-  }
-  
-  getUserTopics(id: string){
-    return this.userRef.doc(id).valueChanges();
   }
 
   getTopic(id: string): any {
@@ -31,7 +31,7 @@ export class TopicsDatabaseService {
     return this.topicsRef.add(topic);
   }
 
-  updateTopic(uid: string, id:string, topic: Topic) {
+  updateTopic(uid: string, id: string, topic: Topic) {
     return this.topicsCollection(uid).doc(id).update(topic);
   }
 
@@ -39,7 +39,19 @@ export class TopicsDatabaseService {
     return this.topicsRef.doc(id).delete();
   }
 
-  topicsCollection(uid) {
-    return this.firestore.collection('topics', ref => ref.where("authorUID", '==', uid))
+  getUserTopics(userId: string): any {
+    return this.userRef.doc(userId).collection('topics');
+  }
+
+  getUserTopic(userId: string, topicId: string) : any {
+    return this.userRef.doc(userId).collection('topics').doc(topicId).valueChanges();
+  }
+
+  updateUserTopic(userId: string, topicId: string, topic: Topic) {
+    return this.userRef.doc(userId).collection('topics').doc(topicId).update(topic);
+  }
+
+  createUserTopic(userId: string, topicId: string, topic: any) {
+    return this.userRef.doc(userId).collection('topics').doc(topicId).set(topic);
   }
 }

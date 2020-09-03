@@ -31,9 +31,9 @@ import { AuthenticationService } from './_services/authentication.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AuthGuard } from './_guards/auth.guard';
 import { LoginGuard } from './_guards/login.guard';
-import { PasswordlessAuthComponent } from './passwordless-auth/passwordless-auth.component';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ScoresComponent } from './scores/scores.component';
 
 @NgModule({
   declarations: [
@@ -50,9 +50,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     QuestionCreateComponent,
     QuestionSettingsComponent,
     QuizzesComponent,
-    PasswordlessAuthComponent,
     RegisterComponent,
     ForgotPasswordComponent,
+    ScoresComponent,
   ],
   imports: [
     BrowserModule,

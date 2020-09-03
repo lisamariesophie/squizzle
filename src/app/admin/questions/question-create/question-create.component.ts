@@ -21,6 +21,7 @@ export class QuestionCreateComponent implements OnInit {
 
   form: FormGroup;
   answers: Array<any> = [];
+  answersArray: Array<any> = [];
   gapText: Array<any> = [];
   correct: Array<any> = [];
   solution: any = '';
@@ -63,7 +64,6 @@ export class QuestionCreateComponent implements OnInit {
   onCheckboxChange(e) {
     if (e.target.checked) {
       this.checkArray.push(new FormControl(e.target.value));
-      console.log(this.checkArray);
     }
     else {
       let i: number = 0;
@@ -84,7 +84,6 @@ export class QuestionCreateComponent implements OnInit {
     }
     if (value == 3) {
       this.answers = ["Stimme gar nicht zu", "Stimme nicht zu", "Neutral", "Stimme zu", "Stimme voll zu", "Keine Angabe"];
-      console.log(this.answers);
     }
     if (value == 6) {
       this.gapText = [];
@@ -135,6 +134,15 @@ export class QuestionCreateComponent implements OnInit {
   }
 
   createQuestion() {
+    for(let i = 0; i < this.answers.length; i++){
+      if(this.answers[i] == this.checkArray.value){
+        this.answersArray.push({ value: this.answers[i], correct: true })
+      } else {
+        this.answersArray.push({ value: this.answers[i], correct: false })
+      }
+      console.log(this.answersArray)
+    }
+
     // stop here if form is invalid
     if (this.form.invalid) {
       console.log("Form invalid")
@@ -147,10 +155,10 @@ export class QuestionCreateComponent implements OnInit {
         id: this.generateID(),
         name: this.formControls.name.value,
         type: this.formControls.type.value,
-        answers: Object.assign(this.answers),
-        correct: Object.assign(this.checkArray.value),
+        answers: Object.assign(this.answersArray),
         points: this.formControls.points.value,
-        hint: this.formControls.hint.value
+        hint: this.formControls.hint.value,
+        hintOpened: false
       }
     }
     // Wahr-Falsch
@@ -159,10 +167,10 @@ export class QuestionCreateComponent implements OnInit {
         id: this.generateID(),
         name: this.formControls.name.value,
         type: this.formControls.type.value,
-        answers: Object.assign(this.answers),
-        correct: Object.assign(this.checkArray.value),
+        answers: Object.assign(this.answersArray),
         points: this.formControls.points.value,
-        hint: this.formControls.hint.value
+        hint: this.formControls.hint.value,
+        hintOpened: false
       }
     }
     // Skala Frage
@@ -172,7 +180,7 @@ export class QuestionCreateComponent implements OnInit {
         name: this.formControls.name.value,
         type: this.formControls.type.value,
         points: 0,
-        answers: Object.assign(this.answers)
+        answers: Object.assign(this.answersArray)
       }
     }
     //Bild 
@@ -187,10 +195,10 @@ export class QuestionCreateComponent implements OnInit {
               imgUrl: url,
               name: this.formControls.name.value,
               type: this.formControls.type.value,
-              answers: Object.assign(this.answers),
-              correct: Object.assign(this.checkArray.value),
+              answers: Object.assign(this.answersArray),
               points: this.formControls.points.value,
               hint: this.formControls.hint.value,
+              hintOpened: false
             }
             this.uploadQuestion(question);
           })
@@ -206,9 +214,9 @@ export class QuestionCreateComponent implements OnInit {
         id: this.generateID(),
         name: this.formControls.name.value,
         type: this.formControls.type.value,
-        correct: Object.assign(this.correct),
         points: this.formControls.points.value,
-        hint: this.formControls.hint.value
+        hint: this.formControls.hint.value,
+        hintOpened: false
       }
     }
     // Lückentext
@@ -230,7 +238,7 @@ export class QuestionCreateComponent implements OnInit {
   uploadQuestion(question: any) {
     if (!this.topic.hasOwnProperty('quiz')) {
       console.log("'Quiz empty")
-      const quiz = { questions: [] };
+      const quiz = { questions: [], submitted: false };
       this.topic.quiz = quiz;
     }
     this.topic.quiz.questions.push(question);

@@ -13,17 +13,12 @@
                             <input type="password" id="inputPassword" class="form-control" placeholder="Password"
                                 #password required>
                         </div>
-                        
                         <div class="form-label-group my-3">
                             <input type="password" class="form-control" placeholder="Password"
                                 #confirmPassword required>
                         </div>
-
-                        <hr class="my-2">
                         <button class="btn btn-lg btn-accent btn-block text-uppercase" type="button"
                             (click)="register(email.value, password.value, confirmPassword.value)">Registrieren</button>
-                        <!-- <p class="text-center">oder</p> -->
-                        <!-- <button class="btn btn-lg btn-accent btn-block text-uppercase" type="button" (click)="authService.Login(userName.value, userPassword.value)">Registrieren</button> -->
                     </form>
                 </div>
             </div>

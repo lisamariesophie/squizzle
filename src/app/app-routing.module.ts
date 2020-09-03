@@ -7,8 +7,8 @@ import { QuizComponent } from './quiz/quiz.component';
 import { QuizzesComponent } from './quizzes/quizzes.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { LoginGuard } from './_guards/login.guard';
-import { PasswordlessAuthComponent } from './passwordless-auth/passwordless-auth.component';
 import { RegisterComponent } from './register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -19,7 +19,9 @@ const routes: Routes = [
   { path: 'admin/quiz/:id', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'quizzes', component: QuizzesComponent, canActivate: [LoginGuard] },
   { path: 'quizzes/quiz/:id', component: QuizComponent, canActivate: [LoginGuard] },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent }
+
 ]
 
 @NgModule({

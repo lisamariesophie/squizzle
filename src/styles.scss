@@ -196,6 +196,11 @@ section {
         }
     }
 
+    hr {
+        border-top: 1px solid $primary !important;
+        margin-bottom: 20px !important ;
+    }
+
     .table {
         .edit-col {
             width: 200px !important;
@@ -230,6 +235,7 @@ section {
         border-radius: 0 !important;
     }
 }
+
 
 //Modal
 .modal-content {
