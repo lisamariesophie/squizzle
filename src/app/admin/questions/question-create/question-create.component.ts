@@ -215,6 +215,7 @@ export class QuestionCreateComponent implements OnInit {
         name: this.formControls.name.value,
         type: this.formControls.type.value,
         points: this.formControls.points.value,
+        answers: [],
         hint: this.formControls.hint.value,
         hintOpened: false
       }

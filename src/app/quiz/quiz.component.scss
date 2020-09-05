@@ -61,6 +61,10 @@ label.btn-block {
         }
         &.correct {
             background: $primary !important;
+            font-size: 14px;
+        }
+        &.checked {
+            background: $accent !important;
         }
     }
 

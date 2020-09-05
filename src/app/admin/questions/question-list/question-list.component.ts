@@ -31,7 +31,6 @@ export class QuestionListComponent implements OnInit {
   getTopic() {
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        const userId = user.uid;
         this.topicsDatabase.getTopic(this.topicId).subscribe(singleDoc => {
           this.topic = singleDoc;
         });

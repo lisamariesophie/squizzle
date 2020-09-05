@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                                 <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
-                                    <textarea name="freeTextAnswer" id="freeTextAnswer" class="form-control"
+                                    <textarea name="freeTextAnswer" formControlName="textAnswer" id="textAnswer" class="form-control"
                                         rows="6"></textarea>
                                 </div>
                                 <div class="modal-footer">
@@ -80,7 +80,7 @@
                     <div class="col-8 my-auto">
                         <h6>{{ topic?.name }} </h6>
                     </div>
-                    <div *ngIf="!preview" class="col-4 my-auto text-right" id="score">Erreichte Punktzahl: {{topic?.quiz.score}}/{{maxScore}}</div>
+                    <div *ngIf="!preview" class="col-4 my-auto text-right" id="score">Vorläufige Punktzahl: {{topic?.quiz.score}}/{{maxScore}}</div>
                 </div>
                 <hr>
                 <div class="qContainer" *ngFor="let question of topic?.quiz.questions; let i = index">
@@ -108,8 +108,10 @@
                                 <label *ngFor="let answer of question.answers; let j = index"
                                     class="btn btn-lg btn-secondary btn-block">
                                     {{answer.value}} <span *ngIf="!answer.correct" class="btn-label"><i
-                                            class="fa fa-chevron-right"></i></span><span *ngIf="answer.correct"
-                                        class="btn-label correct"><i class="fa fa-chevron-right"></i></span></label>
+                                            class="fa fa-chevron-right"></i></span><span *ngIf="answer.checked"
+                                            class="btn-label checked"><i class="fa fa-chevron-right"></i></span><span *ngIf="answer.correct"
+                                        class="btn-label correct"><i class="fa fa-check"></i></span>
+                                        </label>
                             </div>
                         </div>
                         <div id="evaluation" *ngIf="getQuestionType(question) == 'Evaluation'" class="modal-body">
@@ -124,8 +126,8 @@
                                 <p *ngIf="text.type == 1">{{ text.value }} </p>
                             </div>
                         </div>
-                        <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
-
+                        <div id="textQuestion" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
+                            <p>{{ question?.textAnswer }}</p>
                         </div>
                         <div class="modal-footer">
                             <button *ngIf="question.hint != null && question.hint != '' && !question.hintOpened"

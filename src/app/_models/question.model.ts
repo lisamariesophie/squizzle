@@ -1,6 +1,7 @@
 export class Answer {
     value: string;
-    correct: boolean;
+    correct?: boolean;
+    checked?: boolean = false;
 }
 
 export class Question {
@@ -9,6 +10,7 @@ export class Question {
     type: number;
     name: string;
     answers: Array<Answer>;
+    textAnswer?: string;
     points?: number;
     hint?: string = "";
     hintOpened?: boolean = false;

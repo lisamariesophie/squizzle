@@ -14,6 +14,8 @@ thead {
 
 .tquestion {
     text-align: left !important;
+    text-overflow: ellipsis;
+    max-width: 200px;
 }
 
 .tbtn {
