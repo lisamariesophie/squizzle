@@ -65,14 +65,9 @@ export class QuizComponent implements OnInit {
         else {
           this.topicsService.getUserTopic(this.user.uid, this.topicId).pipe(take(1)).subscribe(res => {
             this.topic = res;
-            if(res){
-              for (let question of this.topic.quiz.questions) {
-                this.addQuestion(question);
-              }
-            } else {
-              this.topicsService.createUserTopic(user.uid, this.topicId, topic); //if already logged in
+            for (let question of this.topic.quiz.questions) {
+              this.addQuestion(question);
             }
-            
           })
         }
       })
