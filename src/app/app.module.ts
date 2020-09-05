@@ -14,6 +14,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Location, CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
 
 // Firebase services + enviorment module
 import { AngularFireModule } from "@angular/fire";
@@ -34,6 +35,7 @@ import { LoginGuard } from './_guards/login.guard';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ScoresComponent } from './scores/scores.component';
+
 
 @NgModule({
   declarations: [
@@ -73,6 +75,7 @@ import { ScoresComponent } from './scores/scores.component';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    ChartsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [NgbActiveModal, Location, AuthenticationService, AuthGuard, LoginGuard],

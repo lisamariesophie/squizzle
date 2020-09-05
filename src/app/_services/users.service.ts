@@ -9,23 +9,22 @@ export class UsersService {
   userRef: AngularFirestoreCollection<User> = null;
 
   constructor(private firestore: AngularFirestore) {
-    this.userRef = this.firestore.collection('users');
+    this.userRef = this.firestore.collection('users', ref => ref.orderBy('email', "desc"));
   }
 
-  getUsers(topicId: string) {
-    return this.userCollection(topicId);
+  // get all users
+  getUsers() {
+    return this.userRef;
   }
 
-  userCollection(topicId) {
-    
+  // get user by id
+  getUser(uid: string): any {
+    return this.userRef.doc(uid).valueChanges();
   }
 
-  getUser(id: string): any {
-    return this.firestore.collection('users').doc(id).valueChanges();
+  getTopicsForUser(uid: string, topicId: string){
+    return this.userRef.doc(uid).collection('topics').doc(topicId).valueChanges();
   }
-
-  getUsersOfTopic(topicId){
-    return this.firestore.collection('users', ref => ref.where("topicId", '==', topicId))
-  }
+  
 }
 

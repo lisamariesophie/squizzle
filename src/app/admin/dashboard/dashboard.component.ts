@@ -24,5 +24,8 @@ export class DashboardComponent {
     else if (this.router.url == `/admin/topic/${id}`) {
       return 'questions';
     }
+    else if (this.router.url == `/admin/quiz/scores/${id}`) {
+      return 'scores';
+    }
   }
 }

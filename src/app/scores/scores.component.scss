@@ -1,0 +1,25 @@
+@import "../../assets/master";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+thead {
+    background-color: $secondary;
+    color: $white;
+}
+
+.tquestion {
+    text-align: left !important;
+}
+
+.tbtn {
+    width: 100px;
+}
+
+.chart-wrapper {
+    width: 60% !important;
+    margin: 0 auto;
+}
+
+hr {
+    border-top: 1px solid $secondary !important;
+    margin-bottom: 40px !important;
+}

@@ -17,11 +17,11 @@ const routes: Routes = [
   { path: 'admin', component: TopicsComponent, canActivate: [AuthGuard] },
   { path: 'admin/topic/:id', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'admin/quiz/:id', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'admin/quiz/scores/:id', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'quizzes', component: QuizzesComponent, canActivate: [LoginGuard] },
   { path: 'quizzes/quiz/:id', component: QuizComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent }
-
 ]
 
 @NgModule({

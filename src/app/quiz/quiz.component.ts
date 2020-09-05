@@ -1,29 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Question, Answer } from '../_models/question.model';
 import { Topic } from '../_models/topic.model';
-import { FormArray, Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { TopicsService } from '../_services/topics.service';
+import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TopicsDatabaseService } from '../_services/topics-database.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { GapText } from '../_models/gaptext.model';
-import { User } from '../_models/user';
+import { UsersService } from '../_services/users.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss']
 })
-export class QuizComponent implements OnInit {
 
-  user: any;
+export class QuizComponent implements OnInit {
+  @Input() user: any;
+  @Input() preview: boolean;
+
+
   topic: Topic;
   topicId: string;
   form: FormGroup;
   gapTexts: GapText[];
 
   constructor(private route: ActivatedRoute,
-    private topicsService: TopicsDatabaseService, private fb: FormBuilder, private afAuth: AngularFireAuth) { }
+    private topicsService: TopicsDatabaseService, private userService: UsersService, private fb: FormBuilder, private afAuth: AngularFireAuth) { }
 
   ngOnInit(): void {
     this.topicId = this.route.snapshot.paramMap.get('id');
@@ -37,21 +40,6 @@ export class QuizComponent implements OnInit {
     });
   }
 
-  // createquestionArray() {
-  //   return this.formBuilder.group({
-  //     answersArray: new FormArray([
-  //       this.createAnswersArray()
-  //     ])
-  //   });
-  // }
-
-  // createAnswersArray() {
-  //   return this.formBuilder.group({
-  //     answer: new FormArray([
-  //     ])
-  //   });
-  // }
-
   get formControls() { return this.form.controls; }
 
   get questionsArray() {
@@ -62,36 +50,40 @@ export class QuizComponent implements OnInit {
     return this.questionsArray.get('answersArray') as FormArray;
   }
 
-  // get userGaps() {
-  //   return this.userAnswers.get('userGaps') as FormArray;
-  // }
-
 
   getTopic() {
     this.afAuth.authState.subscribe(user => {
-      this.user = user;
-      if (this.user.roles == "admin") {
-        this.topicsService.getTopic(this.topicId).subscribe(res => {
-          this.topic = res;
-        });
-      }
-      else {
-        this.topicsService.getUserTopic(this.user.uid, this.topicId).subscribe(res => {
-          this.topic = res;
-          for (let question of this.topic.quiz.questions) {
-            this.addQuestion(question);
-
-          }
-        })
-      }
+      this.userService.getUser(user.uid).pipe(take(1)).subscribe(res => {
+        this.user = res;
+        //check if User is admin
+        if (this.user.roles.admin == true) {
+          this.preview = true;
+          this.topicsService.getTopic(this.topicId).pipe(take(1)).subscribe(res => {
+            this.topic = res;
+          });
+        }
+        else {
+          this.topicsService.getUserTopic(this.user.uid, this.topicId).pipe(take(1)).subscribe(res => {
+            this.topic = res;
+            if(res){
+              for (let question of this.topic.quiz.questions) {
+                this.addQuestion(question);
+              }
+            } else {
+              this.topicsService.createUserTopic(user.uid, this.topicId, topic); //if already logged in
+            }
+            
+          })
+        }
+      })
     })
   }
 
   private addQuestion(question: any) {
-    let group = this.fb.group({
-      'name': [question ? question.name : ''],
-      'answersArray': this.fb.array([])
-    });
+      let group = this.fb.group({
+        'name': [question ? question.name : ''],
+        'answersArray': this.fb.array([])
+      });
     (<FormArray>this.form.get('questionsArray')).push(group);
     let qIndex = (<FormArray>this.form.get('questionsArray')).length - 1;
     question.answers.forEach(a => {
@@ -100,12 +92,19 @@ export class QuizComponent implements OnInit {
   }
 
   private addAnswer(qIndex: number, data: any) {
-    // console.log('qIndex', qIndex, '-------', 'data', data);
     let group = this.fb.group({
       'answer': new FormControl(false)
     });
     (<FormArray>(<FormGroup>(<FormArray>this.form.controls['questionsArray'])
       .controls[qIndex]).controls['answersArray']).push(group);
+  }
+
+  get maxScore() {
+    let maxScore = 0;
+    for (let question of this.topic.quiz.questions) {
+      maxScore += question.points;
+    }
+    return maxScore;
   }
 
   getQuestionType(question: Question) {
@@ -144,10 +143,7 @@ export class QuizComponent implements OnInit {
   getScore() {
     const answeredQuestions: Array<any> = this.form.value.questionsArray;
     const questions: Array<Question> = this.topic.quiz.questions;
-    // console.log('AnsweredQuestions', answeredQuestions)
-    // console.log('Questions', questions)
     let score = 0;
-
     for (let i = 0; i < questions.length; i++) {
       let correct = 0;
       // Loop Fragen
@@ -156,7 +152,7 @@ export class QuizComponent implements OnInit {
         if (questions[i].answers[j].correct == answeredQuestions[i].answersArray[j].answer) {
           correct += 1;
         }
-        if(correct == questions[i].answers.length) {
+        if (correct == questions[i].answers.length) {
           score += questions[i].points;
         }
       }

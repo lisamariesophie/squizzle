@@ -1,4 +1,4 @@
-<div class="card shadow main">
+<div *ngIf="!topic?.quiz.submitted && !preview" class="card shadow main" id="quiz">
     <h1>Quiz</h1>
     <div class="wrap">
         <div class="container-fluid">
@@ -10,16 +10,16 @@
                         <div class="qContainer" *ngFor="let question of topic?.quiz.questions; let i = index"
                             formGroupName="{{i}}">
                             <span class="label" id="qid">Frage {{i+1}}: <span
-                                    class="questionType">{{getQuestionType(question)}}</span></span>
+                                    class="questionType">{{ getQuestionType(question) }}</span></span>
                             <div class="modal-content">
                                 <div class="modal-header row">
                                     <div class="col-9 my-auto">
-                                        {{question?.name}}
+                                        {{ question?.name }}
                                     </div>
                                     <div *ngIf="getQuestionType(question) !='Evaluation'"
                                         class="col-3 points my-auto text-right">
                                         <span class="label ml-auto" id="points-accent">Punkte:
-                                            {{question?.points}}</span>
+                                            {{ question?.points }}</span>
                                     </div>
                                 </div>
                                 <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
@@ -59,7 +59,7 @@
                                     <button *ngIf="question.hint != null && question.hint != '' && !question.hintOpened"
                                         class="btn btn-primary" (click)="showHint(i)">Hinweis (-1 Punkt)</button>
                                     <div *ngIf="question.hintOpened" class="mr-auto"><span id="hint">Hinweis:
-                                        </span>{{question.hint}}</div>
+                                        </span>{{ question.hint }}</div>
                                 </div>
                             </div>
                         </div>
@@ -69,4 +69,74 @@
         </div>
     </div>
     <button class="btn btn-primary" (click)="submitQuiz()">Quiz abgeben <i class="fa fa-check"></i></button>
+</div>
+<!-- ----------------------------------------------------------------------------- -->
+<div *ngIf="topic?.quiz.submitted || preview" class="card shadow main" id="scores">
+    <h1>Quiz Ergebnisse</h1>
+    <div class="wrap">
+        <div class="container-fluid">
+            <section id="generalQuestions">
+                <div class="row">
+                    <div class="col-8 my-auto">
+                        <h6>{{ topic?.name }} </h6>
+                    </div>
+                    <div *ngIf="!preview" class="col-4 my-auto text-right" id="score">Erreichte Punktzahl: {{topic?.quiz.score}}/{{maxScore}}</div>
+                </div>
+                <hr>
+                <div class="qContainer" *ngFor="let question of topic?.quiz.questions; let i = index">
+                    <span class="label" id="qid">Frage {{i+1}}: <span
+                            class="questionType">{{getQuestionType(question)}}</span></span>
+                    <div class="modal-content">
+                        <div class="modal-header row">
+                            <div class="col-9 my-auto">
+                                {{question?.name}}
+                            </div>
+                            <div *ngIf="getQuestionType(question) !='Evaluation'"
+                                class="col-3 points my-auto text-right">
+                                <span class="label ml-auto" id="points-accent">Punkte:
+                                    {{question?.points}}</span>
+                            </div>
+                        </div>
+                        <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
+                            class="modal-body">
+                            <div *ngIf="question.imgUrl != null" class="row mb-3">
+                                <div class="col-12 my-auto text-center">
+                                    <img class="questionImg" [src]="question?.imgUrl">
+                                </div>
+                            </div>
+                            <div class="quiz" id="quiz" data-toggle="buttons">
+                                <label *ngFor="let answer of question.answers; let j = index"
+                                    class="btn btn-lg btn-secondary btn-block">
+                                    {{answer.value}} <span *ngIf="!answer.correct" class="btn-label"><i
+                                            class="fa fa-chevron-right"></i></span><span *ngIf="answer.correct"
+                                        class="btn-label correct"><i class="fa fa-chevron-right"></i></span></label>
+                            </div>
+                        </div>
+                        <div id="evaluation" *ngIf="getQuestionType(question) == 'Evaluation'" class="modal-body">
+                            <div class="quiz" id="quiz" data-toggle="buttons">
+                                <label *ngFor="let answer of question.answers; let i = index"
+                                    class="btn btn-lg btn-secondary btn-block"> {{answer.value }}<span
+                                        class="btn-label"><i class="fa fa-chevron-right"></i></span></label>
+                            </div>
+                        </div>
+                        <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
+                            <div *ngFor="let text of question.gapText; let i = index">
+                                <p *ngIf="text.type == 1">{{ text.value }} </p>
+                            </div>
+                        </div>
+                        <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button *ngIf="question.hint != null && question.hint != '' && !question.hintOpened"
+                                class="btn btn-primary" (click)="showHint(i)">Hinweis (-1 Punkt)</button>
+                            <div *ngIf="question.hintOpened" class="mr-auto"><span id="hint">Hinweis:
+                                </span>{{question.hint}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
 </div>

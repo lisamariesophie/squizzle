@@ -1,1 +1,49 @@
-<p>scores works!</p>
+<div class="card shadow main">
+    <h1>Ergebnisse</h1>
+    <div class="wrap">
+        <div class="row my-2">
+            <div class="col-lg-6 col-12">
+                <h2>Teilnehmer</h2>
+            </div>
+        </div>
+        <table id="users" class="table">
+            <thead class="thead-accent">
+                <tr>
+                    <th scope="col">#</th>
+                    <th class="text-left" scope="col">Email</th>
+                    <th scope="col">Punkte</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td class="text-left">{{ user.user.email }}</td>
+                    <td>{{ user.topic.quiz.score }}</td>
+                    <td class="tbtn"><button class="btn btn-accent" title="Antworten ansehen" (click)="openFormModal(user.uid)"><i
+                                class="fa fa-edit"></i></button></td>
+                </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr class="my-5">
+        <div class="row my-5">
+            <div class="col-12 my-3">
+                <h2>Statistik</h2>
+            </div>
+            <div class="col-12">
+                <div class="chart-wrapper">
+                    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                        [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend" [colors]="chartColors">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

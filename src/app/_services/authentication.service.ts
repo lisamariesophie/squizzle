@@ -8,6 +8,7 @@ import { switchMap, take } from 'rxjs/operators';
 import { TopicsDatabaseService } from './topics-database.service';
 import { Topic } from '../_models/topic.model';
 import { UsersService } from './users.service';
+import { TopicUsersService } from './topicUsers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class AuthenticationService {
     private afs: AngularFirestore,
     private router: Router,
     private topicsService: TopicsDatabaseService,
-    private userService: UsersService
+    private userService: UsersService,
+    private topicUserService: TopicUsersService
   ) {
     // get authState
     this.user = this.afAuth.authState.pipe(
@@ -54,7 +56,6 @@ export class AuthenticationService {
         user = result.user;
         user.topics = [];
         this.setUserData(user, false, true);
-        this.login(email, password);
       }).catch((error) => {
         window.alert(error.message)
       })
@@ -68,24 +69,30 @@ export class AuthenticationService {
       })
   }
 
-  // Sign in with email/password
   login(email, password) {
     let user: User;
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.userService.getUser(result.user.uid).pipe(take(1)).subscribe(singleDoc => {
-          user = singleDoc;
+        this.userService.getUser(result.user.uid).pipe(take(1)).subscribe(res => {
+          user = res;
           //check if User is admin
           if (user.roles.admin == true) {
             this.router.navigate(['/admin']);
           }
           else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
-            this.topicsService.getTopic(this.returnUrl.split('/').pop()).pipe(take(1)).subscribe(singleDoc => {
+            this.topicsService.getTopic(this.returnUrl.split('/').pop()).pipe(take(1)).subscribe(res => {
               let topic: any;
-              topic = singleDoc;
+              topic = res;
               const topicId = this.returnUrl.split('/').pop();
-              // user.topics.push(topic);
               this.topicsService.createUserTopic(user.uid, topicId, topic);
+              let topicUser;
+              this.userService.getUser(user.uid).pipe(take(1)).subscribe(res => {
+                topicUser = {
+                  topicId: topicId,
+                  userId: res.uid
+                }
+                this.topicUserService.createUserTopic(topicUser)
+              });
               this.setUserData(user, false, true)
               this.router.navigateByUrl(this.returnUrl);
             });
@@ -98,6 +105,37 @@ export class AuthenticationService {
         window.alert(error.message)
       })
   }
+
+  // Sign in with email/password
+  // login(email, password) {
+  //   let user: User;
+  //   return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+  //     .then((result) => {
+  //       this.userService.getUser(result.user.uid).pipe(take(1)).subscribe(singleDoc => {
+  //         user = singleDoc;
+  //         //check if User is admin
+  //         if (user.roles.admin == true) {
+  //           this.router.navigate(['/admin']);
+  //         }
+  //         else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
+  //           this.topicsService.getTopic(this.returnUrl.split('/').pop()).pipe(take(1)).subscribe(singleDoc => {
+  //             let topic: any;
+  //             topic = singleDoc;
+  //             const topicId = this.returnUrl.split('/').pop();
+  //             // user.topics.push(topic);
+  //             this.topicsService.createUserTopic(user.uid, topicId, topic);
+  //             this.setUserData(user, false, true)
+  //             this.router.navigateByUrl(this.returnUrl);
+  //           });
+  //         }
+  //         else {
+  //           this.router.navigateByUrl(this.returnUrl);
+  //         }
+  //       })
+  //     }).catch((error) => {
+  //       window.alert(error.message)
+  //     })
+  // }
 
   // Reset Forggot password
   forgotPassword(passwordResetEmail) {
@@ -114,40 +152,15 @@ export class AuthenticationService {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
     let data;
-    // if (isUser && this.returnUrl != '' && this.returnUrl != '/quizzes') {
-      console.log("Redirect acitve")
-      data = {
-        uid: user.uid,
-        email: user.email,
-        roles: {
-          user: isUser,
-          admin: isAdmin
-        },
-        // topics: user.topics
+    data = {
+      uid: user.uid,
+      email: user.email,
+      roles: {
+        user: isUser,
+        admin: isAdmin
       }
-    // }
-    // else if (isUser) {
-    //   console.log("No Redirect")
-    //   data = {
-    //     uid: user.uid,
-    //     email: user.email,
-    //     roles: {
-    //       user: isUser,
-    //       admin: isAdmin
-    //     },
-    //     // topics: []
-    //   }
-    // }
-    // else {
-    //   data = {
-    //     uid: user.uid,
-    //     email: user.email,
-    //     roles: {
-    //       user: isUser,
-    //       admin: isAdmin
-    //     }
-    //   }
-    // }
+
+    }
     return userRef.set(data, { merge: true })
   }
 
