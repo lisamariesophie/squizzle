@@ -28,6 +28,7 @@
     "font-awesome": "^4.7.0",
     "ng2-charts": "^2.4.0",
     "ngx-clipboard": "^13.0.1",
+    "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.0.0",
     "ngx-webstorage": "^5.0.0",
     "rxjs": "~6.5.4",

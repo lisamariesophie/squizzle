@@ -15,7 +15,7 @@ import { Location, CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 // Firebase services + enviorment module
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -33,7 +33,6 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AuthGuard } from './_guards/auth.guard';
 import { LoginGuard } from './_guards/login.guard';
 import { RegisterComponent } from './register/register.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ScoresComponent } from './scores/scores.component';
 
 
@@ -53,7 +52,6 @@ import { ScoresComponent } from './scores/scores.component';
     QuestionSettingsComponent,
     QuizzesComponent,
     RegisterComponent,
-    ForgotPasswordComponent,
     ScoresComponent,
   ],
   imports: [
@@ -75,7 +73,8 @@ import { ScoresComponent } from './scores/scores.component';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-    ChartsModule
+    ChartsModule,
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [NgbActiveModal, Location, AuthenticationService, AuthGuard, LoginGuard],

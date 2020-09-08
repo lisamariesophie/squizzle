@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TopicsService } from 'src/app/_services/topics.service';
 import { Router } from '@angular/router';
 import { Topic } from 'src/app/_models/topic.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateTopicComponent } from './create-topic/create-topic.component';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-topics',
@@ -18,7 +17,7 @@ export class TopicsComponent implements OnInit {
   topics: Topic[];
 
   constructor(
-    private modalService: NgbModal, private topicsService: TopicsDatabaseService, public router: Router, private afAuth: AngularFireAuth) {
+    private modalService: NgbModal, private topicsService: TopicsDatabaseService, public router: Router, private authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -26,7 +25,7 @@ export class TopicsComponent implements OnInit {
   }
 
   getTopics() {
-    this.afAuth.authState.subscribe(user => {
+    this.authService.user.subscribe(user => {
       if(user) {
         const userId = user.uid;
         this.topicsService.getTopics(userId).snapshotChanges().subscribe(response => {
@@ -42,15 +41,15 @@ export class TopicsComponent implements OnInit {
   }
 
   deleteTopic(id: string) {
-    if (confirm('Thema löschen?')) {
+    if (confirm('Thema wirklich löschen?')) {
       this.topicsService.deleteTopic(id);
     }
   }
 
-  openFormModal() {
+  openCreateTopic() {
     const modalRef = this.modalService.open(CreateTopicComponent, { backdrop: 'static' });
     modalRef.result.then((result) => {
-    }).catch((error) => {
+    }).catch(error => {
     });
   }
 

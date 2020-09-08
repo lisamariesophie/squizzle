@@ -22,7 +22,7 @@ export class UsersService {
     return this.userRef.doc(uid).valueChanges();
   }
 
-  getTopicsForUser(uid: string, topicId: string){
+  getUserTopic(uid: string, topicId: string){
     return this.userRef.doc(uid).collection('topics').doc(topicId).valueChanges();
   }
   

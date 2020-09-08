@@ -11,10 +11,13 @@ export class Question {
     name: string;
     answers: Array<Answer>;
     textAnswer?: string;
+    isCorrected?: boolean = false;
+    textAnswerCorrected?: string;
     points?: number;
     hint?: string = "";
     hintOpened?: boolean = false;
     gapText?: Array<any>;
     imgUrl?: string;
     userScore?: number;
+    
 }

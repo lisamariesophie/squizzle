@@ -3,48 +3,56 @@
     <div class="wrap">
         <div class="row my-2">
             <div class="col-lg-6 col-12">
-                <h2>{{ topic?.name }} <button title="Einstellungen" (click)="openSettingsModal(topic.id)"><i
-                            class="fa fa-cog fa-spin-hover"></i></button></h2>
+                <h2 *ngIf="!topic?.live">{{ topic?.name }}
+                    <!-- <button title="Einstellungen" (click)="openSettingsModal(topic.id)"><i
+                            class="fa fa-cog fa-spin-hover"></i></button> -->      
+                </h2>
+                <h2 *ngIf="topic?.live">{{ topic?.name }} <span>(Online)</span></h2>
             </div>
             <div class="col-lg-6 col-12">
                 <div class="input-group">
-                    <input class="form-control" type="text" [value]="quizUrl" #someInputControl />
+                    <input class="form-control" type="text" [value]="quizUrl" #link />
                     <div class="input-group-append">
-                        <button class="btn btn-secondary" title="Quiz Link kopieren" [ngxClipboard]="someInputControl"><i class="fa fa-copy"></i></button>
+                        <button class="btn btn-secondary" title="Quiz Link kopieren"
+                            [ngxClipboard]="link"><i class="fa fa-copy"></i></button>
                     </div>
-                </div>    
+                </div>
             </div>
         </div>
-        <table id="questions" class="table">
-            <thead class="thead-accent">
-                <tr>
-                    <th scope="col">#</th>
-                    <th class="tquestion" scope="col">Fragen</th>
-                    <th scope="col">Punkte ({{getPoints()}})</th>
-                    <th class="tbtn"></th>
-                    <!-- <th class="edit-col" scope="col"><button class="btn btn-accent export" title="Quiz speichern"
-                            (click)="saveToDatabase()"><i class="fa fa-save"></i></button></th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let question of topic?.quiz?.questions; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td class="tquestion">{{ question.name }}</td>
-                    <td>{{ question.points }}</td>
-                    <td class="tbtn"><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
-                                (click)="deleteQuestion(topic, question)"></i></button></td>
-                </tr>
-                <tr>
-                    <th scope="row"></th>
-                    <td></td>
-                    <td></td>
-                    <td class="tbtn"><button class="btn btn-primary" title="Frage hinzufügen"
-                            (click)="openFormModal(topic)"><i class="fa fa-plus"></i></button></td>
-                </tr>
-            </tbody>
-        </table>
+        <hr>
+
+        <div class="table-responsive">
+            <table id="questions" class="table">
+                <thead class="thead-accent">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th class="tquestion" scope="col">Fragen</th>
+                        <th scope="col">Punkte ({{getMaxPoints()}})</th>
+                        <th *ngIf="!topic?.live" class="tbtn"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let question of topic?.quiz?.questions; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td class="align-middle tquestion">{{ question.name }}</td>
+                        <td class="align-middle">{{ question.points }}</td>
+                        <td *ngIf="!topic?.live" class="align-middle tbtn"><button class="btn btn-danger" title="Frage löschen"><i class="fa fa-trash"
+                                    (click)="deleteQuestion(topic, question)"></i></button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td *ngIf="!topic?.live" class="tbtn"><button class="btn btn-primary" title="Frage hinzufügen"
+                                (click)="openFormModal(topic)"><i class="fa fa-plus"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <button *ngIf="!this.topic?.live" class="btn btn-primary" title="Quiz freigeben" (click)="setLive()"><i
-            class="fa fa-globe"></i> Offline</button><button *ngIf="this.topic?.live" class="btn btn-primary"
-        title="Quiz beenden" (click)="setLive()"><i class="fa fa-globe"></i> Online</button>
+    <button *ngIf="!topic?.live" class="btn btn-primary" title="Quiz freigeben" (click)="setLive()"><i
+            class="fa fa-globe"></i> Quiz freigeben</button>
+            
+            <!-- <button *ngIf="topic?.live" class="btn btn-primary"
+        title="Quiz beenden" (click)="setLive()"><i class="fa fa-globe"></i> Online</button> -->
 </div>

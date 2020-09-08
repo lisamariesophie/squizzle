@@ -12,7 +12,6 @@ export class TopicUsersService {
     this.firestore.collection('TopicUsers').add(item);
   }
 
-
   getTopicUsers(topicId: string) {
     return this.topicUsersCollection(topicId); //returns Users for topic
   }

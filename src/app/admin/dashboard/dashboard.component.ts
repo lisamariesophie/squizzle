@@ -4,17 +4,28 @@ import { TopicsService } from 'src/app/_services/topics.service';
 import { Topic } from 'src/app/_models/topic.model';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
 import { Observable } from 'rxjs';
+import { TopicUsersService } from 'src/app/_services/topicUsers.service';
+import { UsersService } from 'src/app/_services/users.service';
+import { TopicUser } from 'src/app/_models/topicUser.model';
+import { take, map } from 'rxjs/operators';
+import { ChartType, ChartOptions } from 'chart.js';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
-  topic: Observable<Topic>;
+  
 
-  constructor(private route: ActivatedRoute, public router: Router) { }
+
+  constructor(protected route: ActivatedRoute, public router: Router, protected topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService) { }
+
+  ngOnInit() {
+   
+  }
 
   showComponent() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -28,4 +39,8 @@ export class DashboardComponent {
       return 'scores';
     }
   }
+
+  
+
+  
 }

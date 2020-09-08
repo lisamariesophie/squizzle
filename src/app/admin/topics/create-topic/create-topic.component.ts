@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Quiz } from 'src/app/_models/quiz.model';
 import { Topic } from 'src/app/_models/topic.model';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TopicsService } from 'src/app/_services/topics.service';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { ToastService } from 'src/app/_services/toast.service';
 
 @Component({
   selector: 'app-create-topic',
@@ -21,10 +20,9 @@ export class CreateTopicComponent implements OnInit {
     name: [],
     subtopics: Array<Topic>(),
   };
-  submitted = false;
 
   constructor(public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder, private topicsService: TopicsDatabaseService, private afAuth: AngularFireAuth) { }
+    private formBuilder: FormBuilder, private topicsService: TopicsDatabaseService, private authService: AuthenticationService, private toast: ToastService) { }
 
   ngOnInit() {
     this.createForm();
@@ -32,15 +30,13 @@ export class CreateTopicComponent implements OnInit {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      topic: ['', Validators.required],
-      subtopic: ''
+      topic: ['', Validators.required]
     });
   }
 
   get formControls() { return this.form.controls; }
 
   public submitForm() {
-    this.submitted = true;
     if (this.form.invalid) {
       return;
     }
@@ -48,26 +44,22 @@ export class CreateTopicComponent implements OnInit {
     this.activeModal.close(this.form.value);
   }
 
-  // private generateID(): string {
-  //   return (
-  //     Number(String(Math.random()).slice(2)) +
-  //     Date.now() +
-  //     Math.round(performance.now())
-  //   ).toString(36);
-  // }
-
   private addTopic() {
-    this.afAuth.authState.subscribe(user => {
-      if(user) {
+    this.authService.user.subscribe(user => {
+      if (user) {
         const topic: Topic = {
           live: false,
           name: this.formControls.topic.value,
           authorUID: user.uid
         };
-        this.topicsService.createTopic(topic);
+        this.topicsService.createTopic(topic).then(res => {
+          this.toast.showSuccess("Thema hinzugefügt")
+        }).catch(err => {
+          this.toast.showError("Frage konnte nicht hinzugefügt werden: " + err);
+        });;
       }
     });
-    
+
   }
 
 }

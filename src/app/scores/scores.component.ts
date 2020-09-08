@@ -1,29 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../_services/users.service';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from '../_models/user';
 import { TopicUsersService } from '../_services/topicUsers.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DashboardComponent } from '../admin/dashboard/dashboard.component';
+import { TopicsDatabaseService } from '../_services/topics-database.service';
+import { AuthenticationService } from '../_services/authentication.service';
+import { Topic } from '../_models/topic.model';
+import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
+import { ChartType, ChartOptions } from 'chart.js';
 import { TopicUser } from '../_models/topicUser.model';
 import { take } from 'rxjs/operators';
-import { ChartType, ChartOptions } from 'chart.js';
-import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { QuizComponent } from '../quiz/quiz.component';
+
+
 
 @Component({
   selector: 'app-scores',
   templateUrl: './scores.component.html',
   styleUrls: ['./scores.component.scss']
 })
-export class ScoresComponent implements OnInit {
-  colors = [];
-  topicUsers: any = [];
+export class ScoresComponent {
+
+  topic: Topic;
   topicId: string;
-  userId: any;
+  topicUsers: any = [];
   users: any[] = [];
   scores: any[] = [];
-  showPieChart: boolean = false;
+  colors = [];
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -32,18 +35,30 @@ export class ScoresComponent implements OnInit {
   public pieChartType: ChartType = 'doughnut';
   public pieChartLegend = true;
   public pieChartPlugins = [];
-  public chartColors: Array<any> = [{backgroundColor: this.colors}];
+  public chartColors: Array<any> = [{ backgroundColor: this.colors }];
+  selectedUserId: string;
+  showQuiz: boolean = false;
 
-  constructor(private topicUserService: TopicUsersService, private userService: UsersService, protected modalService: NgbModal, private route: ActivatedRoute) {
-    this.topicId = this.route.snapshot.paramMap.get('id');
+  constructor(public router: Router, protected topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService, protected modalService: NgbModal, protected route: ActivatedRoute) {
+    this.selectedUserId = ''
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
-  }
-
-  ngOnInit() {
+    this.topicId = this.route.snapshot.paramMap.get('id');
     this.getUsers();
   }
 
+  setSelectedUser(userId: string){
+    this.selectedUserId = userId;
+    this.showQuiz = !this.showQuiz;
+  }
+
+  getTopic() {
+    this.topicsService.getTopic(this.topicId).subscribe(res => {
+      this.topic = res;
+    });
+  }
+
+  // Get all Users for Topic by topicId (get TopicUser Object {userId, topicId})
   getUsers() {
     this.topicUserService.getTopicUsers(this.topicId).snapshotChanges().pipe(take(1)).subscribe(response => {
       this.topicUsers = response.map(document => {
@@ -57,16 +72,19 @@ export class ScoresComponent implements OnInit {
     })
   }
 
+  // Get every single user for Topic (get User Object {uid, email, roles})
   getUser(user: any) {
     this.userService.getUser(user.userId).pipe(take(1)).subscribe(res => {
       const user = res;
-      this.getTopicsForUser(user)
+      this.getUserTopic(user)
     });
   }
 
-  getTopicsForUser(user) {
-    this.userService.getTopicsForUser(user.uid, this.topicId).pipe(take(1)).subscribe(res => {
+  // Get Topic Data by topicId from User 
+  getUserTopic(user: any) {
+    this.userService.getUserTopic(user.uid, this.topicId).pipe(take(1)).subscribe(res => {
       const topic: any = res;
+      this.topic = topic;
       this.users.push({ user: user, topic: topic })
       if (topic.quiz.score != null) {
         this.scores.push(topic.quiz.score);
@@ -74,6 +92,12 @@ export class ScoresComponent implements OnInit {
       }
       this.getScoreOccurence(this.scores);
     });
+  }
+
+  getRandomColor() {
+    const hue = Math.floor(Math.random() * 12) * 30;
+    const randomColor = `hsl(${hue}, 70%, 75%)`;
+    return randomColor;
   }
 
   getScoreOccurence(arr) {
@@ -91,22 +115,6 @@ export class ScoresComponent implements OnInit {
     this.pieChartData = b;
     this.pieChartLabels = a;
     return [a, b];
-  }
-
-
-  getRandomColor() {
-    const hue = Math.floor(Math.random() * 12) * 30;
-    const randomColor = `hsl(${hue}, 70%, 75%)`;
-    return randomColor;
-  }
-
-  openFormModal(user) {
-    const modalRef = this.modalService.open(QuizComponent, { ariaLabelledBy: 'quiz', windowClass: "myCustomModalClass" });
-    modalRef.componentInstance.preview = true;
-    modalRef.componentInstance.user = user;
-    modalRef.result.then((result) => {
-    }).catch((error) => {
-    });
   }
 }
 

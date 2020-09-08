@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionCreateComponent } from '../question-create/question-create.component';
 import { Topic } from 'src/app/_models/topic.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionSettingsComponent } from '../question-settings/question-settings.component';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
 import { ToastService } from 'src/app/_services/toast.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { TopicUsersService } from 'src/app/_services/topicUsers.service';
+import { UsersService } from 'src/app/_services/users.service';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-question-list',
@@ -19,8 +24,8 @@ export class QuestionListComponent implements OnInit {
   topicId: string;
   quizUrl: string;
 
-  constructor(private route: ActivatedRoute,
-    private afAuth: AngularFireAuth, private topicsDatabase: TopicsDatabaseService, protected modalService: NgbModal, private toastr: ToastService) { }
+  constructor(protected route: ActivatedRoute, public router: Router, protected topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService, protected modalService: NgbModal, private storage: AngularFireStorage) {
+  }
 
   ngOnInit(): void {
     this.topicId = this.route.snapshot.paramMap.get('id');
@@ -29,42 +34,45 @@ export class QuestionListComponent implements OnInit {
   }
 
   getTopic() {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.topicsDatabase.getTopic(this.topicId).subscribe(singleDoc => {
-          this.topic = singleDoc;
-        });
-      }
+    this.topicsService.getTopic(this.topicId).subscribe(res => {
+      this.topic = res;
     });
   }
 
   deleteQuestion(topic, question) {
-    if (confirm('Frage löschen?'))
+    if (confirm('Frage löschen?')) {
+      if (question.imgUrl != null) {
+        this.deleteImgFromStorage(question.imgUrl);
+      }
       for (let i = 0; i < topic.quiz.questions.length; i++) {
         if (topic.quiz.questions[i].id === question.id) {
           topic.quiz.questions.splice(i, 1);
         }
-        this.afAuth.authState.subscribe(user => {
+        this.authService.user.subscribe(user => {
           if (user) {
             const userId = user.uid;
-            this.topicsDatabase.updateTopic(userId, this.topicId, this.topic);
+            this.topicsService.updateTopic(userId, this.topicId, this.topic);
           }
         });
       }
+    }
   }
 
+  deleteImgFromStorage(imgUrl: string) {
+    return this.storage.storage.refFromURL(imgUrl).delete();
+  }
 
   setLive() {
     this.topic.live = !this.topic.live;
-    this.afAuth.authState.subscribe(user => {
+    this.authService.user.subscribe(user => {
       if (user) {
         const userId = user.uid;
-        this.topicsDatabase.updateTopic(userId, this.topicId, this.topic);
+        this.topicsService.updateTopic(userId, this.topicId, this.topic);
       }
     });
   }
 
-  getPoints() {
+  getMaxPoints() {
     let points = 0;
     if (this.topic == null) {
       return 0;

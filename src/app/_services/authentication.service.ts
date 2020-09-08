@@ -55,19 +55,20 @@ export class AuthenticationService {
         // this.sendVerificationMail();
         user = result.user;
         user.topics = [];
-        this.setUserData(user, false, true);
+        this.setUserData(user, false, true)
+        this.login(email, password);
       }).catch((error) => {
         window.alert(error.message)
       })
   }
 
   // Send email verfificaiton when new user sign up
-  sendVerificationMail() {
-    return this.afAuth.auth.currentUser.sendEmailVerification()
-      .then(() => {
-        this.router.navigate(['verify-email-address']);
-      })
-  }
+  // sendVerificationMail() {
+  //   return this.afAuth.auth.currentUser.sendEmailVerification()
+  //     .then(() => {
+  //       this.router.navigate(['verify-email-address']);
+  //     })
+  // }
 
   login(email, password) {
     let user: User;
@@ -76,26 +77,13 @@ export class AuthenticationService {
         this.userService.getUser(result.user.uid).pipe(take(1)).subscribe(res => {
           user = res;
           //check if User is admin
-          if (user.roles.admin == true) {
+          if (user.roles != null && user.roles.admin == true) {
             this.router.navigate(['/admin']);
           }
           else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
-            this.topicsService.getTopic(this.returnUrl.split('/').pop()).pipe(take(1)).subscribe(res => {
-              let topic: any;
-              topic = res;
-              const topicId = this.returnUrl.split('/').pop();
-              this.topicsService.createUserTopic(user.uid, topicId, topic);
-              let topicUser;
-              this.userService.getUser(user.uid).pipe(take(1)).subscribe(res => {
-                topicUser = {
-                  topicId: topicId,
-                  userId: res.uid
-                }
-                this.topicUserService.createUserTopic(topicUser)
-              });
-              this.setUserData(user, false, true)
-              this.router.navigateByUrl(this.returnUrl);
-            });
+            this.checkAddTopic(user);
+            this.setUserData(user, false, true)
+            this.router.navigateByUrl(this.returnUrl);
           }
           else {
             this.router.navigateByUrl(this.returnUrl);
@@ -106,38 +94,26 @@ export class AuthenticationService {
       })
   }
 
-  // Sign in with email/password
-  // login(email, password) {
-  //   let user: User;
-  //   return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-  //     .then((result) => {
-  //       this.userService.getUser(result.user.uid).pipe(take(1)).subscribe(singleDoc => {
-  //         user = singleDoc;
-  //         //check if User is admin
-  //         if (user.roles.admin == true) {
-  //           this.router.navigate(['/admin']);
-  //         }
-  //         else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
-  //           this.topicsService.getTopic(this.returnUrl.split('/').pop()).pipe(take(1)).subscribe(singleDoc => {
-  //             let topic: any;
-  //             topic = singleDoc;
-  //             const topicId = this.returnUrl.split('/').pop();
-  //             // user.topics.push(topic);
-  //             this.topicsService.createUserTopic(user.uid, topicId, topic);
-  //             this.setUserData(user, false, true)
-  //             this.router.navigateByUrl(this.returnUrl);
-  //           });
-  //         }
-  //         else {
-  //           this.router.navigateByUrl(this.returnUrl);
-  //         }
-  //       })
-  //     }).catch((error) => {
-  //       window.alert(error.message)
-  //     })
-  // }
+  checkAddTopic(user: any) {
+    const topicId = this.returnUrl.split('/').pop();
+    this.topicsService.getTopic(topicId).pipe(take(1)).subscribe(res => {
+      let topic: any;
+      topic = res;
+      if (topic.live) {
+        this.topicsService.createUserTopic(user.uid, topicId, topic);
+        let topicUser;
+        this.userService.getUser(user.uid).pipe(take(1)).subscribe(res => {
+          topicUser = {
+            topicId: topicId,
+            userId: res.uid
+          }
+          this.topicUserService.createUserTopic(topicUser)
+        });
+      }
+    });
+  }
 
-  // Reset Forggot password
+  // Reset Forgot password
   forgotPassword(passwordResetEmail) {
     return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
@@ -159,14 +135,8 @@ export class AuthenticationService {
         user: isUser,
         admin: isAdmin
       }
-
     }
     return userRef.set(data, { merge: true })
-  }
-
-  canRead(user: User): boolean {
-    const allowed = ['admin', 'user']
-    return this.checkAuthorization(user, allowed)
   }
 
   isAdmin(user: any): boolean {

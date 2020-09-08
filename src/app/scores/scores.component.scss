@@ -11,15 +11,27 @@ thead {
 }
 
 .tbtn {
-    width: 100px;
+    max-width: 70px !important;
+    text-align: center !important;
+}
+
+.tsmall {
+    max-width: 150px;
 }
 
 .chart-wrapper {
-    width: 60% !important;
+    width: 100% !important;
+    max-width: 600px;
     margin: 0 auto;
 }
 
 hr {
     border-top: 1px solid $secondary !important;
     margin-bottom: 40px !important;
+}
+
+.card {
+    &:hover {
+        transform: 0 !important;
+    }
 }

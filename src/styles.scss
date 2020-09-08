@@ -11,7 +11,8 @@ html {
 body {
     font-family: "Open Sans", sans-serif;
     background-color: $light !important;
-    color: $font;
+    color: $secondary;
+    font-size: 14px;
 }
 
 .side-nav {
@@ -26,6 +27,8 @@ body {
     border: none !important;
     transition: all 0.2s ease-in-out;
     color: $white !important;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .btn-primary {
@@ -118,7 +121,7 @@ section {
     max-width: 1400px !important;
     width: 80%;
     h1 {
-        font-size: 32px !important;
+        font-size: 28px !important;
         margin-bottom: 20px;
         font-family: "Montserrat", sans-serif;
         color: $white;
@@ -129,9 +132,9 @@ section {
 
     h2 {
         font-family: "Montserrat", sans-serif;
-        font-size: 32px;
-        font-weight: 600;
-        margin-bottom: 25px;
+        font-size: 32px !important;
+        font-weight: 600 !important;
+        margin-bottom: 0px !important;
         color: $secondary;
 
         button {
@@ -142,19 +145,24 @@ section {
                 color: $secondary;
             }
         }
+
+        span {
+            font-size: 22px;
+            color: $accent !important;
+        }
     }
 
     h3 {
         font-family: "Montserrat", sans-serif;
-        font-size: 26px;
-        margin: 40px 0 20px 0;
+        font-size: 22px;
+        margin: 2% 0 1% 0;
         color: $secondary;
 
         button {
             border: none !important;
             background-color: transparent;
             i {
-                font-size: 20px;
+                font-size: 18px;
                 color: $secondary;
             }
         }
@@ -162,29 +170,21 @@ section {
 
     h4 {
         font-family: "Montserrat", sans-serif;
-        font-size: 22px !important;
+        font-size: 22px;
         color: $white;
         margin: 0 !important;
     }
 
     h5 {
-        font-size: 30px;
+        font-size: 22px;
         margin: 40px 0 20px 0;
         color: $dark;
         text-align: center;
     }
 
-    h6 {
-        font-family: "Montserrat", sans-serif;
-        color: $secondary;
-        font-size: 34px !important;
-        font-weight: 600 !important;
-        text-align: left;
-    }
-
     hr {
-        border-top: 1px solid $grey !important;
-        margin-bottom: 40px !important;
+        border-top: 1px solid $primary !important;
+        margin-bottom: 2% !important;
     }
 
     a {
@@ -196,9 +196,10 @@ section {
         }
     }
 
-    hr {
-        border-top: 1px solid $primary !important;
-        margin-bottom: 20px !important ;
+    .text-question {
+        border: 1px solid $grey !important;
+        margin: 20px;
+        padding: 15px;
     }
 
     .table {
@@ -208,7 +209,7 @@ section {
 
         .btn {
             float: right;
-            width: 70px;
+            width: 100%;
             margin: 0 10px;
         }
 
@@ -231,6 +232,8 @@ section {
 .card {
     border-radius: 0 !important;
     border: 0 !important;
+    overflow: hidden;
+
     .card-img {
         border-radius: 0 !important;
     }
@@ -274,13 +277,15 @@ section {
 
 //Form
 label {
-    font-size: 18px;
+    color: $secondary;
+    font-size: 16px ;
 }
 
 input,
 textarea {
     border-radius: 0 !important;
     margin-bottom: 20px;
+    font-size: 15px !important;
 }
 
 select {

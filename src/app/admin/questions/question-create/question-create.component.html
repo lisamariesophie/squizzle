@@ -8,11 +8,11 @@
         <div class="wrap">
             <div class="form-group">
                 <label for="name">Frageart</label>
-                <select id="type" name="type" class="form-control" formControlName="type" (change)="setAnswers($event)">
+                <select id="type" name="type" class="form-control" formControlName="type" (change)="setForm($event)">
                     <option value="1">Multiple Choice</option>
                     <option value="2">Wahr/Falsch Frage</option>
                     <option value="3">Skala Frage / Meinungsabfrage</option>
-                    <option value="4">Bild Frage</option>
+                    <!-- <option value="4">Bild Frage</option> -->
                     <option value="5">Freitext</option>
                     <option value="6">Lückentext</option>
 
@@ -21,11 +21,20 @@
             <!-- Multiple Choice -->
             <div id="option1" *ngIf="selectedType == 1">
                 <div class="form-group">
-                    <label for="name">Frage*</label>
+                    <label for="name">Frage</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
+                <div *ngIf="imgSrc" class="row mb-3">
+                    <div class="col-12 my-auto text-center">
+                        <img class="questionImg" [src]="imgSrc">
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="answer">Datei hinzufügen (optional)</label>
+                    <input class="form-control" type="file" formControlName="imgUrl" accept="audio/*|image/*" (change)="showImgPrev($event)"/>
+                </div>
                 <div class="form-group">
-                    <label for="answer">Antworten* (Korrekte Antworten ankreuzen)</label>
+                    <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>
                     <div class="answerList" *ngFor="let answer of answers; let i = index">
                         <label>
                             <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
@@ -42,8 +51,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte*</label>
-                    <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
+                    <label for="points">Punkte</label>
+                    <input type="number" class="form-control" formControlName="points" placeholder="Punkte" />
                 </div>
                 <div class="form-group">
                     <label for="hint">Hinweis (optional)</label>
@@ -53,11 +62,11 @@
             <!-- Wahr-Falsch Frage -->
             <div id="option2" *ngIf="selectedType == 2">
                 <div class="form-group">
-                    <label for="name">Frage*</label>
+                    <label for="name">Frage</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
                 <div class="form-group">
-                    <label for="answer">Antworten* (Korrekte Antworten ankreuzen)</label>
+                    <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>
                     <div class="answerList" *ngFor="let answer of answers; let i = index">
                         <label>
                             <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
@@ -66,79 +75,45 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte*</label>
+                    <label for="points">Punkte</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
                 <div class="form-group">
                     <label for="hint">Hinweis (optional)</label>
                     <input type="text" class="form-control" formControlName="hint" placeholder="Hinweis hinzufügen" />
-
                 </div>
             </div>
             <!-- Skala Frage -->
             <div id="option3" *ngIf="selectedType == 3">
                 <div class="form-group">
-                    <label for="name">Frage/Aussage*</label>
+                    <label for="name">Frage/Aussage</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
-                </div>
-            </div>
-            <!-- Bild Frage -->
-            <div id="option4" *ngIf="selectedType == 4">
-                <div class="row mb-3">
-                    <div class="col-12 my-auto text-center">
-                        <img class="questionImg" [src]="imgSrc">
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="answer">Bild wählen</label>
-                    <input class="form-control" type="file" formControlName="imgUrl" accept="image/*" (change)="showImgPrev($event)"/>
-                </div>
-                <div class="form-group">
-                    <label for="name">Frage*</label>
-                    <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
-                </div>
-                <div class="form-group">
-                    <label for="answer">Antworten* (Korrekte Antworten ankreuzen)</label>
-                    <div class="answerList" *ngFor="let answer of answers; let i = index">
-                        <label>
-                            <input type="checkbox" [value]="answer" (change)="onCheckboxChange($event)" />
-                            <span> {{ toLetters(i+1) }}</span> {{ answer }}
-                        </label>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" formControlName="addAnswer"
-                            placeholder="Antwort hinzufügen">
-                        <div class="input-group-append">
-                            <button type="button" class="input-group-btn btn btn-secondary" (click)="addAnswer()"><i
-                                    class="fa fa-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="points">Punkte*</label>
-                    <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
             </div>
             <!-- Freitext -->
             <div id="option5" *ngIf="selectedType == 5">
                 <div class="form-group">
-                    <label for="name">Frage*</label>
+                    <label for="name">Frage</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Frage hinzufügen" />
                 </div>
-                <!-- <div class="form-group">
-                    <label for="addAnswer">Beispielantwort</label>
+                <div class="form-group">
+                    <label for="addAnswer">Beispielantwort (optional)</label>
                     <textarea name="addAnswer" class="form-control" rows="10" placeholder="Beispielantwort hinzufügen"
                         formControlName="addAnswer"></textarea>
-                </div> -->
+                </div>
                 <div class="form-group">
-                    <label for="points">Punkte*</label>
+                    <label for="points">Punkte</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
+                </div>
+                <div class="form-group">
+                    <label for="hint">Hinweis (optional)</label>
+                    <input type="text" class="form-control" formControlName="hint" placeholder="Hinweis hinzufügen" />
                 </div>
             </div>
             <!-- Lückentext -->
             <div id="option6" *ngIf="selectedType == 6">
                 <div class="form-group">
-                    <label for="name">Titel*</label>
+                    <label for="name">Titel</label>
                     <input type="text" class="form-control" formControlName="name" placeholder="Titel hinzufügen" />
                 </div>
                 <div class="form-group">
@@ -166,17 +141,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="points">Punkte*</label>
+                    <label for="points">Punkte</label>
                     <input type="number" class="form-control" formControlName="points" placeholder="Wert von 1 - 5" />
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" (click)="newQuestion()">
+        <!-- <button class="btn btn-secondary" type="button" (click)="createQuestion()">
             Weitere Frage
-        </button>
-        <button class="btn btn-primary" type="submit">
+        </button> -->
+        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">
             <i class="fa fa-check"></i>
         </button>
     </div>

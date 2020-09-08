@@ -94,6 +94,11 @@ label.btn-block {
     }
 }
 
+
+.hintOpened {
+    color: $accent !important
+}
+
 .questionType {
     font-weight: 300;
 }
@@ -141,4 +146,17 @@ input[type="radio"] {
     font-size: 20px;
     font-weight: bold;
     font-family: "Montserrat", sans-serif;
+}
+
+#textQuestion {
+    font-size: 18px;
+    span {
+        color: $primary;
+        font-weight: 600;
+    }
+}
+
+#freeText {
+    padding: 0 20px !important;
+
 }
