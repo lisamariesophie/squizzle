@@ -1,23 +1,6 @@
-@import "../../assets/master";
+@import "../../../assets/master";
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-thead {
-    background-color: $secondary;
-    color: $white;
-}
-
-.tquestion {
-    text-align: left !important;
-}
-
-.tbtn {
-    max-width: 70px !important;
-    text-align: center !important;
-}
-
-.tsmall {
-    max-width: 150px;
-}
 
 .chart-wrapper {
     width: 100% !important;

@@ -6,17 +6,19 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class TopicUsersService {
 
-  constructor(private firestore: AngularFirestore ) { }
-
-  createUserTopic(item: any) {
-    this.firestore.collection('TopicUsers').add(item);
-  }
-
-  getTopicUsers(topicId: string) {
-    return this.topicUsersCollection(topicId); //returns Users for topic
-  }
+  constructor(private firestore: AngularFirestore) { }
 
   topicUsersCollection(topicId: string) {
     return this.firestore.collection('TopicUsers', ref => ref.where("topicId", '==', topicId))
+  }
+
+  //create a TopicUser Object ({topicId, userId})
+  createTopicUser(topicUser: any) {
+    this.firestore.collection('TopicUsers').add(topicUser);
+  }
+  
+  //returns Users of a Topic by topicId
+  getTopicUsers(topicId: string) {
+    return this.topicUsersCollection(topicId);
   }
 }

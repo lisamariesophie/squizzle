@@ -15,9 +15,7 @@ export class RegisterComponent implements OnInit {
   
   public register(email: string, password: string, confirm: string) {
     if(password == confirm){
-      this.authService.register(email, password).then(user => {
-        console.log(user);
-      });
+      this.authService.register(email, password);
     }
   }
 }

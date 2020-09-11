@@ -1,4 +1,4 @@
-@import "../../assets/master";
+@import "../../../assets/master";
 @import "~bootstrap/dist/css/bootstrap.min.css";
 #qid {
     padding: 5px 10px;
@@ -11,6 +11,11 @@
 
 .points {
     padding: 0;
+}
+
+.question {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
 }
 
 #points-accent {
@@ -157,6 +162,6 @@ input[type="radio"] {
 }
 
 #freeText {
-    padding: 0 20px !important;
+    padding: 20px 20px !important;
 
 }

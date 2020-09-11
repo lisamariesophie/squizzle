@@ -1,4 +1,4 @@
-<div *ngIf="!topic?.quiz?.submitted && !preview && !review" class="card shadow" id="quiz">
+<div *ngIf="!topic?.quiz?.isSubmitted && !preview && !review" class="card shadow" id="quiz">
     <h1>Quiz</h1>
     <div class="wrap">
         <div class="container-fluid">
@@ -7,13 +7,13 @@
                     <h2>{{ topic?.name }}</h2>
                     <hr>
                     <div formArrayName="questionsArray">
-                        <div class="qContainer" *ngFor="let question of topic?.quiz.questions; let i = index"
+                        <div class="qContainer" *ngFor="let question of topic?.quiz?.questions; let i = index"
                             formGroupName="{{i}}">
                             <span class="label" id="qid">Frage {{i+1}}: <span
                                     class="questionType">{{ getQuestionType(question) }}</span></span>
                             <div class="modal-content">
                                 <div class="modal-header row">
-                                    <div class="col-9 my-auto">
+                                    <div class="question col-9 my-auto">
                                         {{ question?.name }}
                                     </div>
                                     <div *ngIf="getQuestionType(question) !='Evaluation'"
@@ -23,7 +23,7 @@
                                     </div>
                                 </div>
                                 <div id="multipleChoice"
-                                    *ngIf="getQuestionType(question) == 'Multiple Choice' || getQuestionType(question) == 'Evaluation'"
+                                *ngIf="getQuestionType(question) == 'Multiple Choice' || getQuestionType(question) == 'Evaluation'|| getQuestionType(question) == 'Lückentext'"
                                     class="modal-body">
                                     <div *ngIf="question.imgUrl != null" class="row mb-3">
                                         <div class="col-12 my-auto text-center">
@@ -38,11 +38,11 @@
                                                     class="fa fa-chevron-right"></i></span></label>
                                     </div>
                                 </div>
-                                <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
+                                <!-- <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
                                     <div *ngFor="let text of question.gapText; let i = index">
                                         <p *ngIf="text.type == 1">{{ text.value }} </p>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
                                     <textarea name="freeTextAnswer" formControlName="textAnswer" id="textAnswer"
                                         class="form-control" rows="6"></textarea>
@@ -63,7 +63,7 @@
     <button class="btn btn-primary" (click)="submitQuiz()">Quiz abgeben <i class="fa fa-check"></i></button>
 </div>
 <!-- ----------------------------------------------------------------------------- -->
-<div *ngIf="(topic?.quiz.submitted || preview) && ! review" class="card shadow main" id="scores">
+<div *ngIf="(topic?.quiz?.isSubmitted || preview) && ! review" class="card shadow main" id="scores">
     <h1 *ngIf="!preview">Quiz Ergebnisse</h1>
     <h1 *ngIf="preview">Quiz Vorschau</h1>
     <div class="wrap">
@@ -79,12 +79,12 @@
                 <hr>
                 <div *ngIf="topic?.quiz == null || topic?.quiz.questions.length == 0">Noch keine Fragen hinzugefügt!
                 </div>
-                <div class="qContainer" *ngFor="let question of topic?.quiz.questions; let i = index">
+                <div class="qContainer" *ngFor="let question of topic?.quiz?.questions; let i = index">
                     <span class="label" id="qid">Frage {{i+1}}: <span
                             class="questionType">{{getQuestionType(question)}}</span></span>
                     <div class="modal-content">
                         <div class="modal-header row">
-                            <div class="col-9 my-auto">
+                            <div class="question col-9 my-auto">
                                 {{question?.name}}
                             </div>
                             <div *ngIf="getQuestionType(question) !='Evaluation'"
@@ -93,7 +93,7 @@
                                     {{question?.userScore}}/{{question?.points}}</span>
                             </div>
                         </div>
-                        <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice'"
+                        <div id="multipleChoice" *ngIf="getQuestionType(question) == 'Multiple Choice' || getQuestionType(question) == 'Evaluation'|| getQuestionType(question) == 'Lückentext'"
                             class="modal-body">
                             <div *ngIf="question.imgUrl != null" class="row mb-3">
                                 <div class="col-12 my-auto text-center">
@@ -111,11 +111,11 @@
                                 </label>
                             </div>
                         </div>
-                        <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
+                        <!-- <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
                             <div *ngFor="let text of question.gapText; let i = index">
                                 <p *ngIf="text.type == 1">{{ text.value }} </p>
                             </div>
-                        </div>
+                        </div> -->
                         <div id="textQuestion" *ngIf="getQuestionType(question) == 'Freitext'" class="modal-body">
                             <div *ngIf="!preview" class="row">
                                 <div class="col-12">
@@ -137,7 +137,7 @@
     </div>
 </div>
 <!-- ----------------------------------------------------------------------------- -->
-<div *ngIf="review && !preview" style="width: 80%; margin: 0 auto;">
+<div *ngIf="review && !preview" style="width: 90%; margin: 0 auto;">
     <div class="wrap">
         <div class="container-fluid">
             <form [formGroup]="form">
@@ -145,13 +145,13 @@
                     <h2>{{ topic?.name }}</h2>
                     <hr>
                     <div formArrayName="questionsArray">
-                        <div class="qContainer" *ngFor="let question of topic?.quiz.questions; let i = index"
+                        <div class="qContainer" *ngFor="let question of topic?.quiz?.questions; let i = index"
                             formGroupName="{{i}}">
                             <span class="label" id="qid">Frage {{i+1}}: <span
                                     class="questionType">{{ getQuestionType(question) }}</span></span>
                             <div class="modal-content">
                                 <div class="modal-header row">
-                                    <div class="col-9 my-auto">
+                                    <div class="question col-9 my-auto">
                                         {{ question?.name }}
                                     </div>
                                     <div *ngIf="getQuestionType(question) !='Evaluation'"
@@ -161,7 +161,7 @@
                                     </div>
                                 </div>
                                 <div id="multipleChoice"
-                                    *ngIf="getQuestionType(question) == 'Multiple Choice' || getQuestionType(question) == 'Evaluation'"
+                                    *ngIf="getQuestionType(question) == 'Multiple Choice' || getQuestionType(question) == 'Evaluation'|| getQuestionType(question) == 'Lückentext'"
                                     class="modal-body">
                                     <div *ngIf="question.imgUrl != null" class="row mb-3">
                                         <div class="col-12 my-auto text-center">
@@ -178,21 +178,27 @@
                                                 class="btn-label correct"><i class="fa fa-check"></i></span></label>
                                     </div>
                                 </div>
-                                <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
-                                    <div *ngFor="let text of question.gapText; let i = index">
-                                        <p *ngIf="text.type == 1">{{ text.value }} </p>
+                                <!-- <div id="gapText" *ngIf="getQuestionType(question) == 'Lückentext'" class="modal-body">
+                                    <div formArrayName="answersArray" class="quiz" id="quiz" data-toggle="buttons">
+                                        <label *ngFor="let answer of question.answers; let j = index"
+                                            formGroupName="{{j}}" class="btn btn-lg btn-secondary btn-block">
+                                            {{answer.value}} <span *ngIf="!answer.correct" class="btn-label"><i
+                                                    class="fa fa-chevron-right"></i></span><span *ngIf="answer.checked"
+                                                class="btn-label checked"><i
+                                                    class="fa fa-chevron-right"></i></span><span *ngIf="answer.correct"
+                                                class="btn-label correct"><i class="fa fa-check"></i></span></label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div id="freeText" *ngIf="getQuestionType(question) == 'Freitext'">
-                                    <h4>Antwort korrigieren</h4>
                                     <textarea name="freeTextAnswer" formControlName="textAnswerCorrected"
-                                        id="textAnswer" class="form-control my-3" rows="5" placeholder="Antwort korrigieren"></textarea>
+                                        id="textAnswer" class="form-control my-3" rows="5"
+                                        placeholder="Antwort korrigieren"></textarea>
                                     <div class="input-group mb-3">
                                         <input type="number" class="form-control" formControlName="userScore"
                                             placeholder="Punkte vergeben">
                                     </div>
-                                    <button type="button"
-                                        class="btn btn-primary" (click)="updateScore(question.id)">Korrigieren</button>
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="updateScore(question.id)">Korrigieren</button>
                                 </div>
                                 <div class="modal-footer">
                                     <p class="hintOpened mr-auto" *ngIf="question?.hintOpened">Hinweis wurde verwendet

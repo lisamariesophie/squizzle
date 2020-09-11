@@ -9,6 +9,7 @@ import { TopicsDatabaseService } from './topics-database.service';
 import { Topic } from '../_models/topic.model';
 import { UsersService } from './users.service';
 import { TopicUsersService } from './topicUsers.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,10 @@ export class AuthenticationService {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
-    private topicsService: TopicsDatabaseService,
     private userService: UsersService,
-    private topicUserService: TopicUsersService
+    private toast: ToastService
   ) {
-    // get authState
+    // get currentUser
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -47,28 +47,23 @@ export class AuthenticationService {
     });
   }
 
+  isAdmin(user: any): boolean {
+    const allowed = ['admin']
+    return this.checkAuthorization(user, allowed)
+  }
+
   // Sign up with email/password
   register(email, password) {
     let user: any;
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        // this.sendVerificationMail();
         user = result.user;
-        user.topics = [];
         this.setUserData(user, false, true)
         this.login(email, password);
       }).catch((error) => {
-        window.alert(error.message)
+        this.toast.showError(error.message);
       })
   }
-
-  // Send email verfificaiton when new user sign up
-  // sendVerificationMail() {
-  //   return this.afAuth.auth.currentUser.sendEmailVerification()
-  //     .then(() => {
-  //       this.router.navigate(['verify-email-address']);
-  //     })
-  // }
 
   login(email, password) {
     let user: User;
@@ -80,8 +75,7 @@ export class AuthenticationService {
           if (user.roles != null && user.roles.admin == true) {
             this.router.navigate(['/admin']);
           }
-          else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
-            this.checkAddTopic(user);
+          else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {  //
             this.setUserData(user, false, true)
             this.router.navigateByUrl(this.returnUrl);
           }
@@ -90,37 +84,13 @@ export class AuthenticationService {
           }
         })
       }).catch((error) => {
-        window.alert(error.message)
+        this.toast.showError(error.message);
       })
   }
 
-  checkAddTopic(user: any) {
-    const topicId = this.returnUrl.split('/').pop();
-    this.topicsService.getTopic(topicId).pipe(take(1)).subscribe(res => {
-      let topic: any;
-      topic = res;
-      if (topic.live) {
-        this.topicsService.createUserTopic(user.uid, topicId, topic);
-        let topicUser;
-        this.userService.getUser(user.uid).pipe(take(1)).subscribe(res => {
-          topicUser = {
-            topicId: topicId,
-            userId: res.uid
-          }
-          this.topicUserService.createUserTopic(topicUser)
-        });
-      }
-    });
-  }
-
-  // Reset Forgot password
-  forgotPassword(passwordResetEmail) {
-    return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
-      }).catch((error) => {
-        window.alert(error)
-      })
+  async logout() {
+    await this.afAuth.auth.signOut();
+    this.router.navigate(['/']);
   }
 
   // Set user in firestore
@@ -139,11 +109,6 @@ export class AuthenticationService {
     return userRef.set(data, { merge: true })
   }
 
-  isAdmin(user: any): boolean {
-    const allowed = ['admin']
-    return this.checkAuthorization(user, allowed)
-  }
-
   // determines if user has matching role
   private checkAuthorization(user: User, allowedRoles: string[]): boolean {
     if (!user) return false
@@ -153,10 +118,5 @@ export class AuthenticationService {
       }
     }
     return false;
-  }
-
-  async logout() {
-    await this.afAuth.auth.signOut();
-    this.router.navigate(['/']);
   }
 }

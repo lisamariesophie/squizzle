@@ -2,7 +2,8 @@ import { Question } from './question.model';
 
 export class Quiz {
     // settings: Settings; 
-    submitted: boolean = false;
-    questions: Question[];
+    isCorrected?: boolean = false;
+    isSubmitted: boolean = false;
     score?: number;
+    questions: Question[];
 }

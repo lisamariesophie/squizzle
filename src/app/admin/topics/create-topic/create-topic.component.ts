@@ -55,7 +55,7 @@ export class CreateTopicComponent implements OnInit {
         this.topicsService.createTopic(topic).then(res => {
           this.toast.showSuccess("Thema hinzugefügt")
         }).catch(err => {
-          this.toast.showError("Frage konnte nicht hinzugefügt werden: " + err);
+          this.toast.showError("Thema konnte nicht hinzugefügt werden: " + err);
         });;
       }
     });

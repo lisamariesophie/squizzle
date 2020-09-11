@@ -15,6 +15,7 @@
                         <th class="text-left" scope="col">Email</th>
                         <th class="tsmall" scope="col">Punkte</th>
                         <th class="tsmall" scope="col">Abgegeben</th>
+                        <th class="tsmall" scope="col">Bewertet</th>
                         <th class="tbtn"></th>
                     </tr>
                 </thead>
@@ -23,9 +24,11 @@
                         <th scope="row">{{ i + 1 }}</th>
                         <td class="align-middle text-left">{{ user.user.email }}</td>
                         <td class="align-middle">{{ user.topic.quiz.score }}</td>
-                        <td class="align-middle"*ngIf="user.topic.quiz.submitted"><i class="fa fa-check"></i></td>
-                        <td class="align-middle"*ngIf="!user.topic.quiz.submitted"><i class="fa fa-times"></i></td>
-                        <td class="align-middle tbtn text-center"><button class="btn btn-primary" title="Antworten ansehen"
+                        <td class="align-middle"*ngIf="user.topic.quiz.isSubmitted"><i class="fa fa-check"></i></td>
+                        <td class="align-middle"*ngIf="!user.topic.quiz.isSubmitted"><i class="fa fa-times"></i></td>
+                        <td class="align-middle"*ngIf="user.topic.quiz.isCorrected"><i class="fa fa-check"></i></td>
+                        <td class="align-middle"*ngIf="!user.topic.quiz.isCorrected"><i class="fa fa-times"></i></td>
+                        <td class="align-middle tbtn text-center"><button class="btn btn-primary" title="Quiz korrigieren"
                                 (click)="setSelectedUser(user.user.uid)"><i class="fa fa-edit"></i></button></td>
                     </tr>
                     <tr>
@@ -39,7 +42,7 @@
             </table>
         </div>
         <app-quiz *ngIf="showQuiz" [userId]="selectedUserId"></app-quiz>
-        <div *ngIf="!showQuiz" class="row my-3">
+        <div *ngIf="!showQuiz && scores.length > 0" class="row my-3">
             <div class="col-12 my-3">
                 <h2>Statistik</h2>
                 <hr>

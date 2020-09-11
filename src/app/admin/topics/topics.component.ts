@@ -26,7 +26,7 @@ export class TopicsComponent implements OnInit {
 
   getTopics() {
     this.authService.user.subscribe(user => {
-      if(user) {
+      if (user) {
         const userId = user.uid;
         this.topicsService.getTopics(userId).snapshotChanges().subscribe(response => {
           this.topics = response.map(document => {
@@ -36,12 +36,12 @@ export class TopicsComponent implements OnInit {
             } as Topic;
           })
         })
-      } 
+      }
     });
   }
 
   deleteTopic(id: string) {
-    if (confirm('Thema wirklich löschen?')) {
+    if (confirm('Quiz wirklich löschen?')) {
       this.topicsService.deleteTopic(id);
     }
   }

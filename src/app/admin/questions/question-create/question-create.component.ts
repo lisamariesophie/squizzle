@@ -22,7 +22,7 @@ export class QuestionCreateComponent implements OnInit {
   @Input() id: string;
 
   form: FormGroup;
-  submitted: boolean = false;
+  isSubmitted: boolean = false;
   answers: Array<any> = [];
   answersArray: Array<any> = [];
   gapText: Array<any> = [];
@@ -134,12 +134,12 @@ export class QuestionCreateComponent implements OnInit {
   public addGapText(type: number) {
     let gapText: GapText = new GapText();
     if (type == 1) {
-      gapText.type = 1;
+      gapText.type = "text";
       gapText.value = this.formControls.addGapText.value;
       this.formControls.addGapText.reset();
     }
     else if (type == 2) {
-      gapText.type = 2;
+      gapText.type = "gap";
       gapText.value = this.formControls.addGap.value;
       this.formControls.addGap.reset();
     }
@@ -158,8 +158,7 @@ export class QuestionCreateComponent implements OnInit {
   createQuestion() {
     let question;
     // stop here if form is invalid
-    if (this.submitted && this.form.invalid) {
-      console.log("Form invalid")
+    if (this.isSubmitted && this.form.invalid) {
       return;
     }
     // MC or True/False Question
@@ -279,7 +278,6 @@ export class QuestionCreateComponent implements OnInit {
             hint: this.formControls.hint.value,
             hintOpened: false
           }
-          console.log(question)
           this.updateQuestion(question);
         })
       })).subscribe(res => {
@@ -292,7 +290,7 @@ export class QuestionCreateComponent implements OnInit {
   // update firebase topic with new question 
   updateQuestion(question: any) {
     if (!this.topic.hasOwnProperty('quiz')) {
-      const quiz = { questions: [], submitted: false };
+      const quiz = { questions: [], isSubmitted: false };
       this.topic.quiz = quiz;
     }
     this.topic.quiz.questions.push(question);

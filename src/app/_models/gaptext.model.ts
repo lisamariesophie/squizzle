@@ -1,5 +1,5 @@
 export class GapText {
     id: number;
-    type: number;
+    type: string;
     value: string;
 }

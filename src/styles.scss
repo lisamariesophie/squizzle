@@ -9,69 +9,11 @@ html {
 }
 
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Open Sans", sans-serif !important;
     background-color: $light !important;
     color: $secondary;
     font-size: 14px;
 }
-
-.side-nav {
-    width: 100%;
-    margin-bottom: 30px !important;
-    color: $dark !important;
-}
-
-//Buttons
-.btn {
-    border-radius: 0 !important;
-    border: none !important;
-    transition: all 0.2s ease-in-out;
-    color: $white !important;
-    margin: 0 auto;
-    width: 100%;
-}
-
-.btn-primary {
-    background-color: $primary !important;
-    &:hover {
-        background-color: $accent !important;
-    }
-}
-
-.btn-light {
-    color: $white;
-    background-color: $light;
-    &:hover {
-        background-color: $primary;
-        color: $white;
-    }
-}
-
-.btn-secondary {
-    background-color: $dark;
-    &:hover {
-        background-color: $accent;
-    }
-}
-
-.btn-accent {
-    background-color: $accent !important;
-    color: $white !important;
-    &:hover {
-        background-color: $primary !important;
-        color: $white;
-    }
-}
-
-.btn-google {
-    color: white;
-    background-color: #ea4335;
-    &:hover {
-        background-color: $primary !important;
-        color: $white;
-    }
-}
-
 .wrap {
     padding: 2% 4% 4% 4%;
     min-height: 500px;
@@ -87,23 +29,18 @@ body {
         color: $font;
         cursor: pointer;
 
-        .card-title {
-            font-size: 22px;
-        }
-
         .card-img {
             font-family: "Montserrat", sans-serif;
             height: 200px;
             color: $white;
             background-color: $secondary;
-            font-size: 32px;
+            font-size: 26px;
             padding: 0 20px;
             i {
                 color: $white;
                 font-size: 80px;
             }
         }
-
         &:hover {
             transform: scale(1.05);
         }
@@ -120,6 +57,8 @@ section {
     min-height: 100vh;
     max-width: 1400px !important;
     width: 80%;
+
+    // headings
     h1 {
         font-size: 28px !important;
         margin-bottom: 20px;
@@ -201,46 +140,152 @@ section {
         margin: 20px;
         padding: 15px;
     }
+}
 
-    .table {
-        .edit-col {
-            width: 200px !important;
+// Navbars
+.navbar {
+    background-color: $secondary !important;
+    color: $white !important;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    .navbar-brand {
+        font-size: 32px;
+        img {
+            width: 42px;
         }
+    }
 
-        .btn {
-            float: right;
-            width: 100%;
-            margin: 0 10px;
-        }
-
-        th,
-        td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        td {
-            color: $font;
-        }
+    .navbar-nav .nav-link {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 0 !important;
     }
 }
 
-.cards {
-    margin-bottom: 30px;
+.side-nav {
+    width: 100%;
+    margin-bottom: 30px !important;
+    color: $dark !important;
 }
 
-.card {
+//Buttons
+.btn {
     border-radius: 0 !important;
-    border: 0 !important;
-    overflow: hidden;
+    border: none !important;
+    transition: all 0.2s ease-in-out;
+    color: $white !important;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: $primary !important;
+    &:hover {
+        background-color: $accent !important;
+    }
+}
+
+.btn-light {
+    color: $white;
+    background-color: $light;
+    &:hover {
+        background-color: $primary;
+        color: $white;
+    }
+}
+
+.btn-secondary {
+    background-color: $dark;
+    &:hover {
+        background-color: $accent;
+    }
+}
+
+.btn-accent {
+    background-color: $accent !important;
+    color: $white !important;
+    &:hover {
+        background-color: $primary !important;
+        color: $white;
+    }
+}
+
+.btn-google {
+    color: white;
+    background-color: #ea4335;
+    &:hover {
+        background-color: $primary !important;
+        color: $white;
+    }
+}
+
+//Table
+.table {
+    thead {
+        background-color: $secondary;
+        color: $white;
+    }
+
+    .tquestion {
+        text-align: left !important;
+    }
+    
+    .tbtn {
+        max-width: 70px !important;
+        text-align: center !important;
+    }
+    
+    .tsmall {
+        text-align: center;
+        max-width: 150px;
+    }
+
+    .btn {
+        float: right;
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    th,
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    td {
+        color: $font;
+    }
+
+    .tquestion {
+        text-align: left !important;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+
+    .tbtn {
+        width: 100px;
+    }
+}
+
+// Cards
+.cards {
+    margin-bottom: 30px;
+    max-width: 500px;
+    word-wrap: normal;
 
     .card-img {
         border-radius: 0 !important;
     }
 }
 
+.card {
+    border-radius: 0 !important;
+    border: 0 !important;
+}
 
-//Modal
+// Modal
 .modal-content {
     border: 0px !important;
     border-radius: 0px;
@@ -275,10 +320,10 @@ section {
     font-size: 16px;
 }
 
-//Form
+// Form
 label {
     color: $secondary;
-    font-size: 16px ;
+    font-size: 16px;
 }
 
 input,
@@ -317,7 +362,7 @@ select {
     max-height: 300px;
 }
 
-.myCustomModalClass .modal-dialog {
+.modal-wide .modal-dialog {
     max-width: 600px;
 }
 
@@ -348,6 +393,3 @@ select {
         width: 100%;
     }
 }
-
-/* Importing Bootstrap SCSS file. */
-@import "~bootstrap/scss/bootstrap";

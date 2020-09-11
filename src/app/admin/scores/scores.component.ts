@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../_services/users.service';
-import { TopicUsersService } from '../_services/topicUsers.service';
+import { UsersService } from '../../_services/users.service';
+import { TopicUsersService } from '../../_services/topicUsers.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DashboardComponent } from '../admin/dashboard/dashboard.component';
-import { TopicsDatabaseService } from '../_services/topics-database.service';
-import { AuthenticationService } from '../_services/authentication.service';
-import { Topic } from '../_models/topic.model';
+import { TopicsDatabaseService } from '../../_services/topics-database.service';
+import { AuthenticationService } from '../../_services/authentication.service';
+import { Topic } from '../../_models/topic.model';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
 import { ChartType, ChartOptions } from 'chart.js';
-import { TopicUser } from '../_models/topicUser.model';
+import { TopicUser } from '../../_models/topicUser.model';
 import { take } from 'rxjs/operators';
-
 
 
 @Component({
@@ -26,6 +24,8 @@ export class ScoresComponent {
   topicUsers: any = [];
   users: any[] = [];
   scores: any[] = [];
+  selectedUserId: string;
+  showQuiz: boolean = false;
   colors = [];
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -36,8 +36,7 @@ export class ScoresComponent {
   public pieChartLegend = true;
   public pieChartPlugins = [];
   public chartColors: Array<any> = [{ backgroundColor: this.colors }];
-  selectedUserId: string;
-  showQuiz: boolean = false;
+
 
   constructor(public router: Router, protected topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService, protected modalService: NgbModal, protected route: ActivatedRoute) {
     this.selectedUserId = ''
@@ -47,11 +46,13 @@ export class ScoresComponent {
     this.getUsers();
   }
 
+  // set the selected user from html on click with userId for selected row
   setSelectedUser(userId: string){
     this.selectedUserId = userId;
     this.showQuiz = !this.showQuiz;
   }
 
+  // get topic by id
   getTopic() {
     this.topicsService.getTopic(this.topicId).subscribe(res => {
       this.topic = res;
@@ -88,18 +89,20 @@ export class ScoresComponent {
       this.users.push({ user: user, topic: topic })
       if (topic.quiz.score != null) {
         this.scores.push(topic.quiz.score);
-        this.colors.push(this.getRandomColor());
+        this.colors.push(this.getRandomColor()); // add random color to chart
       }
       this.getScoreOccurence(this.scores);
     });
   }
 
+  // generate colors for Chart
   getRandomColor() {
     const hue = Math.floor(Math.random() * 12) * 30;
     const randomColor = `hsl(${hue}, 70%, 75%)`;
     return randomColor;
   }
 
+  // get number of scores with same value and set to chart
   getScoreOccurence(arr) {
     let a = [], b = [], prev;
     arr.sort();
