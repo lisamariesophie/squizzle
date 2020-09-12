@@ -8,6 +8,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { TopicUsersService } from 'src/app/_services/topicUsers.service';
 import { UsersService } from 'src/app/_services/users.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { ConnectionService } from 'src/app/_services/connection.service';
+import { TopicsService } from 'src/app/_services/topics.service';
 
 @Component({
   selector: 'app-question-list',
@@ -20,7 +22,7 @@ export class QuestionListComponent implements OnInit {
   topicId: string;
   quizUrl: string = '';
 
-  constructor(protected route: ActivatedRoute, public router: Router, protected topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService, protected modalService: NgbModal, private storage: AngularFireStorage) { }
+  constructor(public connectionService: ConnectionService, protected route: ActivatedRoute, public router: Router, private localTopics: TopicsService, private topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService, protected modalService: NgbModal, private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
     this.topicId = this.route.snapshot.paramMap.get('id');
@@ -30,9 +32,15 @@ export class QuestionListComponent implements OnInit {
 
   // get topic by topicId
   getTopic() {
-    this.topicsService.getTopic(this.topicId).subscribe(res => {
-      this.topic = res;
-    });
+    if (this.connectionService.isOnline) {
+      this.topicsService.getTopic(this.topicId).subscribe(res => {
+        this.topic = res;
+      });
+    }
+    else {
+      this.topic = this.localTopics.getTopic(this.topicId);
+    }
+
   }
 
   get maxScore() {
@@ -49,21 +57,26 @@ export class QuestionListComponent implements OnInit {
     return points;
   }
 
-  deleteQuestion(topic, question) {
+  deleteQuestion(question) {
     if (confirm('Frage löschen?')) {
       if (question.imgUrl != null) {
-        this.deleteImgFromStorage(question.imgUrl); 
+        this.deleteImgFromStorage(question.imgUrl);
       }
-      for (let i = 0; i < topic.quiz.questions.length; i++) {
-        if (topic.quiz.questions[i].id === question.id) {
-          topic.quiz.questions.splice(i, 1);
+      for (let i = 0; i < this.topic.quiz.questions.length; i++) {
+        if (this.topic.quiz.questions[i].id === question.id) {
+          this.topic.quiz.questions.splice(i, 1);
         }
-        this.authService.user.subscribe(user => {
-          if (user) {
-            const userId = user.uid;
-            this.topicsService.updateTopic(userId, this.topicId, this.topic);
-          }
-        });
+        if (this.connectionService.isOnline) {
+          this.authService.user.subscribe(user => {
+            if (user) {
+              const userId = user.uid;
+              this.topicsService.updateTopic(userId, this.topicId, this.topic);
+            }
+          });
+        }
+        else{
+          this.localTopics.updateTopic(this.topic)
+        }
       }
     }
   }

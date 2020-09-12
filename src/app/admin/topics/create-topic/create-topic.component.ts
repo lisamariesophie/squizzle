@@ -5,6 +5,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { ToastService } from 'src/app/_services/toast.service';
+import { ConnectionService } from 'src/app/_services/connection.service';
+import { TopicsService } from 'src/app/_services/topics.service';
 
 @Component({
   selector: 'app-create-topic',
@@ -21,7 +23,7 @@ export class CreateTopicComponent implements OnInit {
     subtopics: Array<Topic>(),
   };
 
-  constructor(public activeModal: NgbActiveModal,
+  constructor(public activeModal: NgbActiveModal, private connectionService: ConnectionService, private localTopic: TopicsService,
     private formBuilder: FormBuilder, private topicsService: TopicsDatabaseService, private authService: AuthenticationService, private toast: ToastService) { }
 
   ngOnInit() {
@@ -45,21 +47,39 @@ export class CreateTopicComponent implements OnInit {
   }
 
   private addTopic() {
-    this.authService.user.subscribe(user => {
-      if (user) {
-        const topic: Topic = {
-          live: false,
-          name: this.formControls.topic.value,
-          authorUID: user.uid
-        };
-        this.topicsService.createTopic(topic).then(res => {
-          this.toast.showSuccess("Thema hinzugefügt")
-        }).catch(err => {
-          this.toast.showError("Thema konnte nicht hinzugefügt werden: " + err);
-        });;
-      }
-    });
+    if (this.connectionService.isOnline) {
+      this.authService.user.subscribe(user => {
+        if (user) { //
+          const topic: Topic = {
+            live: false,
+            name: this.formControls.topic.value,
+            authorUID: user.uid
+          };
+          this.topicsService.createTopic(topic).then(res => {
+            this.toast.showSuccess("Thema hinzugefügt")
+          }).catch(err => {
+            this.toast.showError("Thema konnte nicht hinzugefügt werden: " + err);
+          });;
+        }
+      });
+    }
+    else {
+      const topic: Topic = {
+        localId: this.generateID(),
+        live: false,
+        name: this.formControls.topic.value,
+        authorUID: ""
+      };
+      this.localTopic.createTopic(topic);
+    }
+  }
 
+  private generateID(): string {
+    return (
+      Number(String(Math.random()).slice(2)) +
+      Date.now() +
+      Math.round(performance.now())
+    ).toString(36);
   }
 
 }

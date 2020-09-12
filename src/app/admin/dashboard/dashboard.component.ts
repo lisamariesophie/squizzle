@@ -4,6 +4,7 @@ import { TopicsDatabaseService } from 'src/app/_services/topics-database.service
 import { TopicUsersService } from 'src/app/_services/topicUsers.service';
 import { UsersService } from 'src/app/_services/users.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { ConnectionService } from 'src/app/_services/connection.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(protected route: ActivatedRoute, public router: Router, protected topicsService: TopicsDatabaseService, protected topicUserService: TopicUsersService, protected userService: UsersService, protected authService: AuthenticationService) { }
+  constructor(private route: ActivatedRoute, private router: Router,  protected authService: AuthenticationService) { }
 
   ngOnInit() { }
 

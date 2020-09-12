@@ -30,6 +30,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { LoginGuard } from './_guards/login.guard';
 import { RegisterComponent } from './register/register.component';
 import { ScoresComponent } from './admin/scores/scores.component';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { ScoresComponent } from './admin/scores/scores.component';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-    ChartsModule
+    ChartsModule,
+    NgxWebstorageModule.forRoot()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [NgbActiveModal, Location, AuthenticationService, AuthGuard, LoginGuard],

@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Question, Answer } from '../../_models/question.model';
+import { Question, Answer } from '../../_models/topic.model';
 import { Topic } from '../../_models/topic.model';
 import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicsDatabaseService } from '../../_services/topics-database.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { GapText } from '../../_models/gaptext.model';
+import { GapText } from '../../_models/topic.model';
 import { UsersService } from '../../_services/users.service';
 import { take } from 'rxjs/operators';
 import { TopicUsersService } from '../../_services/topicUsers.service';
@@ -277,32 +277,22 @@ export class QuizComponent implements OnInit {
     const question = this.topic.quiz.questions[i];
     const questionsArrayValue = this.questionsArray.value[i];
     question.textAnswerCorrected = questionsArrayValue.textAnswerCorrected;
-    console.log('userscore', question.userScore)
-
     if (question.isCorrected) {
-      console.log('isCorrected')
       if (question.userScore >= questionsArrayValue.userScore) {
-        console.log("userscore >= value")
         const diff = question.userScore - questionsArrayValue.userScore;
         this.topic.quiz.score -= diff;
-        console.log('diff', diff)
 
       } else {
-        console.log("userscore < value")
         const diff = questionsArrayValue.userScore - question.userScore;
-        console.log('diff', diff)
         this.topic.quiz.score += diff;
       }
     } else {
       this.topic.quiz.score += question.userScore;
     }
     question.userScore = questionsArrayValue.userScore;
-    console.log('New Score: ', this.topic.quiz.score)
-
     question.isCorrected = true;
     this.topic.quiz.isCorrected = true;
     this.topic.quiz.questions[i] = question;
-    console.log(this.topic)
     this.topicsService.updateUserTopic(this.userId, this.topicId, this.topic);
   }
 }

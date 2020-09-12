@@ -35,7 +35,7 @@
                         <td class="align-middle">{{ question.points }}</td>
                         <td *ngIf="!topic?.live" class="align-middle tbtn"><button class="btn btn-danger"
                                 title="Frage löschen"><i class="fa fa-trash"
-                                    (click)="deleteQuestion(topic, question)"></i></button></td>
+                                    (click)="deleteQuestion(question)"></i></button></td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
@@ -48,6 +48,6 @@
             </table>
         </div>
     </div>
-    <button *ngIf="!topic?.live" class="btn btn-primary" title="Quiz freigeben" (click)="setLive()"
+    <button *ngIf="!topic?.live && connectionService.isOnline" class="btn btn-primary" title="Quiz freigeben" (click)="setLive()"
         style="font-size: 20px;"><i class="fa fa-globe"></i> Quiz freigeben</button>
 </div>

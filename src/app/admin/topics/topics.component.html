@@ -3,9 +3,16 @@
     <div class="wrap">
         <div class="card-deck">
             <div class="cards" *ngFor="let topic of topics">
-                <div class="card shadow" routerLink="/admin/topic/{{topic.id}}">
+                <div *ngIf="connectionService.isOnline" class="card shadow" routerLink="/admin/topic/{{topic.id}}">
                     <button class="clickable close-icon my-2" data-effect="fadeOut" (click)="deleteTopic(topic.id)"><i
                             class="fa fa-times"></i></button>
+                    <div class="card-img d-flex align-items-center justify-content-center text-center">
+                        {{ topic.name }}
+                    </div>
+                </div>
+                <div *ngIf="!connectionService.isOnline" class="card shadow" routerLink="/admin/topic/{{topic.localId}}">
+                    <button  class="clickable close-icon my-2" data-effect="fadeOut"
+                        (click)="deleteTopic(topic.localId)"><i class="fa fa-times"></i></button>
                     <div class="card-img d-flex align-items-center justify-content-center text-center">
                         {{ topic.name }}
                     </div>

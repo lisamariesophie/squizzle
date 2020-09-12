@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NgxSpinnerService } from "ngx-spinner";
+import { Observable } from 'rxjs';
+import { fromEvent, merge, of } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +9,5 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'squizzle';
-
-  constructor(protected spinner: NgxSpinnerService) {}
-
-  ngOnInit() { }
+  title = 'squizzle'; 
 }

@@ -5,10 +5,7 @@ import { AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firest
 import { User } from '../_models/user';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { TopicsDatabaseService } from './topics-database.service';
-import { Topic } from '../_models/topic.model';
 import { UsersService } from './users.service';
-import { TopicUsersService } from './topicUsers.service';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -16,7 +13,7 @@ import { ToastService } from './toast.service';
 })
 export class AuthenticationService {
 
-  user: Observable<User>;
+  user: Observable<User> = null;
   loggedIn: boolean = false;
   redirectUrl: string;
   userData: User;
@@ -45,6 +42,7 @@ export class AuthenticationService {
     this.route.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || '/quizzes';
     });
+
   }
 
   isAdmin(user: any): boolean {
@@ -117,6 +115,7 @@ export class AuthenticationService {
         return true;
       }
     }
+
     return false;
   }
 }

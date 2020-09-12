@@ -29,8 +29,9 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="answer">Datei hinzufügen (optional)</label>
-                    <input class="form-control" type="file" formControlName="imgUrl" accept="audio/*|image/*" (change)="showImgPrev($event)"/>
+                    <label for="answer">Bild hinzufügen (optional)</label>
+                    <input *ngIf="connectionService.isOnline" class="form-control" type="file" formControlName="imgUrl" accept="audio/*|image/*" (change)="showImgPrev($event)"/>
+                    <p *ngIf="!connectionService.isOnline">Offline. Upload nicht verfügbar!</p>
                 </div>
                 <div class="form-group">
                     <label for="answer">Antworten (Korrekte Antworten ankreuzen)</label>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GapText } from 'src/app/_models/gaptext.model';
+import { GapText } from 'src/app/_models/topic.model';
 import { FormControl, FormArray, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Topic } from 'src/app/_models/topic.model';
@@ -7,9 +7,11 @@ import { TopicsDatabaseService } from 'src/app/_services/topics-database.service
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
-import { Question } from 'src/app/_models/question.model';
+import { Question } from 'src/app/_models/topic.model';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { ToastService } from 'src/app/_services/toast.service';
+import { ConnectionService } from 'src/app/_services/connection.service';
+import { TopicsService } from 'src/app/_services/topics.service';
 
 @Component({
   selector: 'app-question-create',
@@ -36,8 +38,8 @@ export class QuestionCreateComponent implements OnInit {
   downloadUrl: string;
 
 
-  constructor(public activeModal: NgbActiveModal, private toast: ToastService,
-    private formBuilder: FormBuilder, private topicsService: TopicsDatabaseService, private route: ActivatedRoute, private authService: AuthenticationService, private storage: AngularFireStorage) { }
+  constructor(public connectionService: ConnectionService, public activeModal: NgbActiveModal, private toast: ToastService,
+    private formBuilder: FormBuilder, private localTopics: TopicsService, private topicsService: TopicsDatabaseService, private route: ActivatedRoute, private authService: AuthenticationService, private storage: AngularFireStorage) { }
 
   ngOnInit() {
     this.createForm();
@@ -292,18 +294,24 @@ export class QuestionCreateComponent implements OnInit {
     if (!this.topic.hasOwnProperty('quiz')) {
       const quiz = { questions: [], isSubmitted: false };
       this.topic.quiz = quiz;
+      this.topic.quiz.questions = [];
     }
     this.topic.quiz.questions.push(question);
-    this.authService.user.subscribe(user => {
-      if (user) {
-        const userId = user.uid;
-        this.topicsService.updateTopic(userId, this.id, this.topic).then(res => {
-          this.toast.showSuccess("Frage hinzugefügt");
-        }).catch(err => {
-          this.toast.showError("Frage konnte nicht hinzugefügt werden: " + err);
-        });
-      }
-    });
+    if(this.connectionService.isOnline){
+      this.authService.user.subscribe(user => {
+        if (user) {
+          const userId = user.uid;
+          this.topicsService.updateTopic(userId, this.id, this.topic).then(res => {
+            this.toast.showSuccess("Frage hinzugefügt");
+          }).catch(err => {
+            this.toast.showError("Frage konnte nicht hinzugefügt werden: " + err);
+          });
+        }
+      });
+    }
+    else {
+      this.localTopics.updateTopic(this.topic);
+    }
   }
 
   // Image Preview inside Form
