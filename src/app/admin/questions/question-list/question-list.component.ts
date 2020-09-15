@@ -40,7 +40,6 @@ export class QuestionListComponent implements OnInit {
     else {
       this.topic = this.localTopics.getTopic(this.topicId);
     }
-
   }
 
   get maxScore() {
@@ -57,6 +56,7 @@ export class QuestionListComponent implements OnInit {
     return points;
   }
 
+  
   deleteQuestion(question) {
     if (confirm('Frage löschen?')) {
       if (question.imgUrl != null) {
@@ -86,9 +86,9 @@ export class QuestionListComponent implements OnInit {
     return this.storage.storage.refFromURL(imgUrl).delete();
   }
 
-  //
   setLive() {
-    this.topic.live = !this.topic.live;
+    this.topic.isLive = !this.topic.isLive;
+    console.log(this.topic.isLive)
     this.authService.user.subscribe(user => {
       if (user) {
         const userId = user.uid;

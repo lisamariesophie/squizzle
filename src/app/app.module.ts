@@ -27,10 +27,10 @@ import { QuizzesComponent } from './quizzes/quizzes.component';
 import { AuthenticationService } from './_services/authentication.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AuthGuard } from './_guards/auth.guard';
-import { LoginGuard } from './_guards/login.guard';
 import { RegisterComponent } from './register/register.component';
 import { ScoresComponent } from './admin/scores/scores.component';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { AdminGuard } from './_guards/admin.guard';
 
 
 @NgModule({
@@ -72,7 +72,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
     NgxWebstorageModule.forRoot()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [NgbActiveModal, Location, AuthenticationService, AuthGuard, LoginGuard],
+  providers: [NgbActiveModal, Location, AuthenticationService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

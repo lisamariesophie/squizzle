@@ -30,6 +30,7 @@ export class ScoresComponent {
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
+  // ng-charts variables
   public pieChartLabels: Label[] = [];
   public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'doughnut';
@@ -91,7 +92,7 @@ export class ScoresComponent {
         this.scores.push(topic.quiz.score);
         this.colors.push(this.getRandomColor()); // add random color to chart
       }
-      this.getScoreOccurence(this.scores);
+      this.getScoreOccurence();
     });
   }
 
@@ -103,21 +104,21 @@ export class ScoresComponent {
   }
 
   // get number of scores with same value and set to chart
-  getScoreOccurence(arr) {
-    let a = [], b = [], prev;
-    arr.sort();
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i] !== prev) {
-        a.push(`${arr[i]} Punkte`);
-        b.push(1);
+  getScoreOccurence() {
+    let labels = [], data = [], prev;
+    this.scores.sort();
+    for (let i = 0; i < this.scores.length; i++) {
+      if (this.scores[i] !== prev) {
+        labels.push(`${this.scores[i]} Punkte`);
+        data.push(1);
       } else {
-        b[b.length - 1]++;
+        data[data.length - 1]++;
       }
-      prev = arr[i];
+      prev = this.scores[i];
     }
-    this.pieChartData = b;
-    this.pieChartLabels = a;
-    return [a, b];
+    this.pieChartData = data;
+    this.pieChartLabels = labels;
+    return [labels, data];
   }
 }
 

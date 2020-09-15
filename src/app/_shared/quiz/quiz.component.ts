@@ -5,7 +5,6 @@ import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicsDatabaseService } from '../../_services/topics-database.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { GapText } from '../../_models/topic.model';
 import { UsersService } from '../../_services/users.service';
 import { take } from 'rxjs/operators';
 import { TopicUsersService } from '../../_services/topicUsers.service';
@@ -23,11 +22,10 @@ export class QuizComponent implements OnInit {
   topic: Topic;
   topicId: string;
   form: FormGroup;
-  gapTexts: GapText[];
   preview: boolean = false;
   review: boolean = false;
 
-  constructor(private route: ActivatedRoute,  private router: Router,
+  constructor(private route: ActivatedRoute, private router: Router,
     private topicsService: TopicsDatabaseService, private userService: UsersService, private fb: FormBuilder, private afAuth: AngularFireAuth, private topicUserService: TopicUsersService, private toast: ToastService) { }
 
   ngOnInit(): void {
@@ -121,7 +119,7 @@ export class QuizComponent implements OnInit {
             let topic: any;
             topic = t;
             // Only add Quiz to current User if Quiz is live
-            if (!topic.live) {
+            if (!topic.isLive) {
               this.toast.showError(`Das Quiz zu ${topic.name} ist noch nicht freigegeben!`);
               this.router.navigate(['/quizzes']);
               return;
@@ -153,17 +151,12 @@ export class QuizComponent implements OnInit {
 
   // Add Questions to Form
   private createQuestions() {
-    if (this.topic.quiz != null) {
-      for (let question of this.topic.quiz.questions) {
-        if (question.type == 5) {
-          this.addTextQuestion(question);
-        }
-        // if (question.type == 6) {
-        //   this.addGapQuestion(question);
-        // }
-        else {
-          this.addMCQuestion(question);
-        }
+    for (let question of this.topic.quiz.questions) {
+      if (question.type == 5) {
+        this.addTextQuestion(question);
+      }
+      else {
+        this.addMCQuestion(question);
       }
     }
   }
@@ -171,7 +164,6 @@ export class QuizComponent implements OnInit {
   // Add a Multiple Choice Question or Evaluation
   private addMCQuestion(question: any) {
     let group = this.fb.group({
-      'name': [question ? question.name : ''],
       'answersArray': this.fb.array([]),
     });
     (<FormArray>this.form.get('questionsArray')).push(group);
@@ -184,38 +176,12 @@ export class QuizComponent implements OnInit {
   // Add a Text Question to Form
   private addTextQuestion(question: any) {
     let group = this.fb.group({
-      'name': [question ? question.name : ''],
       'textAnswer': '',
       'textAnswerCorrected': question.textAnswer,
       'userScore': ''
     });
     (<FormArray>this.form.get('questionsArray')).push(group);
   }
-
-  // private addGapQuestion(question: any) {
-  //   let group = this.fb.group({
-  //     'name': [question ? question.name : ''],
-  //     'answersArray': this.fb.array([]),
-  //   });
-  //   (<FormArray>this.form.get('questionsArray')).push(group);
-  //   let qIndex = (<FormArray>this.form.get('questionsArray')).length - 1;
-  //   const gaps = [];
-  //   const text = [];
-  //   console.log(question)
-  //   const gaptext = question.gaptext;
-  //   for (let item of Object.keys(gaptext)) {
-  //     const i = question.gaptext[item];
-  //     if (i.type == "text") {
-  //       text.push(text);
-  //     } else {
-  //       gaps.push(text);
-  //     }
-  //   }
-  //   console.log(gaps)
-  //   question.gaps.forEach(a => {
-  //     this.addAnswer(qIndex, a);
-  //   });
-  // }
 
   // Add a new answer to the answersArray
   private addAnswer(qIndex: number, data: any) {
@@ -235,15 +201,15 @@ export class QuizComponent implements OnInit {
   submitQuiz() {
     if (confirm("Quiz sicher abgeben?")) {
       this.topic.quiz.isSubmitted = true;
-      this.topic.quiz.score = this.getScore();
+      this.evaluateQuiz();
       this.topicsService.updateUserTopic(this.user.uid, this.topicId, this.topic).then(res => { this.toast.showSuccess("Quiz erfolgreich abgegeben.") });
     }
   }
 
-  getScore() {
+  evaluateQuiz() {
     const answeredQuestions: Array<any> = this.form.value.questionsArray;
     const questions: Array<Question> = this.topic.quiz.questions;
-    let score = 0;
+    this.topic.quiz.score = 0;
     for (let i = 0; i < questions.length; i++) {
       if (questions[i].type == 5) {
         this.topic.quiz.questions[i].textAnswer = answeredQuestions[i].textAnswer;
@@ -261,7 +227,7 @@ export class QuizComponent implements OnInit {
           }
           if (correct == questions[i].answers.length) {
             this.topic.quiz.questions[i].userScore = questions[i].points;
-            score += questions[i].points;
+            this.topic.quiz.score += questions[i].points;
           }
           else {
             this.topic.quiz.questions[i].userScore = 0;
@@ -269,7 +235,6 @@ export class QuizComponent implements OnInit {
         }
       }
     }
-    return score;
   }
 
   public updateScore(questionId: string) {
@@ -295,4 +260,5 @@ export class QuizComponent implements OnInit {
     this.topic.quiz.questions[i] = question;
     this.topicsService.updateUserTopic(this.userId, this.topicId, this.topic);
   }
+
 }

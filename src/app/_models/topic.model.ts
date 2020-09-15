@@ -1,13 +1,10 @@
-import { User } from './user';
-
 export class Topic {
     id?: string;
     localId?: string;
     authorUID?: string;
     name: string;
-    live: boolean = false;
+    isLive: boolean = false;
     quiz?: Quiz;
-    users?: User[];
 }
 
 export class Quiz { 
@@ -29,7 +26,6 @@ export class Question {
     points?: number;
     hint?: string = "";
     hintOpened?: boolean = false;
-    gapText?: Array<any>;
     userScore?: number;
 }
 
@@ -39,9 +35,9 @@ export class Answer {
     checked?: boolean = false;
 }
 
-export class GapText {
-    id: number;
-    type: string;
-    value: string;
-}
+// export class GapText {
+//     id: number;
+//     type: string;
+//     value: string;
+// }
 

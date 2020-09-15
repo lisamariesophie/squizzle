@@ -20,18 +20,10 @@ export class TopicsComponent implements OnInit {
   topics: Topic[];
 
   constructor(
-    private toast: ToastService, private modalService: NgbModal, private localTopics: TopicsService, private topicsService: TopicsDatabaseService, public router: Router, private authService: AuthenticationService, public connectionService: ConnectionService) {
-  }
+    private toast: ToastService, private modalService: NgbModal, private localTopics: TopicsService, private topicsService: TopicsDatabaseService, public router: Router, private authService: AuthenticationService, public connectionService: ConnectionService) { }
 
   ngOnInit() {
     this.getTopics();
-  }
-
-  checkIfLocalTopics() {
-    const localTopics = this.localTopics.getTopics();
-    if (localTopics != null && localTopics.length > 0) {
-      this.addTopicsToDatabase();
-    }
   }
 
   getTopics() {
@@ -71,9 +63,15 @@ export class TopicsComponent implements OnInit {
   openCreateTopic() {
     const modalRef = this.modalService.open(CreateTopicComponent, { backdrop: 'static' });
     modalRef.result.then((result) => {
-    }).catch(error => {
-    });
+    })
   }
+
+  private checkIfLocalTopics() {
+    const localTopics = this.localTopics.getTopics();
+    if (localTopics != null && localTopics.length > 0) {
+      this.addTopicsToDatabase();
+    }
+  } 
 
   private addTopicsToDatabase() {
     this.authService.user.subscribe(user => {
@@ -82,8 +80,8 @@ export class TopicsComponent implements OnInit {
         for (let topic of topics) {
           topic.authorUID = user.uid;
           this.topicsService.createTopic(topic).then(res => {
-            this.localTopics.deleteTopic(topic.id);
             this.toast.showSuccess("Thema hinzugefügt");
+            this.localTopics.deleteTopic(topic.id);
           }).catch(err => {
             this.toast.showError("Thema konnte nicht hinzugefügt werden: " + err);
           });;

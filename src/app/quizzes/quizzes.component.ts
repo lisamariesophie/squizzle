@@ -18,8 +18,6 @@ export class QuizzesComponent implements OnInit {
     this.getTopics();
   }
 
-
-
   getTopics() {
     this.afAuth.authState.subscribe(user => {
       if(user) {

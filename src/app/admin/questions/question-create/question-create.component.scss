@@ -9,15 +9,3 @@
     }
 }
 
-.gapText {
-    p {
-        float: left;
-        display: inline;
-        padding-right: 4px;
-    }
-
-    .gap {
-        color: $accent;
-        text-decoration: underline $accent !important;
-    }
-}

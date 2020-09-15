@@ -1,4 +1,13 @@
 @import "../../../styles.scss";
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
+.navbar-brand {
+    padding: 0;
+  }
 
+  .navbar-nav .nav-link {
+    padding-top: 3px !important;
+    padding-bottom: 0;
+    height: 70px;
+    line-height: 50px;
+  }

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GapText } from 'src/app/_models/topic.model';
-import { FormControl, FormArray, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, FormArray, Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Topic } from 'src/app/_models/topic.model';
 import { TopicsDatabaseService } from 'src/app/_services/topics-database.service';
@@ -27,10 +26,8 @@ export class QuestionCreateComponent implements OnInit {
   isSubmitted: boolean = false;
   answers: Array<any> = [];
   answersArray: Array<any> = [];
-  gapText: Array<any> = [];
   correct: Array<any> = [];
   solution: any = '';
-  gapCounter: number = 0;
 
   // image update
   imgSrc: string = '';
@@ -66,6 +63,7 @@ export class QuestionCreateComponent implements OnInit {
   onCheckboxChange(e) {
     if (e.target.checked) {
       this.checkArray.push(new FormControl(e.target.value));
+      console.log(this.checkArray)
     }
     else {
       let i: number = 0;
@@ -83,45 +81,45 @@ export class QuestionCreateComponent implements OnInit {
   public setForm(event) {
     const value = event.target.value;
     if (value == 1) {
-      this.resetAnswers(); 
+      this.resetAnswers();
       this.form.addControl('name', new FormControl('', Validators.required));
       this.form.addControl('imgUrl', new FormControl(''));
-      this.form.addControl('checkArray', new FormArray([]));
+      this.form.addControl('checkArray', new FormArray([], this.minLengthArray(1))); // min. one Answer marked as correct
       this.form.addControl('addAnswer', new FormControl(''));
       this.form.addControl('points', new FormControl('', Validators.required));
       this.form.addControl('hint', new FormControl(''));
     }
     if (value == 2) {
-      this.resetAnswers(); 
+      this.resetAnswers();
       this.answers = ["Wahr", "Falsch"];
       this.form.addControl('name', new FormControl('', Validators.required));
       this.form.addControl('imgUrl', new FormControl(''));
-      this.form.addControl('checkArray', new FormArray([]));
+      this.form.addControl('checkArray', new FormArray([], this.minLengthArray(1))); // min. one Answer marked as correct
       this.form.addControl('points', new FormControl('', Validators.required));
       this.form.addControl('hint', new FormControl(''));
     }
     else if (value == 3) {
-      this.resetAnswers(); 
-      this.answers = [{ value: "Stimme gar nicht zu" }, { value: "Stimme nicht zu", correct: true }, { value: "Neutral", correct: true }, { value: "Stimme zu", correct: true }, { value: "Stimme voll zu", correct: true }, { value: "Keine Angabe", correct: true }];
+      this.resetAnswers();
+      this.answers = [{ value: "Stimme gar nicht zu", correct: true }, { value: "Stimme nicht zu", correct: true }, { value: "Neutral", correct: true }, { value: "Stimme zu", correct: true }, { value: "Stimme voll zu", correct: true }, { value: "Keine Angabe", correct: true }];
       this.form.addControl('name', new FormControl('', Validators.required));
     }
     else if (value == 5) {
-      this.resetAnswers(); 
+      this.resetAnswers();
       this.form.addControl('name', new FormControl('', Validators.required));
       this.form.addControl('addAnswer', new FormControl(''));
       this.form.addControl('points', new FormControl('', Validators.required));
       this.form.addControl('hint', new FormControl(''));
     }
-    else if (value == 6) {
-      this.resetAnswers(); 
-      this.gapText = [];
-      this.form.addControl('name', new FormControl('', Validators.required));
-      this.form.addControl('addGapText', new FormControl(''));
-      this.form.addControl('addGap', new FormControl(''));
-      this.form.addControl('points', new FormControl('', Validators.required));
-    }
+    // else if (value == 6) {
+    //   this.resetAnswers(); 
+    //   this.gapText = [];
+    //   this.form.addControl('name', new FormControl('', Validators.required));
+    //   this.form.addControl('addGapText', new FormControl(''));
+    //   this.form.addControl('addGap', new FormControl(''));
+    //   this.form.addControl('points', new FormControl('', Validators.required));
+    // }
     else {
-      this.resetAnswers(); 
+      this.resetAnswers();
 
     }
   }
@@ -133,29 +131,23 @@ export class QuestionCreateComponent implements OnInit {
   }
 
   // create Gaptext
-  public addGapText(type: number) {
-    let gapText: GapText = new GapText();
-    if (type == 1) {
-      gapText.type = "text";
-      gapText.value = this.formControls.addGapText.value;
-      this.formControls.addGapText.reset();
-    }
-    else if (type == 2) {
-      gapText.type = "gap";
-      gapText.value = this.formControls.addGap.value;
-      this.formControls.addGap.reset();
-    }
-    gapText.id = this.gapCounter;
-    this.gapCounter++;
-    this.gapText.push(gapText);
-    this.solution += gapText.value;
-  }
-
-  // submit Form
-  public submitForm() {
-    this.createQuestion();
-    this.activeModal.close(this.form.value);
-  }
+  // public addGapText(type: number) {
+  //   let gapText: GapText = new GapText();
+  //   if (type == 1) {
+  //     gapText.type = "text";
+  //     gapText.value = this.formControls.addGapText.value;
+  //     this.formControls.addGapText.reset();
+  //   }
+  //   else if (type == 2) {
+  //     gapText.type = "gap";
+  //     gapText.value = this.formControls.addGap.value;
+  //     this.formControls.addGap.reset();
+  //   }
+  //   gapText.id = this.gapCounter;
+  //   this.gapCounter++;
+  //   this.gapText.push(gapText);
+  //   this.solution += gapText.value;
+  // }
 
   createQuestion() {
     let question;
@@ -167,48 +159,48 @@ export class QuestionCreateComponent implements OnInit {
     if ((this.selectedType == 1 && this.selectedImg == null) || this.selectedType == 2) {
       this.markCorrectAnswers();
       question = this.createMCQuestion();
-      this.updateQuestion(question);
+      this.updateTopic(question);
       this.resetForm();
-      this.resetAnswers(); 
+      this.resetAnswers();
     }
     // Image Question
     else if (this.selectedType == 1 && this.selectedImg != null) {
       this.markCorrectAnswers();
       this.createImgQuestion();
-      this.resetAnswers(); 
+      this.resetAnswers();
     }
     // Evaluation
     else if (this.selectedType == 3) {
       question = this.createEvaluation();
-      this.updateQuestion(question);
+      this.updateTopic(question);
       this.resetForm();
-      this.resetAnswers(); 
+      this.resetAnswers();
     }
     // Text Question
     else if (this.selectedType == 5) {
       question = this.createTextQuestion();
-      this.updateQuestion(question);
+      this.updateTopic(question);
       this.resetForm();
-      this.resetAnswers(); 
+      this.resetAnswers();
     }
     // Gap Question
-    else if (this.selectedType == 6) {
-      question = this.createGapQuestion();
-      this.updateQuestion(question);
-      this.resetForm();
-      
-    }
+    // else if (this.selectedType == 6) {
+    //   question = this.createGapQuestion();
+    //   this.updateTopic(question);
+    //   this.resetForm();
+
+    // }
   }
 
   markCorrectAnswers() {
-    // loop answers
     for (let i = 0; i < this.answers.length; i++) {
-      // if answer in checkbox array is checked --> mark as correct and push to answersArray
-      if (this.answers[i] == this.checkArray.value) {
-        this.answersArray.push({ value: this.answers[i], correct: true })
-      }
-      else {
-        this.answersArray.push({ value: this.answers[i], correct: false })
+      this.answersArray.push({ value: this.answers[i], correct: false })
+    }
+    for (let i = 0; i < this.answers.length; i++) {
+      for (let j = 0; j < this.checkArray.length; j++) {
+        if (this.answers[i] == this.checkArray.value[j]) {
+          this.answersArray[i] = { value: this.answers[i], correct: true };
+        }
       }
     }
   }
@@ -252,23 +244,26 @@ export class QuestionCreateComponent implements OnInit {
     return question;
   }
 
-  createGapQuestion() {
-    var map = this.gapText.map((obj) => { return Object.assign({}, obj) });
-    const question = {
-      id: this.generateID(),
-      type: this.formControls.type.value,
-      name: this.formControls.name.value,
-      gapText: map,
-      points: this.formControls.points.value
-    }
-    return question;
-  }
+  // createGapQuestion() {
+  //   var map = this.gapText.map((obj) => { return Object.assign({}, obj) });
+  //   const question = {
+  //     id: this.generateID(),
+  //     type: this.formControls.type.value,
+  //     name: this.formControls.name.value,
+  //     gapText: map,
+  //     points: this.formControls.points.value
+  //   }
+  //   return question;
+  // }
 
+  // create an image question
   createImgQuestion() {
     const filePath = `images/${this.selectedImg.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}` // avoid duplicate filenames
     const fileRef = this.storage.ref(filePath);
+    // upload Image to Firebase storage
     this.storage.upload(filePath, this.selectedImg).snapshotChanges().pipe(
       finalize(() => {
+        // get the Img Download Url from Firebase and set as question attribute
         fileRef.getDownloadURL().subscribe((url) => {
           const question = {
             id: this.generateID(),
@@ -280,24 +275,22 @@ export class QuestionCreateComponent implements OnInit {
             hint: this.formControls.hint.value,
             hintOpened: false
           }
-          this.updateQuestion(question);
+          this.updateTopic(question);
         })
-      })).subscribe(res => {
-      }); //finalize -> wait for update complete
+      }))
     this.imgSrc = '';
     this.selectedImg = null;
-
   }
 
   // update firebase topic with new question 
-  updateQuestion(question: any) {
+  updateTopic(question: any) {
     if (!this.topic.hasOwnProperty('quiz')) {
       const quiz = { questions: [], isSubmitted: false };
       this.topic.quiz = quiz;
       this.topic.quiz.questions = [];
     }
     this.topic.quiz.questions.push(question);
-    if(this.connectionService.isOnline){
+    if (this.connectionService.isOnline) {
       this.authService.user.subscribe(user => {
         if (user) {
           const userId = user.uid;
@@ -328,13 +321,19 @@ export class QuestionCreateComponent implements OnInit {
     }
   }
 
+  // submit Form
+  public submitForm() {
+    this.createQuestion();
+    this.activeModal.close(this.form.value);
+  }
+
   resetForm() {
     this.answers = [];
     this.form.reset();
   }
 
   resetAnswers() {
-    if(this.checkArray != null){
+    if (this.checkArray != null) {
       this.checkArray.reset();
     }
     this.answers = [];
@@ -365,5 +364,15 @@ export class QuestionCreateComponent implements OnInit {
       out += (str.charCodeAt(pos) - 64) * Math.pow(26, len - 1 - pos);
     }
     return out;
+  }
+
+  // custom Form Validaton for FormArray
+  minLengthArray(min: number) {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (c.value.length >= min)
+        return null;
+
+      return { 'minLengthArray': { valid: false } };
+    }
   }
 }

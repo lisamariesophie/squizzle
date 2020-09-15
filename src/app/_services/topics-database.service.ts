@@ -17,7 +17,7 @@ export class TopicsDatabaseService {
 
   // return topicsCollection with only topics created by the CurrentUser
   topicsCollection(uid) {
-    return this.firestore.collection('topics', ref => ref.where("authorUID", '==', uid))
+    return this.firestore.collection('topics', ref => ref.where("authorUID", '==', uid).orderBy("name"))
   }
 
   // get all TOpics from TopicsCollection
@@ -45,7 +45,7 @@ export class TopicsDatabaseService {
     return this.topicsRef.doc(id).delete();
   }
 
-  // get all Topics by UserId
+  // get all Topics for user by UserId
   getUserTopics(userId: string): any {
     return this.userRef.doc(userId).collection('topics');
   }

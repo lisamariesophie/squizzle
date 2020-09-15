@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { UsersService } from './users.service';
 import { ToastService } from './toast.service';
+import { auth } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -56,10 +57,9 @@ export class AuthenticationService {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         user = result.user;
-        this.setUserData(user, false, true)
-        this.login(email, password);
-      }).catch((error) => {
-        this.toast.showError(error.message);
+        this.setUserData(user, false, true);
+        this.checkNextRoute(user);
+        // this.login(email, password);
       })
   }
 
@@ -69,22 +69,25 @@ export class AuthenticationService {
       .then((result) => {
         this.userService.getUser(result.user.uid).pipe(take(1)).subscribe(res => {
           user = res;
-          //check if User is admin
-          if (user.roles != null && user.roles.admin == true) {
-            this.router.navigate(['/admin']);
-          }
-          else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {  //
-            this.setUserData(user, false, true)
-            this.router.navigateByUrl(this.returnUrl);
-          }
-          else {
-            this.router.navigateByUrl(this.returnUrl);
-          }
+          this.checkNextRoute(user);
         })
       }).catch((error) => {
         this.toast.showError(error.message);
       })
   }
+
+  checkNextRoute(user: any) {
+    if (user.roles != null && user.roles.admin == true) {
+      this.router.navigate(['/admin']);
+    }
+    else if (this.returnUrl != '' && this.returnUrl != '/quizzes') {
+      this.router.navigateByUrl(this.returnUrl);
+    }
+    else {
+      this.router.navigateByUrl('/quizzes');
+    }
+  }
+
 
   async logout() {
     await this.afAuth.auth.signOut();
@@ -93,7 +96,6 @@ export class AuthenticationService {
 
   // Set user in firestore
   private setUserData(user: any, isAdmin: boolean, isUser: boolean) {
-    // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
     let data;
     data = {
@@ -115,7 +117,6 @@ export class AuthenticationService {
         return true;
       }
     }
-
     return false;
   }
 }
