@@ -277,7 +277,8 @@ export class QuestionCreateComponent implements OnInit {
           }
           this.updateTopic(question);
         })
-      }))
+      })).subscribe(res => {
+      }); //finalize -> wait for update complete
     this.imgSrc = '';
     this.selectedImg = null;
   }
