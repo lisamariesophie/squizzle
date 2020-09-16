@@ -227,7 +227,10 @@ export class QuizComponent implements OnInit {
           }
           if (correct == questions[i].answers.length) {
             this.topic.quiz.questions[i].userScore = questions[i].points;
-            this.topic.quiz.score += questions[i].points;
+            if (this.topic.quiz.questions[i].hintOpened) {
+              this.topic.quiz.questions[i].userScore -= 1;
+            }
+            this.topic.quiz.score += this.topic.quiz.questions[i].userScore;
           }
           else {
             this.topic.quiz.questions[i].userScore = 0;
@@ -240,6 +243,9 @@ export class QuizComponent implements OnInit {
   public updateScore(questionId: string) {
     const i = this.topic.quiz.questions.findIndex(x => x.id === questionId);
     const question = this.topic.quiz.questions[i];
+    if(question.userScore == null || undefined){
+      question.userScore = 0;
+    }
     const questionsArrayValue = this.questionsArray.value[i];
     question.textAnswerCorrected = questionsArrayValue.textAnswerCorrected;
     if (question.isCorrected) {
@@ -252,7 +258,7 @@ export class QuizComponent implements OnInit {
         this.topic.quiz.score += diff;
       }
     } else {
-      this.topic.quiz.score += question.userScore;
+      this.topic.quiz.score +=  questionsArrayValue.userScore;
     }
     question.userScore = questionsArrayValue.userScore;
     question.isCorrected = true;
